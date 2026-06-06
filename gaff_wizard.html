@@ -359,21 +359,38 @@ body{background:var(--navy);color:#fff;font-family:var(--sans);font-weight:300;m
   </div>
   <div class="wiz-nav">
     <button class="btn-back" onclick="goStep(1)" id="s2-back">← Atrás</button>
-    <button class="btn-next" id="s2-next" onclick="goStep(3)" disabled><span id="s2-next-lbl">Siguiente →</span></button>
+    <button class="btn-next" id="s2-next" onclick="goStep(4)" disabled><span id="s2-next-lbl">Siguiente →</span></button>
   </div>
 </div>
 
 <!-- ══ STEP 3: Datos cliente, fecha y detalles ══ -->
+
+<!-- ══ STEP 3: Foto del flyer (solo para Flyer A5) ══ -->
 <div class="step-card" id="step3">
   <div class="step-header">
-    <div class="step-num" id="s3-num">Paso 3 de 7</div>
-    <h1 class="step-title" id="s3-title">Detalles del documento</h1>
-    <p class="step-hint" id="s3-hint">Rellena lo que necesites. Puedes dejar campos vacíos si no quieres mostrarlos.</p>
+    <div class="step-num" id="s3-num">Paso 3 de 8</div>
+    <h1 class="step-title" id="s3-photo-title">Elige la foto del flyer</h1>
+    <p class="step-hint" id="s3-photo-hint">Selecciona la imagen que aparecerá en la cabecera del flyer. Puedes elegir una de las fotos del velero.</p>
+  </div>
+  <div class="photo-grid" id="photoGrid">
+    <!-- Rendered by JS -->
+  </div>
+  <div class="wiz-nav">
+    <button class="btn-back" onclick="goStep(2)" id="s3-back">← Atrás</button>
+    <button class="btn-next" onclick="goStep(4)" id="s3-next"><span id="s3-next-lbl">Siguiente →</span></button>
+  </div>
+</div>
+
+<div class="step-card" id="step4">
+  <div class="step-header">
+    <div class="step-num" id="s4-num">Paso 3 de 7</div>
+    <h1 class="step-title" id="s4-title">Detalles del documento</h1>
+    <p class="step-hint" id="s4-hint">Rellena lo que necesites. Puedes dejar campos vacíos si no quieres mostrarlos.</p>
   </div>
 
   <!-- IDIOMA DEL DOCUMENTO -->
   <div class="field-block">
-    <label class="field-label" id="s3-doclang-lbl">Idioma del documento</label>
+    <label class="field-label" id="s4-doclang-lbl">Idioma del documento</label>
     <div class="toggle-grid">
       <button class="toggle-btn selected" id="dl-es" onclick="selectDocLang('es')">🇪🇸 Español</button>
       <button class="toggle-btn" id="dl-en" onclick="selectDocLang('en')">🇬🇧 English</button>
@@ -384,41 +401,57 @@ body{background:var(--navy);color:#fff;font-family:var(--sans);font-weight:300;m
 
   <!-- NOMBRE DEL TOUR (editable) -->
   <div class="field-block">
-    <label class="field-label" id="s3-tourname-lbl">Nombre del tour</label>
+    <label class="field-label" id="s4-tourname-lbl">Nombre del tour</label>
     <input class="field-input" id="tourName" type="text" placeholder="Ej: Morning Sail Experience" oninput="updateDirty()">
   </div>
   <div class="field-block">
-    <label class="field-label" id="s3-toursub-lbl">Subtítulo (opcional)</label>
+    <label class="field-label" id="s4-toursub-lbl">Subtítulo (opcional)</label>
     <input class="field-input" id="tourSub" type="text" placeholder="Ej: Tour matutino · Velero clásico · 5 horas" oninput="updateDirty()">
   </div>
 
   <div class="wiz-divider"></div>
 
-  <!-- CLIENTE Y FECHA -->
+  <!-- CLIENTE Y FECHAS — context-aware -->
   <div class="field-block">
-    <label class="field-label" id="s3-name-lbl">Nombre del cliente (opcional)</label>
+    <label class="field-label" id="s4-name-lbl">Nombre del cliente (opcional)</label>
     <input class="field-input" id="clientName" type="text" placeholder="Ej: Familia García" oninput="updateDirty()">
   </div>
-  <div class="field-grid-2">
-    <div class="field-block">
-      <label class="field-label" id="s3-pax-lbl">Número de personas</label>
-      <input class="field-input" id="clientPax" type="number" min="1" max="20" placeholder="Ej: 4" oninput="updateDirty()">
+  <div class="field-block">
+    <label class="field-label" id="s4-pax-lbl">Número de personas</label>
+    <input class="field-input" id="clientPax" type="number" min="1" max="20" placeholder="Ej: 4" oninput="updateDirty()">
+  </div>
+
+  <!-- FLYER: validity date range (no "departure date") -->
+  <div id="flyer-dates-block" style="display:none">
+    <div class="field-grid-2">
+      <div class="field-block">
+        <label class="field-label" id="s4-valid-from-lbl">Válido desde</label>
+        <input class="field-input" id="validFromDate" type="date" onchange="updateDirty()">
+      </div>
+      <div class="field-block">
+        <label class="field-label" id="s4-valid-to-lbl">Válido hasta</label>
+        <input class="field-input" id="validToDate" type="date" onchange="updateDirty()">
+      </div>
     </div>
-    <div class="field-block">
-      <label class="field-label" id="s3-date-lbl">Fecha de salida</label>
-      <input class="field-input" id="bookingDate" type="date" onchange="updateDirty()">
+    <div class="field-block" style="margin-top:.2rem">
+      <label class="field-label" id="s4-offernote-flyer-lbl">Texto adicional (opcional)</label>
+      <input class="field-input" id="offerNoteFlyer" type="text" placeholder="Ej: Precio especial temporada alta" oninput="updateDirty()">
     </div>
   </div>
 
-  <!-- Offer-only: validity -->
-  <div id="validity-block" style="display:none">
+  <!-- OFFER MOBILE: booking/departure date + validity -->
+  <div id="offer-dates-block" style="display:none">
+    <div class="field-block">
+      <label class="field-label" id="s4-date-lbl">Fecha de salida</label>
+      <input class="field-input" id="bookingDate" type="date" onchange="updateDirty()">
+    </div>
     <div class="field-grid-2">
       <div class="field-block">
-        <label class="field-label" id="s3-validity-lbl">Válido hasta (opcional)</label>
+        <label class="field-label" id="s4-validity-lbl">Válido hasta (opcional)</label>
         <input class="field-input" id="validityDate" type="date" onchange="updateDirty()">
       </div>
       <div class="field-block">
-        <label class="field-label" id="s3-offernote-lbl">Texto de la oferta</label>
+        <label class="field-label" id="s4-offernote-lbl">Texto de la oferta</label>
         <input class="field-input" id="offerNote" type="text" placeholder="Ej: Precio especial verano" oninput="updateDirty()">
       </div>
     </div>
@@ -429,24 +462,24 @@ body{background:var(--navy);color:#fff;font-family:var(--sans);font-weight:300;m
   <!-- LOGÍSTICA -->
   <div class="field-grid-2">
     <div class="field-block">
-      <label class="field-label" id="s3-dep-lbl">Hora de salida</label>
+      <label class="field-label" id="s4-dep-lbl">Hora de salida</label>
       <input class="field-input" id="depTime" type="text" placeholder="Ej: 10:00 h" oninput="updateDirty()">
     </div>
     <div class="field-block">
-      <label class="field-label" id="s3-ret-lbl">Hora de regreso</label>
+      <label class="field-label" id="s4-ret-lbl">Hora de regreso</label>
       <input class="field-input" id="retTime" type="text" placeholder="Ej: 15:00 h" oninput="updateDirty()">
     </div>
     <div class="field-block">
-      <label class="field-label" id="s3-dur-lbl">Duración</label>
+      <label class="field-label" id="s4-dur-lbl">Duración</label>
       <input class="field-input" id="duration" type="text" placeholder="Ej: 5 horas" oninput="updateDirty()">
     </div>
     <div class="field-block">
-      <label class="field-label" id="s3-cap-lbl">Aforo máximo</label>
+      <label class="field-label" id="s4-cap-lbl">Aforo máximo</label>
       <input class="field-input" id="capacity" type="text" placeholder="Ej: 8 personas" oninput="updateDirty()">
     </div>
   </div>
   <div class="field-block">
-    <label class="field-label" id="s3-meet-lbl">Punto de encuentro</label>
+    <label class="field-label" id="s4-meet-lbl">Punto de encuentro</label>
     <input class="field-input" id="meetPoint" type="text" placeholder="Ej: Club de Mar, Amarre 1007, Palma" oninput="updateDirty()">
   </div>
 
@@ -455,39 +488,39 @@ body{background:var(--navy);color:#fff;font-family:var(--sans);font-weight:300;m
   <!-- CONTACTO -->
   <div class="field-grid-2">
     <div class="field-block">
-      <label class="field-label" id="s3-phone-lbl">WhatsApp / Teléfono</label>
+      <label class="field-label" id="s4-phone-lbl">WhatsApp / Teléfono</label>
       <input class="field-input" id="phone" type="tel" placeholder="+34 680 19 30 06" oninput="updateDirty()">
     </div>
     <div class="field-block">
-      <label class="field-label" id="s3-email-lbl">Email</label>
+      <label class="field-label" id="s4-email-lbl">Email</label>
       <input class="field-input" id="email" type="email" placeholder="stewartssecret@gmail.com" oninput="updateDirty()">
     </div>
   </div>
   <div class="field-block">
-    <label class="field-label" id="s3-web-lbl">Web</label>
+    <label class="field-label" id="s4-web-lbl">Web</label>
     <input class="field-input" id="website" type="text" placeholder="gaffmallorca.tours" oninput="updateDirty()">
   </div>
 
   <div class="wiz-nav">
-    <button class="btn-back" onclick="goStep(2)" id="s3-back">← Atrás</button>
-    <button class="btn-next" onclick="goStep(4)" id="s3-next"><span id="s3-next-lbl">Siguiente →</span></button>
+    <button class="btn-back" onclick="goStep(2)" id="s4-back">← Atrás</button>
+    <button class="btn-next" onclick="goStep(5)" id="s4-next"><span id="s4-next-lbl">Siguiente →</span></button>
   </div>
 </div>
 
 <!-- ══ STEP 4: Precio ══ -->
-<div class="step-card" id="step4">
+<div class="step-card" id="step5">
   <div class="step-header">
-    <div class="step-num" id="s4-num">Paso 4 de 7</div>
-    <h1 class="step-title" id="s4-title">Precio</h1>
-    <p class="step-hint" id="s4-hint">Introduce el precio total o deja en blanco si no quieres mostrarlo.</p>
+    <div class="step-num" id="s5-num">Paso 4 de 7</div>
+    <h1 class="step-title" id="s5-title">Precio</h1>
+    <p class="step-hint" id="s5-hint">Introduce el precio total o deja en blanco si no quieres mostrarlo.</p>
   </div>
   <div class="field-grid-2">
     <div class="field-block">
-      <label class="field-label" id="s4-amount-lbl">Importe</label>
+      <label class="field-label" id="s5-amount-lbl">Importe</label>
       <input class="field-input" id="price" type="text" placeholder="Ej: 600" oninput="updateDirty()">
     </div>
     <div class="field-block">
-      <label class="field-label" id="s4-currency-lbl">Divisa</label>
+      <label class="field-label" id="s5-currency-lbl">Divisa</label>
       <select class="field-input" id="currency" onchange="updateDirty()">
         <option value="€">€ EUR</option>
         <option value="$">$ USD</option>
@@ -496,7 +529,7 @@ body{background:var(--navy);color:#fff;font-family:var(--sans);font-weight:300;m
     </div>
   </div>
   <div class="field-block">
-    <label class="field-label" id="s4-priceby-lbl">Por</label>
+    <label class="field-label" id="s5-priceby-lbl">Por</label>
     <div class="toggle-grid">
       <button class="toggle-btn selected" id="pb-barco" onclick="selectPriceBy('barco')">barco</button>
       <button class="toggle-btn" id="pb-persona" onclick="selectPriceBy('persona')">persona</button>
@@ -504,39 +537,39 @@ body{background:var(--navy);color:#fff;font-family:var(--sans);font-weight:300;m
     </div>
   </div>
   <div class="field-block">
-    <label class="field-label" id="s4-note-lbl">Nota de precio (opcional)</label>
+    <label class="field-label" id="s5-note-lbl">Nota de precio (opcional)</label>
     <input class="field-input" id="priceNote" type="text" placeholder="Ej: Precio por barco completo" oninput="updateDirty()">
   </div>
-  <div class="wiz-nav">
-    <button class="btn-back" onclick="goStep(3)" id="s4-back">← Atrás</button>
-    <button class="btn-next" onclick="goStep(5)" id="s4-next"><span id="s4-next-lbl">Siguiente →</span></button>
-  </div>
-</div>
-
-<!-- ══ STEP 5: Servicios ══ -->
-<div class="step-card" id="step5">
-  <div class="step-header">
-    <div class="step-num" id="s5-num">Paso 5 de 7</div>
-    <h1 class="step-title" id="s5-title">¿Qué servicios incluye?</h1>
-    <p class="step-hint" id="s5-hint">Marca o desmarca los servicios que quieres mostrar en el documento.</p>
-  </div>
-  <div class="svc-list" id="svcList"></div>
   <div class="wiz-nav">
     <button class="btn-back" onclick="goStep(4)" id="s5-back">← Atrás</button>
     <button class="btn-next" onclick="goStep(6)" id="s5-next"><span id="s5-next-lbl">Siguiente →</span></button>
   </div>
 </div>
 
-<!-- ══ STEP 6: Opciones extra ══ -->
+<!-- ══ STEP 5: Servicios ══ -->
 <div class="step-card" id="step6">
   <div class="step-header">
-    <div class="step-num" id="s6-num">Paso 6 de 7</div>
-    <h1 class="step-title" id="s6-title">Opciones finales</h1>
-    <p class="step-hint" id="s6-hint">Ajustes de presentación del documento.</p>
+    <div class="step-num" id="s6-num">Paso 5 de 7</div>
+    <h1 class="step-title" id="s6-title">¿Qué servicios incluye?</h1>
+    <p class="step-hint" id="s6-hint">Marca o desmarca los servicios que quieres mostrar en el documento.</p>
+  </div>
+  <div class="svc-list" id="svcList"></div>
+  <div class="wiz-nav">
+    <button class="btn-back" onclick="goStep(5)" id="s6-back">← Atrás</button>
+    <button class="btn-next" onclick="goStep(7)" id="s6-next"><span id="s6-next-lbl">Siguiente →</span></button>
+  </div>
+</div>
+
+<!-- ══ STEP 6: Opciones extra ══ -->
+<div class="step-card" id="step7">
+  <div class="step-header">
+    <div class="step-num" id="s7-num">Paso 6 de 7</div>
+    <h1 class="step-title" id="s7-title">Opciones finales</h1>
+    <p class="step-hint" id="s7-hint">Ajustes de presentación del documento.</p>
   </div>
 
   <div class="field-block">
-    <label class="field-label" id="s6-notes-lbl">Condiciones / Notas (opcional)</label>
+    <label class="field-label" id="s7-notes-lbl">Condiciones / Notas (opcional)</label>
     <div style="display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.5rem">
       <button class="toggle-btn" style="flex:none;padding:.5rem .9rem;font-size:.54rem" onclick="loadNotes('cancel48')" id="nb-c48">⏱ Cancelación 48h</button>
       <button class="toggle-btn" style="flex:none;padding:.5rem .9rem;font-size:.54rem" onclick="loadNotes('cancel24')" id="nb-c24">⏱ Cancelación 24h</button>
@@ -549,26 +582,26 @@ body{background:var(--navy);color:#fff;font-family:var(--sans);font-weight:300;m
   <div class="wiz-divider"></div>
 
   <div class="field-block">
-    <label class="field-label" id="s6-qr-lbl">¿Añadir código QR de la web?</label>
+    <label class="field-label" id="s7-qr-lbl">¿Añadir código QR de la web?</label>
     <div class="toggle-grid">
-      <button class="toggle-btn selected" id="qr-si" onclick="selectQR(true)" id="s6-qr-yes">Sí, añadir QR</button>
-      <button class="toggle-btn" id="qr-no" onclick="selectQR(false)" id="s6-qr-no">No, sin QR</button>
+      <button class="toggle-btn selected" id="qr-si" onclick="selectQR(true)" id="s7-qr-yes">Sí, añadir QR</button>
+      <button class="toggle-btn" id="qr-no" onclick="selectQR(false)" id="s7-qr-no">No, sin QR</button>
     </div>
-    <p style="font-size:.6rem;color:rgba(255,255,255,.25);margin-top:.4rem;line-height:1.6" id="s6-qr-hint">El QR llevará a los visitantes a gaffmallorca.tours</p>
+    <p style="font-size:.6rem;color:rgba(255,255,255,.25);margin-top:.4rem;line-height:1.6" id="s7-qr-hint">El QR llevará a los visitantes a gaffmallorca.tours</p>
   </div>
 
   <div class="wiz-nav">
-    <button class="btn-back" onclick="goStep(5)" id="s6-back">← Atrás</button>
-    <button class="btn-next" onclick="goStep(7)" id="s6-next"><span id="s6-next-lbl">Ver y exportar →</span></button>
+    <button class="btn-back" onclick="goStep(6)" id="s7-back">← Atrás</button>
+    <button class="btn-next" onclick="goStep(8)" id="s7-next"><span id="s7-next-lbl">Ver y exportar →</span></button>
   </div>
 </div>
 
 <!-- ══ STEP 7: Exportar ══ -->
-<div class="step-card" id="step7">
+<div class="step-card" id="step8">
   <div class="step-header">
-    <div class="step-num" id="s7-num">Paso 7 de 7</div>
-    <h1 class="step-title" id="s7-title">Listo para exportar</h1>
-    <p class="step-hint" id="s7-hint">Revisa el resumen y descarga o comparte tu documento.</p>
+    <div class="step-num" id="s8-num">Paso 7 de 7</div>
+    <h1 class="step-title" id="s8-title">Listo para exportar</h1>
+    <p class="step-hint" id="s8-hint">Revisa el resumen y descarga o comparte tu documento.</p>
   </div>
 
   <div class="summary-box" id="summaryBox"></div>
@@ -584,7 +617,7 @@ body{background:var(--navy);color:#fff;font-family:var(--sans);font-weight:300;m
   </button>
 
   <div class="wiz-divider"></div>
-  <button class="btn-back" onclick="goStep(6)" id="s7-back" style="width:100%;text-align:center">← Editar algo</button>
+  <button class="btn-back" onclick="goStep(7)" id="s8-back" style="width:100%;text-align:center">← Editar algo</button>
 </div>
 
 </div><!-- /wiz-body -->
@@ -593,53 +626,64 @@ body{background:var(--navy);color:#fff;font-family:var(--sans);font-weight:300;m
      HIDDEN PREVIEWS (rendered off-screen)
 ══════════════════════════════════════════════ -->
 
-<!-- A5 FLYER -->
-<div id="a5-preview" style="display:flex;flex-direction:column">
-  <div class="a5-head">
-    <div class="a5-deco"></div><div class="a5-deco2"></div>
-    <div class="a5-eyebrow">Gaff Classic Tours · Mallorca</div>
-    <div class="a5-tour-name" id="a5-name">—</div>
-    <div class="a5-tour-sub" id="a5-sub"></div>
-    <div id="a5-price-wrap">
-      <div class="a5-price-pill">
-        <span class="a5-price-amount" id="a5-price"></span>
-        <span class="a5-price-label" id="a5-price-by"></span>
+<!-- A5 FLYER — Photo-first print layout -->
+<div id="a5-preview">
+  <!-- PHOTO HERO -->
+  <div class="a5-photo-hero">
+    <img id="a5-hero-img" src="https://raw.githubusercontent.com/gaffmallorcatours/website/refs/heads/main/img/2024-06-16.png" alt="Gaff Classic Tours" crossorigin="anonymous">
+    <div class="a5-hero-text">
+      <div class="a5-eyebrow">Gaff Classic Tours · Mallorca</div>
+      <div class="a5-tour-name" id="a5-name">—</div>
+      <div class="a5-tour-sub" id="a5-sub"></div>
+      <div class="a5-price-row">
+        <div class="a5-price-pill" id="a5-price-wrap" style="display:none">
+          <span class="a5-price-amount" id="a5-price"></span>
+          <span class="a5-price-label" id="a5-price-by"></span>
+        </div>
+        <div class="a5-validity-badge" id="a5-validity-badge" style="display:none">
+          <span class="a5-validity-badge-lbl" id="a5-validity-badge-lbl">VÁLIDO</span>
+          <span class="a5-validity-badge-val" id="a5-validity-badge-val"></span>
+        </div>
       </div>
-      <div class="a5-price-note" id="a5-price-note"></div>
+      <div class="a5-price-note" id="a5-price-note" style="margin-top:.35rem;display:none"></div>
     </div>
   </div>
 
-  <div class="a5-validity-band" id="a5-band" style="display:none">
+  <!-- CLIENT BAND (only when client name set) -->
+  <div class="a5-client-band" id="a5-client-band" style="display:none">
     <div>
-      <span class="a5-validity-label" id="a5-band-lbl">CONFIRMACIÓN DE RESERVA</span>
-      <div class="a5-validity-val" id="a5-date"></div>
+      <span class="a5-client-band-lbl" id="a5-band-lbl">RESERVADO A NOMBRE DE</span>
+      <div class="a5-client-name" id="a5-cname"></div>
     </div>
-    <div id="a5-client-wrap" style="text-align:right">
-      <div class="a5-client-info" id="a5-cname"></div>
-      <div style="font-size:.52rem;color:var(--text-mid);margin-top:.06rem" id="a5-cpax"></div>
-    </div>
-  </div>
-
-  <div class="a5-body">
-    <div class="a5-sec" id="a5-info-sec" style="display:none">
-      <div class="a5-sec-head" id="a5-info-head">Detalles</div>
-      <div class="a5-info-grid" id="a5-info-grid"></div>
-    </div>
-    <div class="a5-sec" id="a5-check-sec" style="display:none">
-      <div class="a5-sec-head" id="a5-check-head">Servicios incluidos</div>
-      <div class="a5-checks" id="a5-checks"></div>
-    </div>
-    <div class="a5-sec" id="a5-notes-sec" style="display:none">
-      <div class="a5-sec-head" id="a5-notes-head">Condiciones</div>
-      <div class="a5-notes-box"><p class="a5-notes-text" id="a5-notes"></p></div>
+    <div style="text-align:right">
+      <span class="a5-client-pax" id="a5-cpax"></span>
     </div>
   </div>
 
+  <!-- LOWER AREA: content + sidebar -->
+  <div class="a5-lower">
+    <!-- LEFT: services + notes -->
+    <div class="a5-content-col">
+      <div id="a5-check-sec" style="display:none">
+        <div class="a5-sec-head" id="a5-check-head">Servicios incluidos</div>
+        <div class="a5-checks" id="a5-checks"></div>
+      </div>
+      <div id="a5-notes-sec" style="display:none;margin-top:auto">
+        <div class="a5-notes-box"><p class="a5-notes-text" id="a5-notes"></p></div>
+      </div>
+    </div>
+    <!-- RIGHT SIDEBAR: logistics -->
+    <div class="a5-sidebar" id="a5-sidebar">
+      <div id="a5-info-items"></div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
   <div class="a5-footer">
     <div class="a5-footer-brand">GAFF CLASSIC TOURS<span>Mallorca · Mediterráneo</span></div>
     <div class="a5-footer-right">
-      <img id="a5-qr-img" class="a5-qr" src="https://raw.githubusercontent.com/gaffmallorcatours/website/refs/heads/main/img/QR.png" alt="QR" crossorigin="anonymous" style="display:none">
       <div class="a5-footer-contact" id="a5-contact"></div>
+      <img id="a5-qr-img" class="a5-qr" src="https://raw.githubusercontent.com/gaffmallorcatours/website/refs/heads/main/img/QR.png" alt="QR" crossorigin="anonymous" style="display:none">
     </div>
   </div>
 </div>
@@ -829,14 +873,25 @@ const ALL_SVC = ['captain','fuel','paddle','drinks','coves12','cove1','sunset_co
 // ════════════════════════════════════════
 // STATE
 // ════════════════════════════════════════
+// Available flyer photos
+const FLYER_PHOTOS = [
+  {id:'p1', url:'https://raw.githubusercontent.com/gaffmallorcatours/website/refs/heads/main/img/2024-06-16.png',                             label:'Velero navegando'},
+  {id:'p2', url:'https://raw.githubusercontent.com/gaffmallorcatours/website/refs/heads/main/img/IMG-20260108-WA0001-768x745-1-600x582.jpg',  label:'Vista bahía'},
+  {id:'p3', url:'https://raw.githubusercontent.com/gaffmallorcatours/website/refs/heads/main/img/freepik__enhance__69233-scaled.png',          label:'Mar abierto'},
+  {id:'p4', url:'https://raw.githubusercontent.com/gaffmallorcatours/website/refs/heads/main/img/IMG-20260108-WA0021-scaled-1-400x533.jpg',    label:'Velero clásico'},
+  {id:'p5', url:'https://raw.githubusercontent.com/gaffmallorcatours/website/refs/heads/main/img/freepik__expand__82210-400x267.png',          label:'Atardecer'},
+  {id:'p6', url:'https://raw.githubusercontent.com/gaffmallorcatours/website/refs/heads/main/img/6d027dff-b871-4a89-a8ad-51118d51147c-edited-768x768-1-400x400.jpg', label:'A bordo'},
+];
+
 const S = {
-  step:1, totalSteps:7,
+  step:1, totalSteps:8,
   docType:null,       // 'flyer' | 'offer'
   tour:null,          // 'morning'|'sunset'|'essential'|'custom'
   priceBy:'barco',
   showQR:true,
   svcItems:[],        // [{key, checked}]
   docLang:'es',       // language of the OUTPUT document (independent of UI lang)
+  selectedPhoto: FLYER_PHOTOS[0].url, // default photo for flyer
 };
 // Helper: labels for the output document (may differ from UI lang)
 const DL = () => LABELS[S.docLang];
@@ -863,31 +918,31 @@ function applyLabels(){
   setText('cl-custom', l.customLabel); setText('cd-custom', l.customDesc);
   setText('cd-morning', l.morningDesc); setText('cd-sunset', l.sunsetDesc); setText('cd-essential', l.essentialDesc);
   // step 3 (expanded)
-  setText('s3-title', l.clientTitle); setText('s3-hint', l.clientHint);
-  setText('s3-doclang-lbl', l.doclangLbl||'Idioma del documento');
-  setText('s3-tourname-lbl', l.tournameLabel||(lang==='es'?'Nombre del tour':'Tour name'));
-  setText('s3-toursub-lbl', l.toursubLabel||(lang==='es'?'Subtítulo (opcional)':'Subtitle (optional)'));
-  setText('s3-name-lbl', l.nameLbl); setText('s3-pax-lbl', l.paxLbl); setText('s3-date-lbl', l.dateLbl);
-  setText('s3-validity-lbl', l.validityLbl); setText('s3-offernote-lbl', l.offerNoteLbl);
-  setText('s3-dep-lbl', lang==='es'?'Hora de salida':'Departure time');
-  setText('s3-ret-lbl', lang==='es'?'Hora de regreso':'Return time');
-  setText('s3-dur-lbl', lang==='es'?'Duración':'Duration');
-  setText('s3-cap-lbl', lang==='es'?'Aforo máximo':'Max guests');
-  setText('s3-meet-lbl', lang==='es'?'Punto de encuentro':'Meeting point');
-  setText('s3-phone-lbl', lang==='es'?'WhatsApp / Teléfono':'WhatsApp / Phone');
-  setText('s3-email-lbl', 'Email');
-  setText('s3-web-lbl', 'Web');
+  setText('s4-title', l.clientTitle); setText('s4-hint', l.clientHint);
+  setText('s4-doclang-lbl', l.doclangLbl||'Idioma del documento');
+  setText('s4-tourname-lbl', l.tournameLabel||(lang==='es'?'Nombre del tour':'Tour name'));
+  setText('s4-toursub-lbl', l.toursubLabel||(lang==='es'?'Subtítulo (opcional)':'Subtitle (optional)'));
+  setText('s4-name-lbl', l.nameLbl); setText('s4-pax-lbl', l.paxLbl); setText('s4-date-lbl', l.dateLbl);
+  setText('s4-validity-lbl', l.validityLbl); setText('s4-offernote-lbl', l.offerNoteLbl);
+  setText('s4-dep-lbl', lang==='es'?'Hora de salida':'Departure time');
+  setText('s4-ret-lbl', lang==='es'?'Hora de regreso':'Return time');
+  setText('s4-dur-lbl', lang==='es'?'Duración':'Duration');
+  setText('s4-cap-lbl', lang==='es'?'Aforo máximo':'Max guests');
+  setText('s4-meet-lbl', lang==='es'?'Punto de encuentro':'Meeting point');
+  setText('s4-phone-lbl', lang==='es'?'WhatsApp / Teléfono':'WhatsApp / Phone');
+  setText('s4-email-lbl', 'Email');
+  setText('s4-web-lbl', 'Web');
   // step 4
-  setText('s4-title', l.priceTitle); setText('s4-hint', l.priceHint);
-  setText('s4-amount-lbl', l.amountLbl); setText('s4-currency-lbl', l.currencyLbl); setText('s4-priceby-lbl', l.priceByLbl); setText('s4-note-lbl', l.noteLbl);
+  setText('s5-title', l.priceTitle); setText('s5-hint', l.priceHint);
+  setText('s5-amount-lbl', l.amountLbl); setText('s5-currency-lbl', l.currencyLbl); setText('s5-priceby-lbl', l.priceByLbl); setText('s5-note-lbl', l.noteLbl);
   document.getElementById('pb-barco').textContent = l.perBarco;
   document.getElementById('pb-persona').textContent = l.perPersona;
   document.getElementById('pb-grupo').textContent = l.perGrupo;
   // step 5
-  setText('s5-title', l.svcTitle); setText('s5-hint', l.svcHint);
+  setText('s6-title', l.svcTitle); setText('s6-hint', l.svcHint);
   // step 6
-  setText('s6-title', l.optTitle); setText('s6-hint', l.optHint);
-  setText('s6-notes-lbl', l.notesLbl); setText('s6-qr-lbl', l.qrLbl); setText('s6-qr-hint', l.qrHint);
+  setText('s7-title', l.optTitle); setText('s7-hint', l.optHint);
+  setText('s7-notes-lbl', l.notesLbl); setText('s7-qr-lbl', l.qrLbl); setText('s7-qr-hint', l.qrHint);
   document.getElementById('qr-si').textContent = l.qrYes;
   document.getElementById('qr-no').textContent = l.qrNo;
   const nb = l.nb;
@@ -896,13 +951,13 @@ function applyLabels(){
   document.getElementById('nb-tiempo').textContent = nb.tiempo;
   document.getElementById('nb-sunset').textContent = nb.sunset;
   // step 7
-  setText('s7-title', l.exportTitle); setText('s7-hint', l.exportHint);
+  setText('s8-title', l.exportTitle); setText('s8-hint', l.exportHint);
   setText('btnExportLbl', l.download); setText('btnWALbl', l.wa); setText('btnCalLbl', l.cal);
-  setText('s7-back', l.editBack);
+  setText('s8-back', l.editBack);
   // back/next
-  ['s2-back','s3-back','s4-back','s5-back','s6-back'].forEach(id => { const el = document.getElementById(id); if(el) el.textContent = l.back; });
-  ['s1-next-lbl','s2-next-lbl','s3-next-lbl','s4-next-lbl','s5-next-lbl'].forEach(id => { const el = document.getElementById(id); if(el) el.textContent = l.next; });
-  const s6n = document.getElementById('s6-next-lbl'); if(s6n) s6n.textContent = l.viewExport;
+  ['s2-back','s4-back','s5-back','s6-back','s7-back'].forEach(id => { const el = document.getElementById(id); if(el) el.textContent = l.back; });
+  ['s1-next-lbl','s2-next-lbl','s4-next-lbl','s5-next-lbl','s6-next-lbl'].forEach(id => { const el = document.getElementById(id); if(el) el.textContent = l.next; });
+  const s6n = document.getElementById('s7-next-lbl'); if(s6n) s6n.textContent = l.viewExport;
   renderProgress();
   if(S.step===7) renderSummary();
 }
@@ -912,8 +967,8 @@ function setText(id, txt){ const el = document.getElementById(id); if(el) el.tex
 // ════════════════════════════════════════
 // PROGRESS BAR
 // ════════════════════════════════════════
-const STEP_LABELS_ES = ['Tipo','Experiencia','Cliente','Precio','Servicios','Opciones','Exportar'];
-const STEP_LABELS_EN = ['Type','Experience','Client','Price','Services','Options','Export'];
+const STEP_LABELS_ES = ['Tipo','Experiencia','Foto','Detalles','Precio','Servicios','Opciones','Exportar'];
+const STEP_LABELS_EN = ['Type','Experience','Photo','Details','Price','Services','Options','Export'];
 
 function renderProgress(){
   const labels = lang==='es' ? STEP_LABELS_ES : STEP_LABELS_EN;
@@ -937,13 +992,23 @@ function renderProgress(){
 // ════════════════════════════════════════
 function goStep(n){
   if(n<1||n>S.totalSteps) return;
+  // For offer type, skip photo step (step 3) 
+  if(n===3 && S.docType==='offer') { n = n > S.step ? 4 : 2; }
   document.getElementById('step'+S.step).classList.remove('active');
   S.step = n;
   document.getElementById('step'+n).classList.add('active');
   renderProgress();
   window.scrollTo({top:0,behavior:'smooth'});
-  if(n===5) renderSvcList();
-  if(n===7){ renderSummary(); buildPreviews(); }
+  if(n===3) renderPhotoGrid();
+  if(n===6) renderSvcList();
+  if(n===8){ renderSummary(); buildPreviews(); }
+  // Sync date blocks visibility when landing on step 4
+  if(n===4){
+    const flyerDates = document.getElementById('flyer-dates-block');
+    const offerDates = document.getElementById('offer-dates-block');
+    if(flyerDates) flyerDates.style.display = S.docType==='flyer' ? 'block' : 'none';
+    if(offerDates) offerDates.style.display = S.docType==='offer' ? 'block' : 'none';
+  }
 }
 
 function updateDirty(){ /* placeholder for future auto-preview */ }
@@ -956,8 +1021,19 @@ function selectDocType(type){
   document.getElementById('choice-flyer').classList.toggle('selected', type==='flyer');
   document.getElementById('choice-offer').classList.toggle('selected', type==='offer');
   document.getElementById('s1-next').disabled = false;
-  // Show/hide validity fields
-  document.getElementById('validity-block').style.display = type==='offer' ? 'block' : 'none';
+  // Photo picker step is only relevant for flyer (but we always show it as step 3)
+  // Show/hide date blocks in step 4
+  const flyerDates = document.getElementById('flyer-dates-block');
+  const offerDates = document.getElementById('offer-dates-block');
+  if(flyerDates) flyerDates.style.display = type==='flyer' ? 'block' : 'none';
+  if(offerDates) offerDates.style.display = type==='offer' ? 'block' : 'none';
+  // Update step 3 title based on type
+  const s3title = document.getElementById('s3-photo-title');
+  const s3hint = document.getElementById('s3-photo-hint');
+  if(type==='offer'){
+    // For offer, skip photo step — go straight to step 4
+    if(s3title) s3title.textContent = lang==='es'?'Elige la foto (no aplica para oferta móvil)':'Choose photo (N/A for mobile offer)';
+  }
 }
 
 // ════════════════════════════════════════
@@ -985,6 +1061,28 @@ function selectDocLang(l){
   }
 }
 
+
+// ════════════════════════════════════════
+// STEP 3 — PHOTO PICKER
+// ════════════════════════════════════════
+function renderPhotoGrid(){
+  const grid = document.getElementById('photoGrid');
+  if(!grid) return;
+  grid.innerHTML = FLYER_PHOTOS.map(p => `
+    <div class="photo-opt ${S.selectedPhoto===p.url?'selected':''}" onclick="selectPhoto('${p.url}')">
+      <img src="${p.url}" alt="${p.label}" crossorigin="anonymous" loading="lazy">
+      <div class="photo-opt-overlay">${p.label}</div>
+      <div class="photo-check">✓</div>
+    </div>
+  `).join('');
+}
+
+function selectPhoto(url){
+  S.selectedPhoto = url;
+  const heroImg = document.getElementById('a5-hero-img');
+  if(heroImg){ heroImg.src = url; heroImg.crossOrigin='anonymous'; }
+  renderPhotoGrid();
+}
 
 function selectTour(key){
   S.tour = key;
@@ -1103,11 +1201,15 @@ function renderSummary(){
   const tourNames = {morning:'Morning Sail Experience',sunset:'Sunset Private Experience',essential:'Essential Experience',custom:l.customLabel};
   const docNames = {flyer:l.flyer,offer:l.offer};
   const priceStr = getVal('price') ? (getVal('currency')||'€')+getVal('price')+' / '+({barco:l.perBarco,persona:l.perPersona,grupo:l.perGrupo}[S.priceBy]||S.priceBy) : '—';
+  const vFrom = getVal('validFromDate'); const vTo = getVal('validToDate');
+  const validRange = vFrom||vTo ? (vFrom?formatDateShort(vFrom):'')+' – '+(vTo?formatDateShort(vTo):'') : '—';
   const rows = [
     [l.summaryDoc, docNames[S.docType]||'—'],
     [l.summaryTour, tourNames[S.tour]||'—'],
     [l.summaryClient, getVal('clientName')||'—'],
-    [l.summaryDate, formatDate(getVal('bookingDate'))||'—'],
+    S.docType==='flyer'
+      ? [(lang==='es'?'Validez':'Validity'), validRange]
+      : [l.summaryDate, formatDate(getVal('bookingDate'))||'—'],
     [l.summaryPrice, priceStr],
     [l.summaryQR, S.showQR ? l.si : l.no],
   ];
@@ -1139,7 +1241,9 @@ function buildPreviews(){
   const meetPoint = getVal('meetPoint');
   const notes    = getVal('notes');
   const validityDate = getVal('validityDate');
-  const offerNote = getVal('offerNote');
+  const validFromDate = getVal('validFromDate');
+  const validToDate   = getVal('validToDate');
+  const offerNote = getVal('offerNote') || getVal('offerNoteFlyer');
   const checkedSvc = S.svcItems.filter(x=>x.checked);
   const isDocEs = S.docLang === 'es';
 
@@ -1169,44 +1273,69 @@ function buildPreviews(){
     }
   }
 
-  // ── A5 ──
+  // ── A5 FLYER (photo-first layout) ──
+  // Hero photo
+  const heroImg = document.getElementById('a5-hero-img');
+  if(heroImg){ heroImg.src = S.selectedPhoto; heroImg.crossOrigin='anonymous'; }
+
   setText('a5-name', tourName);
   setText('a5-sub', tourSub);
+
+  // Price
   if(price){
-    document.getElementById('a5-price-wrap').style.display='block';
+    document.getElementById('a5-price-wrap').style.display='inline-flex';
     setText('a5-price', currency+price);
     setText('a5-price-by', priceByLabel);
+    document.getElementById('a5-price-note').style.display = priceNote ? 'block' : 'none';
     setText('a5-price-note', priceNote);
-    document.getElementById('a5-price-note').style.display = priceNote?'block':'none';
-  } else document.getElementById('a5-price-wrap').style.display='none';
+  } else {
+    document.getElementById('a5-price-wrap').style.display='none';
+    document.getElementById('a5-price-note').style.display='none';
+  }
 
-  const hasBand = bookingDate||clientName;
-  document.getElementById('a5-band').style.display = hasBand?'flex':'none';
-  setText('a5-band-lbl', clientName ? dl.confirmacion : (S.docType==='offer'&&validityDate ? (isDocEs?'OFERTA VÁLIDA HASTA':'OFFER VALID UNTIL') : dl.confirmacion));
-  setText('a5-date', fmtDate(bookingDate)||(validityDate&&S.docType==='offer'?fmtDate(validityDate):''));
+  // Flyer validity badge (from validFromDate / validToDate)
+  const validFrom = getVal('validFromDate');
+  const validTo   = getVal('validToDate');
+  const badgeEl = document.getElementById('a5-validity-badge');
+  if(S.docType==='flyer' && (validFrom || validTo)){
+    badgeEl.style.display='inline-flex';
+    setText('a5-validity-badge-lbl', isDocEs?'VÁLIDO':'VALID');
+    const fromStr = validFrom ? formatDateShort(validFrom) : '';
+    const toStr   = validTo   ? formatDateShort(validTo)   : '';
+    const rangeStr = fromStr && toStr ? fromStr+' – '+toStr : fromStr||toStr;
+    setText('a5-validity-badge-val', rangeStr);
+  } else {
+    if(badgeEl) badgeEl.style.display='none';
+  }
+
+  // Client band
+  const a5clientBand = document.getElementById('a5-client-band');
+  if(a5clientBand) a5clientBand.style.display = clientName ? 'flex' : 'none';
+  setText('a5-band-lbl', isDocEs?'RESERVADO A NOMBRE DE':'BOOKED IN THE NAME OF');
   setText('a5-cname', clientName);
   setText('a5-cpax', paxDisplay);
-  document.getElementById('a5-client-wrap').style.display = clientName ? 'block' : 'none';
 
-  const infoFields = [
-    {icon:'📅',label:dl.infoLabels.date,val:fmtDate(bookingDate),hi:true},
-    {icon:'🕐',label:dl.infoLabels.dep,val:depTime},
-    {icon:'🏁',label:dl.infoLabels.ret,val:retTime},
-    {icon:'⏱',label:dl.infoLabels.dur,val:duration},
-    {icon:'👥',label:dl.infoLabels.pax,val:paxDisplay},
-    {icon:'⚓',label:dl.infoLabels.meet,val:meetPoint},
+  // Sidebar: logistics info
+  const sidebarInfoItems = [
+    {icon:'🕐', label:dl.infoLabels.dep, val:depTime},
+    {icon:'🏁', label:dl.infoLabels.ret, val:retTime},
+    {icon:'⏱',  label:dl.infoLabels.dur, val:duration},
+    {icon:'👥', label:dl.infoLabels.pax, val:paxDisplay},
+    {icon:'⚓', label:dl.infoLabels.meet, val:meetPoint},
   ].filter(f=>f.val);
-  setText('a5-info-head', dl.detalles);
-  if(infoFields.length){
-    document.getElementById('a5-info-sec').style.display='block';
-    document.getElementById('a5-info-grid').innerHTML = infoFields.map(f=>`
-      <div class="a5-info-item${f.hi?' hi':''}">
+  const sidebarEl = document.getElementById('a5-info-items');
+  if(sidebarEl){
+    sidebarEl.innerHTML = sidebarInfoItems.map(f=>`
+      <div class="a5-info-item">
         <span class="a5-info-icon">${f.icon}</span>
         <span class="a5-info-lbl">${f.label}</span>
         <span class="a5-info-val">${f.val}</span>
       </div>`).join('');
-  } else document.getElementById('a5-info-sec').style.display='none';
+  }
+  const sidebarWrapper = document.getElementById('a5-sidebar');
+  if(sidebarWrapper) sidebarWrapper.style.display = sidebarInfoItems.length ? 'flex' : 'none';
 
+  // Services grid
   setText('a5-check-head', dl.servicios);
   if(checkedSvc.length){
     document.getElementById('a5-check-sec').style.display='block';
@@ -1217,7 +1346,7 @@ function buildPreviews(){
       </div>`).join('');
   } else document.getElementById('a5-check-sec').style.display='none';
 
-  setText('a5-notes-head', dl.condiciones);
+  // Notes
   if(notes){ document.getElementById('a5-notes-sec').style.display='block'; setText('a5-notes', notes); }
   else document.getElementById('a5-notes-sec').style.display='none';
 
@@ -1302,7 +1431,7 @@ async function captureEl(elId, w, h){
   await new Promise(r=>setTimeout(r,180));
   const canvas = await html2canvas(el, {
     scale:2.5, useCORS:true, allowTaint:false,
-    backgroundColor: S.docType==='offer'?'#07111f':'#ffffff',
+    backgroundColor: S.docType==='offer' ? '#07111f' : '#07111f',
     logging:false, imageTimeout:10000,
     width:w, height:h,
     onclone:(doc)=>{
