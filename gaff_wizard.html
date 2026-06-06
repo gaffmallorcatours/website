@@ -1,0 +1,1482 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Gaff Classic Tours — Creador de Documentos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Cinzel:wght@400;500;600&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --navy:#07111f;--navy2:#0c1b30;--navy3:#112240;
+  --gold:#c19a6b;--gold2:#d4aa7d;--gold3:#e8c99a;
+  --cream:#f5f0e8;--cream2:#faf7f2;
+  --text-dark:#1c2533;--text-mid:#5a6474;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --display:'Cinzel',serif;
+  --sans:'Jost',system-ui,sans-serif;
+  --ease:cubic-bezier(0.22,1,0.36,1);
+  --green:#2a7a4b;
+}
+html{scroll-behavior:smooth;-webkit-tap-highlight-color:transparent}
+body{background:var(--navy);color:#fff;font-family:var(--sans);font-weight:300;min-height:100vh;overflow-x:hidden}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:var(--navy)}::-webkit-scrollbar-thumb{background:rgba(193,154,107,.3)}
+
+/* ── TOP BAR ── */
+.topbar{background:var(--navy2);border-bottom:1px solid rgba(193,154,107,.15);padding:.75rem 5%;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:300;gap:.6rem}
+.topbar-brand{font-family:var(--display);font-size:.65rem;letter-spacing:.18em;color:#fff}
+.topbar-sub{font-size:.4rem;letter-spacing:.4em;color:var(--gold);display:block;margin-top:.12rem}
+.topbar-right{display:flex;align-items:center;gap:.5rem;flex-shrink:0}
+.lang-toggle{display:flex;border:1px solid rgba(193,154,107,.22);overflow:hidden}
+.lang-btn{font-family:var(--display);font-size:.5rem;letter-spacing:.15em;padding:.38rem .65rem;background:transparent;color:rgba(255,255,255,.35);border:none;cursor:pointer;transition:all .22s}
+.lang-btn.active{background:var(--gold);color:var(--navy)}
+
+/* ── WIZARD PROGRESS ── */
+.wiz-progress{background:var(--navy3);padding:.6rem 5%;display:flex;align-items:center;gap:0;overflow-x:auto;scrollbar-width:none;border-bottom:1px solid rgba(193,154,107,.08)}
+.wiz-progress::-webkit-scrollbar{display:none}
+.wiz-step{display:flex;align-items:center;gap:0;flex-shrink:0}
+.wiz-dot{width:28px;height:28px;border-radius:50%;border:1.5px solid rgba(193,154,107,.2);background:transparent;display:flex;align-items:center;justify-content:center;font-size:.55rem;color:rgba(255,255,255,.25);font-family:var(--display);transition:all .35s;cursor:pointer;flex-shrink:0}
+.wiz-dot.done{background:rgba(193,154,107,.15);border-color:rgba(193,154,107,.5);color:var(--gold)}
+.wiz-dot.active{background:var(--gold);border-color:var(--gold);color:var(--navy);box-shadow:0 0 0 3px rgba(193,154,107,.2)}
+.wiz-dot.done::after{content:'✓'}
+.wiz-dot:not(.done):not(.active){pointer-events:none}
+.wiz-label{font-size:.42rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.22);margin:0 .5rem;white-space:nowrap;transition:color .3s}
+.wiz-step .wiz-dot.active + .wiz-label,.wiz-step .wiz-dot.active ~ .wiz-label{color:rgba(255,255,255,.55)}
+.wiz-step:has(.wiz-dot.done) .wiz-label{color:rgba(193,154,107,.45)}
+.wiz-connector{width:24px;height:1px;background:rgba(193,154,107,.12);flex-shrink:0;transition:background .3s}
+.wiz-connector.done{background:rgba(193,154,107,.35)}
+
+/* ── WIZARD BODY ── */
+.wiz-body{max-width:680px;margin:0 auto;padding:2.5rem 5% 6rem;min-height:calc(100vh - 120px)}
+
+/* ── STEP CARD ── */
+.step-card{display:none;animation:slideIn .38s var(--ease)}
+.step-card.active{display:block}
+@keyframes slideIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+
+.step-header{margin-bottom:2rem}
+.step-num{font-size:.48rem;letter-spacing:.5em;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem;display:flex;align-items:center;gap:.6rem}
+.step-num::before{content:'';width:20px;height:1px;background:var(--gold)}
+.step-title{font-family:var(--display);font-size:clamp(1.4rem,4vw,2rem);color:#fff;letter-spacing:.04em;line-height:1.1;margin-bottom:.4rem}
+.step-hint{font-family:var(--serif);font-style:italic;font-size:.88rem;color:rgba(255,255,255,.35);line-height:1.7}
+
+/* ── CHOICE GRID ── */
+.choice-grid{display:grid;gap:.8rem;margin-bottom:1.5rem}
+.choice-grid.cols-2{grid-template-columns:1fr 1fr}
+.choice-grid.cols-3{grid-template-columns:1fr 1fr 1fr}
+@media(max-width:500px){.choice-grid.cols-2,.choice-grid.cols-3{grid-template-columns:1fr}}
+
+.choice-btn{display:flex;flex-direction:column;align-items:flex-start;gap:.5rem;padding:1.2rem 1.4rem;background:rgba(255,255,255,.03);border:1.5px solid rgba(193,154,107,.14);color:#fff;font-family:var(--sans);cursor:pointer;transition:all .28s;text-align:left;touch-action:manipulation;position:relative;overflow:hidden;border-radius:2px}
+.choice-btn::before{content:'';position:absolute;inset:0;background:rgba(193,154,107,.06);transform:scaleX(0);transform-origin:left;transition:transform .35s var(--ease)}
+.choice-btn:hover::before,.choice-btn.selected::before{transform:scaleX(1)}
+.choice-btn:hover{border-color:rgba(193,154,107,.4)}
+.choice-btn.selected{border-color:var(--gold);background:rgba(193,154,107,.07)}
+.choice-btn.selected .choice-check{opacity:1;transform:scale(1)}
+.choice-icon{font-size:1.6rem;line-height:1;display:block}
+.choice-label{font-family:var(--display);font-size:.75rem;letter-spacing:.08em;color:#fff;display:block}
+.choice-desc{font-size:.7rem;color:rgba(255,255,255,.38);line-height:1.5;display:block}
+.choice-check{position:absolute;top:.7rem;right:.8rem;width:20px;height:20px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(0.5);transition:all .25s var(--ease);font-size:.6rem;color:var(--navy)}
+
+/* ── TOGGLE OPTION (yes/no style) ── */
+.toggle-grid{display:flex;gap:.6rem;margin-bottom:1.2rem;flex-wrap:wrap}
+.toggle-btn{flex:1;min-width:100px;padding:.85rem 1.2rem;border:1.5px solid rgba(193,154,107,.14);background:rgba(255,255,255,.03);color:rgba(255,255,255,.5);font-family:var(--display);font-size:.62rem;letter-spacing:.1em;cursor:pointer;transition:all .25s;border-radius:2px;text-align:center}
+.toggle-btn.selected{border-color:var(--gold);background:rgba(193,154,107,.1);color:#fff}
+
+/* ── INPUT FIELDS ── */
+.field-block{margin-bottom:1.2rem}
+.field-label{font-size:.5rem;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:.42rem;display:block}
+.field-input{width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(193,154,107,.14);color:#fff;font-family:var(--sans);font-size:.88rem;padding:.72rem 1rem;transition:border-color .25s;outline:none;resize:vertical;border-radius:0;-webkit-appearance:none}
+.field-input::placeholder{color:rgba(255,255,255,.15)}
+.field-input:focus{border-color:rgba(193,154,107,.45);background:rgba(193,154,107,.03)}
+.field-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+@media(max-width:440px){.field-grid-2{grid-template-columns:1fr}}
+
+/* ── SERVICE CHECKLIST ── */
+.svc-list{display:flex;flex-direction:column;gap:.4rem;margin-bottom:1rem}
+.svc-item{display:flex;align-items:center;gap:.7rem;padding:.65rem .9rem;background:rgba(255,255,255,.025);border:1px solid rgba(193,154,107,.1);cursor:pointer;transition:all .22s;border-radius:2px;touch-action:manipulation}
+.svc-item:hover{background:rgba(193,154,107,.05);border-color:rgba(193,154,107,.25)}
+.svc-item.checked{background:rgba(193,154,107,.07);border-color:rgba(193,154,107,.28)}
+.svc-item input[type=checkbox]{width:16px;height:16px;accent-color:var(--gold);cursor:pointer;flex-shrink:0}
+.svc-item label{font-size:.78rem;color:rgba(255,255,255,.6);cursor:pointer;flex:1;line-height:1.35}
+.svc-item.checked label{color:rgba(255,255,255,.85)}
+
+/* ── DIVIDER ── */
+.wiz-divider{width:100%;height:1px;background:rgba(193,154,107,.1);margin:1.6rem 0}
+
+/* ── NAV BUTTONS ── */
+.wiz-nav{display:flex;gap:.8rem;margin-top:2rem;align-items:center}
+.btn-back{padding:.78rem 1.6rem;background:transparent;border:1px solid rgba(193,154,107,.2);color:rgba(255,255,255,.4);font-family:var(--display);font-size:.58rem;letter-spacing:.16em;cursor:pointer;transition:all .25s;border-radius:2px}
+.btn-back:hover{border-color:rgba(193,154,107,.45);color:rgba(255,255,255,.7)}
+.btn-next{flex:1;padding:.85rem 2rem;background:var(--gold);color:var(--navy);font-family:var(--display);font-size:.65rem;letter-spacing:.18em;cursor:pointer;transition:all .35s var(--ease);border:none;position:relative;overflow:hidden;border-radius:2px}
+.btn-next::after{content:'';position:absolute;inset:0;background:var(--gold2);transform:scaleX(0);transform-origin:left;transition:transform .4s var(--ease)}
+.btn-next span{position:relative;z-index:1}
+.btn-next:hover::after{transform:scaleX(1)}
+.btn-next:hover{transform:translateY(-1px);box-shadow:0 8px 30px rgba(193,154,107,.3)}
+.btn-next:disabled{opacity:.4;pointer-events:none}
+
+/* ── STEP 7 EXPORT ── */
+.export-cards{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+@media(max-width:480px){.export-cards{grid-template-columns:1fr}}
+.export-card{border:1.5px solid rgba(193,154,107,.18);padding:1.4rem;background:rgba(255,255,255,.025);cursor:pointer;transition:all .3s;border-radius:2px;text-align:center;position:relative;overflow:hidden}
+.export-card::before{content:'';position:absolute;inset:0;background:rgba(193,154,107,.06);transform:scaleY(0);transform-origin:bottom;transition:transform .4s var(--ease)}
+.export-card:hover::before,.export-card.selected::before{transform:scaleY(1)}
+.export-card.selected{border-color:var(--gold)}
+.export-card-icon{font-size:2.2rem;display:block;margin-bottom:.6rem;position:relative;z-index:1}
+.export-card-label{font-family:var(--display);font-size:.72rem;letter-spacing:.1em;color:#fff;display:block;margin-bottom:.3rem;position:relative;z-index:1}
+.export-card-desc{font-size:.62rem;color:rgba(255,255,255,.35);line-height:1.5;display:block;position:relative;z-index:1}
+.export-check{position:absolute;top:.6rem;right:.7rem;width:22px;height:22px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;color:var(--navy);opacity:0;transform:scale(0.4);transition:all .25s var(--ease);z-index:2}
+.export-card.selected .export-check{opacity:1;transform:scale(1)}
+
+.btn-export{width:100%;padding:1rem 2rem;background:var(--gold);color:var(--navy);font-family:var(--display);font-size:.7rem;letter-spacing:.2em;cursor:pointer;transition:all .4s var(--ease);border:none;position:relative;overflow:hidden;border-radius:2px;margin-bottom:.8rem}
+.btn-export::after{content:'';position:absolute;inset:0;background:var(--gold2);transform:translateX(-101%);transition:transform .45s var(--ease)}
+.btn-export span{position:relative;z-index:1}
+.btn-export:hover::after{transform:translateX(0)}
+.btn-export:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(193,154,107,.3)}
+.btn-export:disabled{opacity:.45;pointer-events:none;transform:none;box-shadow:none}
+.btn-wa{width:100%;padding:.85rem 2rem;background:rgba(37,211,102,.12);color:rgba(37,211,102,.9);font-family:var(--display);font-size:.65rem;letter-spacing:.18em;cursor:pointer;transition:all .3s;border:1px solid rgba(37,211,102,.25);border-radius:2px;margin-bottom:.8rem}
+.btn-wa:hover{background:rgba(37,211,102,.2);border-color:rgba(37,211,102,.5)}
+.btn-cal{width:100%;padding:.85rem 2rem;background:rgba(255,255,255,.04);color:rgba(255,255,255,.45);font-family:var(--display);font-size:.62rem;letter-spacing:.16em;cursor:pointer;transition:all .3s;border:1px solid rgba(255,255,255,.1);border-radius:2px}
+.btn-cal:hover{background:rgba(255,255,255,.07);color:rgba(255,255,255,.65)}
+
+/* Summary panel */
+.summary-box{background:rgba(193,154,107,.05);border:1px solid rgba(193,154,107,.15);border-left:3px solid var(--gold);padding:1.1rem 1.3rem;margin-bottom:1.5rem;border-radius:0 2px 2px 0}
+.summary-row{display:flex;align-items:flex-start;gap:.6rem;padding:.28rem 0;font-size:.76rem;color:rgba(255,255,255,.55);line-height:1.4}
+.summary-row strong{color:rgba(255,255,255,.8);font-weight:400;min-width:90px;flex-shrink:0}
+
+/* ── GENERATING OVERLAY ── */
+.gen-overlay{position:fixed;inset:0;background:rgba(7,17,31,.92);z-index:800;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.2rem;opacity:0;pointer-events:none;transition:opacity .3s}
+.gen-overlay.show{opacity:1;pointer-events:all}
+.gen-spinner{width:40px;height:40px;border:2px solid rgba(193,154,107,.15);border-top-color:var(--gold);border-radius:50%;animation:spin .85s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.gen-text{font-family:var(--display);font-size:.65rem;letter-spacing:.22em;color:var(--gold)}
+.gen-sub{font-size:.62rem;color:rgba(255,255,255,.3);text-align:center;max-width:260px;line-height:1.6}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:1.8rem;left:50%;transform:translateX(-50%) translateY(120px);background:var(--navy3);border:1px solid rgba(193,154,107,.3);color:var(--gold);font-family:var(--display);font-size:.58rem;letter-spacing:.13em;padding:.8rem 1.8rem;z-index:9999;opacity:0;transition:all .4s var(--ease);white-space:nowrap;border-radius:2px}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+
+/* ═══════════════════════════════════════════════════
+   DOCUMENT PREVIEWS (hidden, captured by html2canvas)
+═══════════════════════════════════════════════════ */
+
+/* A5 FLYER */
+#a5-preview{position:fixed;left:-9999px;top:0;width:559px;height:794px;background:#fff;font-family:var(--sans);overflow:hidden;z-index:-1}
+.a5-head{background:var(--navy);padding:2rem 2.2rem 1.5rem;position:relative;overflow:hidden;flex-shrink:0}
+.a5-head::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.a5-deco{position:absolute;top:-28px;right:-28px;width:160px;height:160px;border:1px solid rgba(193,154,107,.06);border-radius:50%}
+.a5-deco2{position:absolute;top:-14px;right:-14px;width:100px;height:100px;border:1px solid rgba(193,154,107,.04);border-radius:50%}
+.a5-eyebrow{font-size:.45rem;letter-spacing:.52em;text-transform:uppercase;color:var(--gold);margin-bottom:.8rem;display:flex;align-items:center;gap:.5rem}
+.a5-eyebrow::before{content:'';width:14px;height:1px;background:var(--gold);flex-shrink:0}
+.a5-tour-name{font-family:var(--display);font-size:1.55rem;line-height:1.06;letter-spacing:.04em;color:#fff;margin-bottom:.25rem}
+.a5-tour-sub{font-family:var(--serif);font-style:italic;font-size:.78rem;color:rgba(255,255,255,.38);margin-bottom:1rem}
+.a5-price-pill{display:inline-flex;align-items:baseline;gap:.28rem;background:rgba(193,154,107,.1);border:1px solid rgba(193,154,107,.24);padding:.35rem .85rem}
+.a5-price-amount{font-family:var(--serif);font-size:1.55rem;color:var(--gold);font-weight:300;line-height:1}
+.a5-price-label{font-size:.4rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.3)}
+.a5-price-note{font-size:.5rem;color:rgba(255,255,255,.26);font-style:italic;margin-top:.22rem}
+
+.a5-validity-band{background:rgba(193,154,107,.12);border-bottom:1px solid rgba(193,154,107,.2);padding:.55rem 2.2rem;display:flex;align-items:center;justify-content:space-between}
+.a5-validity-label{font-size:.35rem;letter-spacing:.38em;text-transform:uppercase;color:var(--gold)}
+.a5-validity-val{font-family:var(--serif);font-style:italic;font-size:.85rem;color:var(--text-dark)}
+.a5-client-info{font-family:var(--display);font-size:.6rem;color:var(--text-dark);letter-spacing:.04em}
+
+.a5-body{padding:1.1rem 2.2rem;flex:1;overflow:hidden}
+.a5-sec-head{font-size:.37rem;letter-spacing:.38em;text-transform:uppercase;color:var(--gold);margin-bottom:.55rem;display:flex;align-items:center;gap:.4rem}
+.a5-sec-head::after{content:'';flex:1;height:1px;background:rgba(193,154,107,.12)}
+.a5-sec{margin-bottom:1.1rem}
+.a5-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:.35rem}
+.a5-info-item{background:rgba(193,154,107,.04);border:1px solid rgba(193,154,107,.08);padding:.45rem .7rem}
+.a5-info-item.hi{background:rgba(193,154,107,.08);border-color:rgba(193,154,107,.2)}
+.a5-info-icon{font-size:.65rem;display:block;margin-bottom:.15rem}
+.a5-info-lbl{font-size:.32rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.06rem}
+.a5-info-val{font-size:.6rem;color:var(--text-dark);line-height:1.3;font-weight:400}
+.a5-info-item.hi .a5-info-val{font-family:var(--serif);font-style:italic;font-size:.72rem}
+.a5-checks{display:flex;flex-direction:column;gap:.2rem}
+.a5-check-item{display:flex;align-items:flex-start;gap:.45rem;padding:.2rem 0;border-bottom:1px solid rgba(193,154,107,.05)}
+.a5-check-item:last-child{border-bottom:none}
+.a5-check-icon{width:9px;height:9px;background:var(--gold);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.08rem}
+.a5-check-icon svg{width:5px;height:5px;fill:none;stroke:#07111f;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.a5-check-text{font-size:.6rem;color:var(--text-dark);line-height:1.35}
+.a5-notes-box{background:rgba(193,154,107,.04);border-left:2px solid var(--gold);padding:.6rem .8rem}
+.a5-notes-text{font-size:.58rem;color:var(--text-mid);line-height:1.7}
+.a5-desc-text{font-family:var(--serif);font-style:italic;font-size:.68rem;line-height:1.82;color:var(--text-mid)}
+
+.a5-footer{background:var(--navy);padding:.85rem 2.2rem;display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
+.a5-footer-brand{font-family:var(--display);font-size:.44rem;letter-spacing:.2em;color:#fff}
+.a5-footer-brand span{display:block;font-family:var(--sans);font-size:.34rem;letter-spacing:.25em;color:var(--gold);margin-top:.12rem;font-weight:300}
+.a5-footer-contact{text-align:right;font-size:.44rem;color:rgba(255,255,255,.3);line-height:1.7}
+.a5-footer-right{display:flex;align-items:center;gap:.8rem}
+.a5-qr{width:46px;height:46px;object-fit:contain;border:1px solid rgba(193,154,107,.2);padding:2px;background:#fff}
+
+/* MOBILE 16:9 OFFER */
+#mob-preview{position:fixed;left:-9999px;top:0;width:405px;height:720px;background:var(--navy);font-family:var(--sans);overflow:hidden;z-index:-1;display:flex;flex-direction:column}
+.mob-bg{position:absolute;inset:0;background:linear-gradient(160deg,#0a1929 0%,#07111f 50%,#0c1b30 100%)}
+.mob-deco-circle{position:absolute;top:-60px;right:-60px;width:260px;height:260px;border:1px solid rgba(193,154,107,.05);border-radius:50%}
+.mob-deco-circle2{position:absolute;top:-30px;right:-30px;width:160px;height:160px;border:1px solid rgba(193,154,107,.04);border-radius:50%}
+.mob-gold-line{position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.mob-content{position:relative;z-index:2;display:flex;flex-direction:column;height:100%;padding:0}
+
+.mob-header{padding:1.5rem 1.6rem 1.1rem;flex-shrink:0}
+.mob-eyebrow{font-size:.38rem;letter-spacing:.5em;text-transform:uppercase;color:var(--gold);margin-bottom:.7rem;display:flex;align-items:center;gap:.45rem}
+.mob-eyebrow::before{content:'';width:12px;height:1px;background:var(--gold);flex-shrink:0}
+.mob-title{font-family:var(--display);font-size:1.35rem;line-height:1.05;letter-spacing:.04em;color:#fff;margin-bottom:.2rem}
+.mob-sub{font-family:var(--serif);font-style:italic;font-size:.72rem;color:rgba(255,255,255,.35);margin-bottom:.85rem}
+.mob-price-row{display:flex;align-items:center;gap:.7rem}
+.mob-price-pill{display:inline-flex;align-items:baseline;gap:.22rem;background:rgba(193,154,107,.12);border:1px solid rgba(193,154,107,.28);padding:.3rem .8rem}
+.mob-price-big{font-family:var(--serif);font-size:1.45rem;color:var(--gold);font-weight:300;line-height:1}
+.mob-price-lbl{font-size:.38rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.28)}
+
+.mob-validity-pill{display:inline-flex;align-items:center;gap:.35rem;background:rgba(193,154,107,.08);border:1px solid rgba(193,154,107,.18);padding:.28rem .75rem}
+.mob-validity-text{font-size:.52rem;color:rgba(255,255,255,.5);letter-spacing:.04em}
+.mob-validity-val{font-size:.52rem;color:var(--gold)}
+
+.mob-band{background:rgba(193,154,107,.08);border-top:1px solid rgba(193,154,107,.12);border-bottom:1px solid rgba(193,154,107,.12);padding:.5rem 1.6rem;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.mob-band-item{text-align:left}
+.mob-band-lbl{font-size:.3rem;letter-spacing:.35em;text-transform:uppercase;color:rgba(193,154,107,.6);display:block;margin-bottom:.1rem}
+.mob-band-val{font-family:var(--serif);font-style:italic;font-size:.72rem;color:#fff}
+
+.mob-body{flex:1;padding:.7rem 1.6rem;overflow:hidden;display:flex;flex-direction:column;gap:.7rem}
+.mob-sec-head{font-size:.33rem;letter-spacing:.38em;text-transform:uppercase;color:var(--gold);margin-bottom:.4rem;display:flex;align-items:center;gap:.35rem}
+.mob-sec-head::after{content:'';flex:1;height:1px;background:rgba(193,154,107,.1)}
+
+.mob-checks-grid{display:grid;grid-template-columns:1fr 1fr;gap:.22rem}
+.mob-check{display:flex;align-items:flex-start;gap:.35rem;padding:.12rem 0}
+.mob-check-icon{width:8px;height:8px;background:var(--gold);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.1rem}
+.mob-check-icon svg{width:4.5px;height:4.5px;fill:none;stroke:#07111f;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.mob-check-text{font-size:.56rem;color:rgba(255,255,255,.65);line-height:1.32}
+
+.mob-info-row{display:flex;gap:.35rem;flex-wrap:wrap}
+.mob-info-chip{background:rgba(255,255,255,.04);border:1px solid rgba(193,154,107,.1);padding:.3rem .6rem;display:flex;align-items:center;gap:.3rem}
+.mob-info-chip-icon{font-size:.6rem}
+.mob-info-chip-text{font-size:.56rem;color:rgba(255,255,255,.55)}
+
+.mob-notes{background:rgba(193,154,107,.05);border-left:2px solid var(--gold);padding:.45rem .7rem}
+.mob-notes-text{font-size:.55rem;color:rgba(255,255,255,.4);line-height:1.65}
+
+.mob-footer{background:rgba(0,0,0,.4);border-top:1px solid rgba(193,154,107,.12);padding:.65rem 1.6rem;flex-shrink:0;display:flex;justify-content:space-between;align-items:center}
+.mob-footer-brand{font-family:var(--display);font-size:.42rem;letter-spacing:.18em;color:#fff}
+.mob-footer-brand span{display:block;font-family:var(--sans);font-size:.32rem;letter-spacing:.22em;color:var(--gold);margin-top:.1rem}
+.mob-footer-contact{text-align:right;font-size:.42rem;color:rgba(255,255,255,.25);line-height:1.65}
+.mob-footer-right{display:flex;align-items:center;gap:.6rem}
+.mob-qr{width:40px;height:40px;object-fit:contain;border:1px solid rgba(193,154,107,.2);padding:2px;background:#fff}
+
+/* Validity date badge for offer */
+.mob-offer-badge{position:absolute;bottom:80px;right:16px;background:var(--gold);color:var(--navy);font-family:var(--display);font-size:.4rem;letter-spacing:.12em;padding:.35rem .65rem;z-index:3;text-align:center}
+.mob-offer-badge-lbl{display:block;font-size:.3rem;letter-spacing:.28em;margin-bottom:.1rem;opacity:.7}
+.mob-offer-badge-val{display:block;font-size:.52rem}
+</style>
+</head>
+<body>
+
+<div class="toast" id="toast"></div>
+
+<!-- GENERATING OVERLAY -->
+<div class="gen-overlay" id="genOverlay">
+  <div class="gen-spinner"></div>
+  <div class="gen-text" id="genText">Generando…</div>
+  <div class="gen-sub" id="genSub">Esto puede tardar unos segundos</div>
+</div>
+
+<!-- TOP BAR -->
+<header class="topbar">
+  <div>
+    <span class="topbar-brand">GAFF CLASSIC TOURS</span>
+    <span class="topbar-sub">Creador de documentos</span>
+  </div>
+  <div class="topbar-right">
+    <div class="lang-toggle">
+      <button class="lang-btn active" id="lbES" onclick="setLang('es')">ES</button>
+      <button class="lang-btn" id="lbEN" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+</header>
+
+<!-- PROGRESS BAR -->
+<div class="wiz-progress" id="wizProgress"></div>
+
+<!-- WIZARD BODY -->
+<div class="wiz-body">
+
+<!-- ══ STEP 1: Tipo de documento ══ -->
+<div class="step-card active" id="step1">
+  <div class="step-header">
+    <div class="step-num" id="s1-num">Paso 1 de 7</div>
+    <h1 class="step-title" id="s1-title">¿Qué quieres crear?</h1>
+    <p class="step-hint" id="s1-hint">Elige el tipo de documento según el uso que vayas a darle.</p>
+  </div>
+  <div class="choice-grid cols-2">
+    <button class="choice-btn" onclick="selectDocType('flyer')" id="choice-flyer">
+      <span class="choice-icon">🖨️</span>
+      <span class="choice-label" id="cl-flyer">Flyer A5</span>
+      <span class="choice-desc" id="cd-flyer">Para imprimir o enviar como imagen. Formato A5, ideal para confirmaciones y presupuestos.</span>
+      <span class="choice-check">✓</span>
+    </button>
+    <button class="choice-btn" onclick="selectDocType('offer')" id="choice-offer">
+      <span class="choice-icon">📱</span>
+      <span class="choice-label" id="cl-offer">Oferta móvil</span>
+      <span class="choice-desc" id="cd-offer">Formato vertical 16:9 optimizado para pantalla. Ideal para Stories, WhatsApp y redes sociales.</span>
+      <span class="choice-check">✓</span>
+    </button>
+  </div>
+  <div class="wiz-nav">
+    <button class="btn-next" id="s1-next" onclick="goStep(2)" disabled><span id="s1-next-lbl">Siguiente →</span></button>
+  </div>
+</div>
+
+<!-- ══ STEP 2: Experiencia ══ -->
+<div class="step-card" id="step2">
+  <div class="step-header">
+    <div class="step-num" id="s2-num">Paso 2 de 7</div>
+    <h1 class="step-title" id="s2-title">¿Qué experiencia?</h1>
+    <p class="step-hint" id="s2-hint">Selecciona el tour o elige personalizado para introducir tus propios datos.</p>
+  </div>
+  <div class="choice-grid cols-2">
+    <button class="choice-btn" onclick="selectTour('morning')" id="choice-morning">
+      <span class="choice-icon">☀️</span>
+      <span class="choice-label">Morning Sail</span>
+      <span class="choice-desc" id="cd-morning">10:00 – 15:00 h · 5 horas · desde 400€</span>
+      <span class="choice-check">✓</span>
+    </button>
+    <button class="choice-btn" onclick="selectTour('sunset')" id="choice-sunset">
+      <span class="choice-icon">🌅</span>
+      <span class="choice-label">Sunset Private</span>
+      <span class="choice-desc" id="cd-sunset">16:00 – 21:00 h · 5 horas · desde 400€</span>
+      <span class="choice-check">✓</span>
+    </button>
+    <button class="choice-btn" onclick="selectTour('essential')" id="choice-essential">
+      <span class="choice-icon">⚓</span>
+      <span class="choice-label">Essential</span>
+      <span class="choice-desc" id="cd-essential">3 horas · desde 300€ · perfecto para familias</span>
+      <span class="choice-check">✓</span>
+    </button>
+    <button class="choice-btn" onclick="selectTour('custom')" id="choice-custom">
+      <span class="choice-icon">✦</span>
+      <span class="choice-label" id="cl-custom">Personalizado</span>
+      <span class="choice-desc" id="cd-custom">Introduce tus propios datos, precio y descripción.</span>
+      <span class="choice-check">✓</span>
+    </button>
+  </div>
+  <div class="wiz-nav">
+    <button class="btn-back" onclick="goStep(1)" id="s2-back">← Atrás</button>
+    <button class="btn-next" id="s2-next" onclick="goStep(3)" disabled><span id="s2-next-lbl">Siguiente →</span></button>
+  </div>
+</div>
+
+<!-- ══ STEP 3: Datos cliente, fecha y detalles ══ -->
+<div class="step-card" id="step3">
+  <div class="step-header">
+    <div class="step-num" id="s3-num">Paso 3 de 7</div>
+    <h1 class="step-title" id="s3-title">Detalles del documento</h1>
+    <p class="step-hint" id="s3-hint">Rellena lo que necesites. Puedes dejar campos vacíos si no quieres mostrarlos.</p>
+  </div>
+
+  <!-- IDIOMA DEL DOCUMENTO -->
+  <div class="field-block">
+    <label class="field-label" id="s3-doclang-lbl">Idioma del documento</label>
+    <div class="toggle-grid">
+      <button class="toggle-btn selected" id="dl-es" onclick="selectDocLang('es')">🇪🇸 Español</button>
+      <button class="toggle-btn" id="dl-en" onclick="selectDocLang('en')">🇬🇧 English</button>
+    </div>
+  </div>
+
+  <div class="wiz-divider"></div>
+
+  <!-- NOMBRE DEL TOUR (editable) -->
+  <div class="field-block">
+    <label class="field-label" id="s3-tourname-lbl">Nombre del tour</label>
+    <input class="field-input" id="tourName" type="text" placeholder="Ej: Morning Sail Experience" oninput="updateDirty()">
+  </div>
+  <div class="field-block">
+    <label class="field-label" id="s3-toursub-lbl">Subtítulo (opcional)</label>
+    <input class="field-input" id="tourSub" type="text" placeholder="Ej: Tour matutino · Velero clásico · 5 horas" oninput="updateDirty()">
+  </div>
+
+  <div class="wiz-divider"></div>
+
+  <!-- CLIENTE Y FECHA -->
+  <div class="field-block">
+    <label class="field-label" id="s3-name-lbl">Nombre del cliente (opcional)</label>
+    <input class="field-input" id="clientName" type="text" placeholder="Ej: Familia García" oninput="updateDirty()">
+  </div>
+  <div class="field-grid-2">
+    <div class="field-block">
+      <label class="field-label" id="s3-pax-lbl">Número de personas</label>
+      <input class="field-input" id="clientPax" type="number" min="1" max="20" placeholder="Ej: 4" oninput="updateDirty()">
+    </div>
+    <div class="field-block">
+      <label class="field-label" id="s3-date-lbl">Fecha de salida</label>
+      <input class="field-input" id="bookingDate" type="date" onchange="updateDirty()">
+    </div>
+  </div>
+
+  <!-- Offer-only: validity -->
+  <div id="validity-block" style="display:none">
+    <div class="field-grid-2">
+      <div class="field-block">
+        <label class="field-label" id="s3-validity-lbl">Válido hasta (opcional)</label>
+        <input class="field-input" id="validityDate" type="date" onchange="updateDirty()">
+      </div>
+      <div class="field-block">
+        <label class="field-label" id="s3-offernote-lbl">Texto de la oferta</label>
+        <input class="field-input" id="offerNote" type="text" placeholder="Ej: Precio especial verano" oninput="updateDirty()">
+      </div>
+    </div>
+  </div>
+
+  <div class="wiz-divider"></div>
+
+  <!-- LOGÍSTICA -->
+  <div class="field-grid-2">
+    <div class="field-block">
+      <label class="field-label" id="s3-dep-lbl">Hora de salida</label>
+      <input class="field-input" id="depTime" type="text" placeholder="Ej: 10:00 h" oninput="updateDirty()">
+    </div>
+    <div class="field-block">
+      <label class="field-label" id="s3-ret-lbl">Hora de regreso</label>
+      <input class="field-input" id="retTime" type="text" placeholder="Ej: 15:00 h" oninput="updateDirty()">
+    </div>
+    <div class="field-block">
+      <label class="field-label" id="s3-dur-lbl">Duración</label>
+      <input class="field-input" id="duration" type="text" placeholder="Ej: 5 horas" oninput="updateDirty()">
+    </div>
+    <div class="field-block">
+      <label class="field-label" id="s3-cap-lbl">Aforo máximo</label>
+      <input class="field-input" id="capacity" type="text" placeholder="Ej: 8 personas" oninput="updateDirty()">
+    </div>
+  </div>
+  <div class="field-block">
+    <label class="field-label" id="s3-meet-lbl">Punto de encuentro</label>
+    <input class="field-input" id="meetPoint" type="text" placeholder="Ej: Club de Mar, Amarre 1007, Palma" oninput="updateDirty()">
+  </div>
+
+  <div class="wiz-divider"></div>
+
+  <!-- CONTACTO -->
+  <div class="field-grid-2">
+    <div class="field-block">
+      <label class="field-label" id="s3-phone-lbl">WhatsApp / Teléfono</label>
+      <input class="field-input" id="phone" type="tel" placeholder="+34 680 19 30 06" oninput="updateDirty()">
+    </div>
+    <div class="field-block">
+      <label class="field-label" id="s3-email-lbl">Email</label>
+      <input class="field-input" id="email" type="email" placeholder="stewartssecret@gmail.com" oninput="updateDirty()">
+    </div>
+  </div>
+  <div class="field-block">
+    <label class="field-label" id="s3-web-lbl">Web</label>
+    <input class="field-input" id="website" type="text" placeholder="gaffmallorca.tours" oninput="updateDirty()">
+  </div>
+
+  <div class="wiz-nav">
+    <button class="btn-back" onclick="goStep(2)" id="s3-back">← Atrás</button>
+    <button class="btn-next" onclick="goStep(4)" id="s3-next"><span id="s3-next-lbl">Siguiente →</span></button>
+  </div>
+</div>
+
+<!-- ══ STEP 4: Precio ══ -->
+<div class="step-card" id="step4">
+  <div class="step-header">
+    <div class="step-num" id="s4-num">Paso 4 de 7</div>
+    <h1 class="step-title" id="s4-title">Precio</h1>
+    <p class="step-hint" id="s4-hint">Introduce el precio total o deja en blanco si no quieres mostrarlo.</p>
+  </div>
+  <div class="field-grid-2">
+    <div class="field-block">
+      <label class="field-label" id="s4-amount-lbl">Importe</label>
+      <input class="field-input" id="price" type="text" placeholder="Ej: 600" oninput="updateDirty()">
+    </div>
+    <div class="field-block">
+      <label class="field-label" id="s4-currency-lbl">Divisa</label>
+      <select class="field-input" id="currency" onchange="updateDirty()">
+        <option value="€">€ EUR</option>
+        <option value="$">$ USD</option>
+        <option value="£">£ GBP</option>
+      </select>
+    </div>
+  </div>
+  <div class="field-block">
+    <label class="field-label" id="s4-priceby-lbl">Por</label>
+    <div class="toggle-grid">
+      <button class="toggle-btn selected" id="pb-barco" onclick="selectPriceBy('barco')">barco</button>
+      <button class="toggle-btn" id="pb-persona" onclick="selectPriceBy('persona')">persona</button>
+      <button class="toggle-btn" id="pb-grupo" onclick="selectPriceBy('grupo')">grupo</button>
+    </div>
+  </div>
+  <div class="field-block">
+    <label class="field-label" id="s4-note-lbl">Nota de precio (opcional)</label>
+    <input class="field-input" id="priceNote" type="text" placeholder="Ej: Precio por barco completo" oninput="updateDirty()">
+  </div>
+  <div class="wiz-nav">
+    <button class="btn-back" onclick="goStep(3)" id="s4-back">← Atrás</button>
+    <button class="btn-next" onclick="goStep(5)" id="s4-next"><span id="s4-next-lbl">Siguiente →</span></button>
+  </div>
+</div>
+
+<!-- ══ STEP 5: Servicios ══ -->
+<div class="step-card" id="step5">
+  <div class="step-header">
+    <div class="step-num" id="s5-num">Paso 5 de 7</div>
+    <h1 class="step-title" id="s5-title">¿Qué servicios incluye?</h1>
+    <p class="step-hint" id="s5-hint">Marca o desmarca los servicios que quieres mostrar en el documento.</p>
+  </div>
+  <div class="svc-list" id="svcList"></div>
+  <div class="wiz-nav">
+    <button class="btn-back" onclick="goStep(4)" id="s5-back">← Atrás</button>
+    <button class="btn-next" onclick="goStep(6)" id="s5-next"><span id="s5-next-lbl">Siguiente →</span></button>
+  </div>
+</div>
+
+<!-- ══ STEP 6: Opciones extra ══ -->
+<div class="step-card" id="step6">
+  <div class="step-header">
+    <div class="step-num" id="s6-num">Paso 6 de 7</div>
+    <h1 class="step-title" id="s6-title">Opciones finales</h1>
+    <p class="step-hint" id="s6-hint">Ajustes de presentación del documento.</p>
+  </div>
+
+  <div class="field-block">
+    <label class="field-label" id="s6-notes-lbl">Condiciones / Notas (opcional)</label>
+    <div style="display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.5rem">
+      <button class="toggle-btn" style="flex:none;padding:.5rem .9rem;font-size:.54rem" onclick="loadNotes('cancel48')" id="nb-c48">⏱ Cancelación 48h</button>
+      <button class="toggle-btn" style="flex:none;padding:.5rem .9rem;font-size:.54rem" onclick="loadNotes('cancel24')" id="nb-c24">⏱ Cancelación 24h</button>
+      <button class="toggle-btn" style="flex:none;padding:.5rem .9rem;font-size:.54rem" onclick="loadNotes('tiempo')" id="nb-tiempo">⛈ Mal tiempo</button>
+      <button class="toggle-btn" style="flex:none;padding:.5rem .9rem;font-size:.54rem" onclick="loadNotes('sunset')" id="nb-sunset">🌅 Sunset</button>
+    </div>
+    <textarea class="field-input" id="notes" rows="3" style="min-height:80px" oninput="updateDirty()"></textarea>
+  </div>
+
+  <div class="wiz-divider"></div>
+
+  <div class="field-block">
+    <label class="field-label" id="s6-qr-lbl">¿Añadir código QR de la web?</label>
+    <div class="toggle-grid">
+      <button class="toggle-btn selected" id="qr-si" onclick="selectQR(true)" id="s6-qr-yes">Sí, añadir QR</button>
+      <button class="toggle-btn" id="qr-no" onclick="selectQR(false)" id="s6-qr-no">No, sin QR</button>
+    </div>
+    <p style="font-size:.6rem;color:rgba(255,255,255,.25);margin-top:.4rem;line-height:1.6" id="s6-qr-hint">El QR llevará a los visitantes a gaffmallorca.tours</p>
+  </div>
+
+  <div class="wiz-nav">
+    <button class="btn-back" onclick="goStep(5)" id="s6-back">← Atrás</button>
+    <button class="btn-next" onclick="goStep(7)" id="s6-next"><span id="s6-next-lbl">Ver y exportar →</span></button>
+  </div>
+</div>
+
+<!-- ══ STEP 7: Exportar ══ -->
+<div class="step-card" id="step7">
+  <div class="step-header">
+    <div class="step-num" id="s7-num">Paso 7 de 7</div>
+    <h1 class="step-title" id="s7-title">Listo para exportar</h1>
+    <p class="step-hint" id="s7-hint">Revisa el resumen y descarga o comparte tu documento.</p>
+  </div>
+
+  <div class="summary-box" id="summaryBox"></div>
+
+  <button class="btn-export" onclick="exportDoc()" id="btnExport">
+    <span id="btnExportLbl">⬇ Descargar imagen</span>
+  </button>
+  <button class="btn-wa" onclick="shareWA()">
+    <span id="btnWALbl">💬 Compartir por WhatsApp</span>
+  </button>
+  <button class="btn-cal" onclick="exportCal()" id="btnCal">
+    <span id="btnCalLbl">📅 Añadir al calendario</span>
+  </button>
+
+  <div class="wiz-divider"></div>
+  <button class="btn-back" onclick="goStep(6)" id="s7-back" style="width:100%;text-align:center">← Editar algo</button>
+</div>
+
+</div><!-- /wiz-body -->
+
+<!-- ══════════════════════════════════════════════
+     HIDDEN PREVIEWS (rendered off-screen)
+══════════════════════════════════════════════ -->
+
+<!-- A5 FLYER -->
+<div id="a5-preview" style="display:flex;flex-direction:column">
+  <div class="a5-head">
+    <div class="a5-deco"></div><div class="a5-deco2"></div>
+    <div class="a5-eyebrow">Gaff Classic Tours · Mallorca</div>
+    <div class="a5-tour-name" id="a5-name">—</div>
+    <div class="a5-tour-sub" id="a5-sub"></div>
+    <div id="a5-price-wrap">
+      <div class="a5-price-pill">
+        <span class="a5-price-amount" id="a5-price"></span>
+        <span class="a5-price-label" id="a5-price-by"></span>
+      </div>
+      <div class="a5-price-note" id="a5-price-note"></div>
+    </div>
+  </div>
+
+  <div class="a5-validity-band" id="a5-band" style="display:none">
+    <div>
+      <span class="a5-validity-label" id="a5-band-lbl">CONFIRMACIÓN DE RESERVA</span>
+      <div class="a5-validity-val" id="a5-date"></div>
+    </div>
+    <div id="a5-client-wrap" style="text-align:right">
+      <div class="a5-client-info" id="a5-cname"></div>
+      <div style="font-size:.52rem;color:var(--text-mid);margin-top:.06rem" id="a5-cpax"></div>
+    </div>
+  </div>
+
+  <div class="a5-body">
+    <div class="a5-sec" id="a5-info-sec" style="display:none">
+      <div class="a5-sec-head" id="a5-info-head">Detalles</div>
+      <div class="a5-info-grid" id="a5-info-grid"></div>
+    </div>
+    <div class="a5-sec" id="a5-check-sec" style="display:none">
+      <div class="a5-sec-head" id="a5-check-head">Servicios incluidos</div>
+      <div class="a5-checks" id="a5-checks"></div>
+    </div>
+    <div class="a5-sec" id="a5-notes-sec" style="display:none">
+      <div class="a5-sec-head" id="a5-notes-head">Condiciones</div>
+      <div class="a5-notes-box"><p class="a5-notes-text" id="a5-notes"></p></div>
+    </div>
+  </div>
+
+  <div class="a5-footer">
+    <div class="a5-footer-brand">GAFF CLASSIC TOURS<span>Mallorca · Mediterráneo</span></div>
+    <div class="a5-footer-right">
+      <img id="a5-qr-img" class="a5-qr" src="https://raw.githubusercontent.com/gaffmallorcatours/website/refs/heads/main/img/QR.png" alt="QR" crossorigin="anonymous" style="display:none">
+      <div class="a5-footer-contact" id="a5-contact"></div>
+    </div>
+  </div>
+</div>
+
+<!-- MOBILE 16:9 OFFER -->
+<div id="mob-preview">
+  <div class="mob-bg"></div>
+  <div class="mob-deco-circle"></div><div class="mob-deco-circle2"></div>
+  <div class="mob-gold-line"></div>
+  <div class="mob-content">
+    <div class="mob-header">
+      <div class="mob-eyebrow">Gaff Classic Tours · Mallorca</div>
+      <div class="mob-title" id="mob-name">—</div>
+      <div class="mob-sub" id="mob-sub"></div>
+      <div class="mob-price-row">
+        <div class="mob-price-pill" id="mob-price-wrap" style="display:none">
+          <span class="mob-price-big" id="mob-price"></span>
+          <span class="mob-price-lbl" id="mob-price-by"></span>
+        </div>
+        <div class="mob-validity-pill" id="mob-validity-pill" style="display:none">
+          <span class="mob-validity-text" id="mob-validity-text">Válido hasta:</span>
+          <span class="mob-validity-val" id="mob-validity-val"></span>
+        </div>
+      </div>
+      <div style="margin-top:.5rem;font-size:.56rem;color:rgba(193,154,107,.7);font-style:italic" id="mob-offer-note"></div>
+    </div>
+
+    <div class="mob-band" id="mob-band" style="display:none">
+      <div class="mob-band-item">
+        <span class="mob-band-lbl" id="mob-date-lbl">FECHA</span>
+        <span class="mob-band-val" id="mob-date"></span>
+      </div>
+      <div class="mob-band-item" id="mob-client-item" style="display:none;text-align:right">
+        <span class="mob-band-lbl" id="mob-client-lbl">RESERVADO A</span>
+        <span class="mob-band-val" id="mob-cname"></span>
+      </div>
+    </div>
+
+    <div class="mob-body">
+      <div id="mob-checks-sec" style="display:none">
+        <div class="mob-sec-head" id="mob-check-head">Servicios incluidos</div>
+        <div class="mob-checks-grid" id="mob-checks"></div>
+      </div>
+      <div id="mob-info-sec" style="display:none">
+        <div class="mob-sec-head" id="mob-info-head">Detalles</div>
+        <div class="mob-info-row" id="mob-info-row"></div>
+      </div>
+      <div id="mob-notes-sec" style="display:none">
+        <div class="mob-notes"><p class="mob-notes-text" id="mob-notes"></p></div>
+      </div>
+    </div>
+
+    <div class="mob-footer">
+      <div class="mob-footer-brand">GAFF CLASSIC TOURS<span>Mallorca · Mediterráneo</span></div>
+      <div class="mob-footer-right">
+        <img id="mob-qr-img" class="mob-qr" src="https://raw.githubusercontent.com/gaffmallorcatours/website/refs/heads/main/img/QR.png" alt="QR" crossorigin="anonymous" style="display:none">
+        <div class="mob-footer-contact" id="mob-contact"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ════════════════════════════════════════
+// LANGUAGE
+// ════════════════════════════════════════
+let lang = 'es';
+
+const LABELS = {
+  es:{
+    step:['Paso','de'],
+    doctype:'¿Qué quieres crear?',
+    doctypeHint:'Elige el tipo de documento según el uso que vayas a darle.',
+    flyer:'Flyer A5',flyerDesc:'Para imprimir o enviar como imagen. Formato A5, ideal para confirmaciones y presupuestos.',
+    offer:'Oferta móvil',offerDesc:'Formato vertical 16:9 optimizado para pantalla. Ideal para Stories, WhatsApp y redes sociales.',
+    expTitle:'¿Qué experiencia?',expHint:'Selecciona el tour o elige personalizado para introducir tus propios datos.',
+    customLabel:'Personalizado',customDesc:'Introduce tus propios datos, precio y descripción.',
+    clientTitle:'¿Para quién y cuándo?',clientHint:'Puedes dejar estos campos en blanco si es un flyer genérico sin datos de cliente.',
+    nameLbl:'Nombre del cliente (opcional)',paxLbl:'Personas',dateLbl:'Fecha de salida',
+    validityLbl:'Fecha de validez de la oferta (opcional)',offerNoteLbl:'Texto de la oferta (opcional)',
+    priceTitle:'Precio',priceHint:'Introduce el precio total o deja en blanco si no quieres mostrarlo.',
+    amountLbl:'Importe',currencyLbl:'Divisa',priceByLbl:'Por',noteLbl:'Nota de precio (opcional)',
+    svcTitle:'¿Qué servicios incluye?',svcHint:'Marca o desmarca los servicios que quieres mostrar en el documento.',
+    optTitle:'Opciones finales',optHint:'Ajustes de presentación del documento.',
+    notesLbl:'Condiciones / Notas (opcional)',qrLbl:'¿Añadir código QR de la web?',qrHint:'El QR llevará a los visitantes a gaffmallorca.tours',
+    qrYes:'Sí, añadir QR',qrNo:'No, sin QR',
+    exportTitle:'Listo para exportar',exportHint:'Revisa el resumen y descarga o comparte tu documento.',
+    download:'⬇ Descargar imagen',wa:'💬 Compartir por WhatsApp',cal:'📅 Añadir al calendario',editBack:'← Editar algo',
+    next:'Siguiente →',back:'← Atrás',viewExport:'Ver y exportar →',
+    generating:'Generando imagen…',genSub:'Esto puede tardar unos segundos',
+    toastOk:'✓ Imagen guardada',
+    summaryDoc:'Tipo',summaryTour:'Tour',summaryClient:'Cliente',summaryDate:'Fecha',summaryPrice:'Precio',summaryQR:'QR',
+    si:'Sí',no:'No',perBarco:'barco',perPersona:'persona',perGrupo:'grupo',
+    confirmacion:'CONFIRMACIÓN DE RESERVA',reservadoA:'RESERVADO A',
+    detalles:'Detalles',servicios:'Servicios incluidos',condiciones:'Condiciones',
+    morningDesc:'10:00 – 15:00 h · 5 horas · desde 400€',
+    sunsetDesc:'16:00 – 21:00 h · 5 horas · desde 400€',
+    essentialDesc:'3 horas · desde 300€ · perfecto para familias',
+    tourSubs:{morning:'Tour matutino · Velero clásico · 5 horas',sunset:'Tour al atardecer · Velero clásico · 5 horas',essential:'Tour esencial · Velero clásico · 3 horas'},
+    depTimes:{morning:'10:00 h',sunset:'16:00 h',essential:'A acordar'},
+    retTimes:{morning:'15:00 h',sunset:'21:00 h',essential:'3 h después'},
+    durations:{morning:'5 horas',sunset:'5 horas',essential:'3 horas'},
+    prices:{morning:'600',sunset:'600',essential:'400'},
+    priceNotes:{morning:'Por barco completo · hasta 8 personas',sunset:'Por barco completo · hasta 8 personas',essential:'Por barco completo · hasta 8 personas'},
+    validoHasta:'Válido hasta',
+    svc:{
+      captain:'Patrón titulado y certificado',fuel:'Gasoil incluido',paddle:'Paddle Surf y Snorkel',drinks:'Aperitivos, agua, refrescos, vino o cava',
+      coves12:'Parada en 1 o 2 calas',cove1:'Parada en 1 cala',sunset_coves:'Parada en 1 o 2 calas al atardecer',
+      meal:'Comida a bordo incluida',dinner:'Cena a bordo incluida',towels:'Toallas de barco',
+      champagne:'Champagne de bienvenida',deco:'Decoración especial (cumpleaños/aniversario)',
+      photo:'Fotografía profesional a bordo',lifejacket:'Chaleco salvavidas infantil',music:'Música a bordo (Bluetooth)',
+    },
+    notes:{
+      cancel48:'Cancelación gratuita hasta 48 horas antes de la salida. En caso de condiciones meteorológicas adversas se ofrecerá fecha alternativa o reembolso completo.',
+      cancel24:'Cancelación gratuita hasta 24 horas antes de la salida. En caso de condiciones meteorológicas adversas se ofrecerá fecha alternativa o reembolso completo.',
+      tiempo:'En caso de mal tiempo o condiciones meteorológicas adversas, el capitán se reserva el derecho a modificar la ruta. Se ofrecerá siempre una fecha alternativa o reembolso completo.',
+      sunset:'El horario de salida se ajusta según la puesta de sol de cada fecha. Cancelación gratuita hasta 48 horas antes. En caso de mal tiempo se ofrece fecha alternativa o reembolso completo.',
+    },
+    infoLabels:{date:'Fecha de salida',dep:'Hora de salida',ret:'Hora de regreso',dur:'Duración',pax:'Personas',meet:'Punto de encuentro'},
+    footerContact:'+34 680 19 30 06\nstewartssecret@gmail.com\ngaffmallorca.tours',
+    nb:{cancel48:'⏱ Cancelación 48h',cancel24:'⏱ Cancelación 24h',tiempo:'⛈ Mal tiempo',sunset:'🌅 Sunset'},
+  },
+  en:{
+    step:['Step','of'],
+    doctype:'What do you want to create?',
+    doctypeHint:'Choose the document type based on its intended use.',
+    flyer:'A5 Flyer',flyerDesc:'For printing or sending as an image. A5 format, ideal for booking confirmations and quotes.',
+    offer:'Mobile offer',offerDesc:'Vertical 16:9 format optimised for screens. Ideal for Stories, WhatsApp and social media.',
+    expTitle:'Which experience?',expHint:'Select the tour or choose custom to enter your own details.',
+    customLabel:'Custom',customDesc:'Enter your own details, price and description.',
+    clientTitle:'For whom and when?',clientHint:'You can leave these fields blank for a generic flyer without client data.',
+    nameLbl:'Client name (optional)',paxLbl:'Guests',dateLbl:'Departure date',
+    validityLbl:'Offer valid until (optional)',offerNoteLbl:'Offer note (optional)',
+    priceTitle:'Price',priceHint:'Enter the total price or leave blank if you don\'t want to show it.',
+    amountLbl:'Amount',currencyLbl:'Currency',priceByLbl:'Per',noteLbl:'Price note (optional)',
+    svcTitle:'What services are included?',svcHint:'Tick or untick the services you want shown in the document.',
+    optTitle:'Final options',optHint:'Presentation settings for the document.',
+    notesLbl:'Conditions / Notes (optional)',qrLbl:'Add website QR code?',qrHint:'The QR will take visitors to gaffmallorca.tours',
+    qrYes:'Yes, add QR',qrNo:'No, without QR',
+    exportTitle:'Ready to export',exportHint:'Review the summary and download or share your document.',
+    download:'⬇ Download image',wa:'💬 Share via WhatsApp',cal:'📅 Add to calendar',editBack:'← Edit something',
+    next:'Next →',back:'← Back',viewExport:'Preview & export →',
+    generating:'Generating image…',genSub:'This may take a few seconds',
+    toastOk:'✓ Image saved',
+    summaryDoc:'Type',summaryTour:'Tour',summaryClient:'Client',summaryDate:'Date',summaryPrice:'Price',summaryQR:'QR',
+    si:'Yes',no:'No',perBarco:'boat',perPersona:'person',perGrupo:'group',
+    confirmacion:'BOOKING CONFIRMATION',reservadoA:'BOOKED IN THE NAME OF',
+    detalles:'Details',servicios:'Included services',condiciones:'Conditions',
+    morningDesc:'10:00 – 15:00 · 5 hours · from €400',
+    sunsetDesc:'16:00 – 21:00 · 5 hours · from €400',
+    essentialDesc:'3 hours · from €300 · perfect for families',
+    tourSubs:{morning:'Morning tour · Classic sailboat · 5 hours',sunset:'Sunset tour · Classic sailboat · 5 hours',essential:'Essential tour · Classic sailboat · 3 hours'},
+    depTimes:{morning:'10:00 h',sunset:'16:00 h',essential:'To be agreed'},
+    retTimes:{morning:'15:00 h',sunset:'21:00 h',essential:'3 h later'},
+    durations:{morning:'5 hours',sunset:'5 hours',essential:'3 hours'},
+    prices:{morning:'600',sunset:'600',essential:'400'},
+    priceNotes:{morning:'Per full boat · up to 8 guests',sunset:'Per full boat · up to 8 guests',essential:'Per full boat · up to 8 guests'},
+    validoHasta:'Valid until',
+    svc:{
+      captain:'Licensed and certified skipper',fuel:'Fuel included',paddle:'Paddle surf & Snorkel',drinks:'Snacks, water, soft drinks, wine or cava',
+      coves12:'Stop at 1 or 2 coves',cove1:'Stop at 1 cove',sunset_coves:'Stop at 1 or 2 coves at sunset',
+      meal:'On-board meal included',dinner:'On-board dinner included',towels:'Boat towels',
+      champagne:'Welcome champagne',deco:'Special decoration (birthday/anniversary)',
+      photo:'Professional photography on board',lifejacket:'Children\'s life jacket',music:'Music on board (Bluetooth)',
+    },
+    notes:{
+      cancel48:'Free cancellation up to 48 hours before departure. In the event of adverse weather conditions, an alternative date or full refund will be offered.',
+      cancel24:'Free cancellation up to 24 hours before departure. In the event of adverse weather conditions, an alternative date or full refund will be offered.',
+      tiempo:'In the event of bad weather or adverse conditions, the skipper reserves the right to modify the route. An alternative date or full refund will always be offered.',
+      sunset:'Departure time is adjusted according to the sunset on each date. Free cancellation up to 48 hours before. In the event of bad weather, an alternative date or full refund will be offered.',
+    },
+    infoLabels:{date:'Departure date',dep:'Departure time',ret:'Return time',dur:'Duration',pax:'Guests',meet:'Meeting point'},
+    footerContact:'+34 680 19 30 06\nstewartssecret@gmail.com\ngaffmallorca.tours',
+    nb:{cancel48:'⏱ 48h cancellation',cancel24:'⏱ 24h cancellation',tiempo:'⛈ Bad weather',sunset:'🌅 Sunset'},
+  }
+};
+const L = () => LABELS[lang];
+
+const SVC_PRESETS = {
+  morning:  ['captain','fuel','paddle','drinks','coves12'],
+  sunset:   ['captain','fuel','paddle','drinks','sunset_coves'],
+  essential:['captain','fuel','paddle','drinks','cove1'],
+  custom:   ['captain','fuel','paddle','drinks'],
+};
+const ALL_SVC = ['captain','fuel','paddle','drinks','coves12','cove1','sunset_coves','meal','dinner','towels','champagne','deco','photo','lifejacket','music'];
+
+// ════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════
+const S = {
+  step:1, totalSteps:7,
+  docType:null,       // 'flyer' | 'offer'
+  tour:null,          // 'morning'|'sunset'|'essential'|'custom'
+  priceBy:'barco',
+  showQR:true,
+  svcItems:[],        // [{key, checked}]
+  docLang:'es',       // language of the OUTPUT document (independent of UI lang)
+};
+// Helper: labels for the output document (may differ from UI lang)
+const DL = () => LABELS[S.docLang];
+
+// ════════════════════════════════════════
+// LANG SWITCH
+// ════════════════════════════════════════
+function setLang(l){
+  lang = l;
+  document.getElementById('lbES').classList.toggle('active', l==='es');
+  document.getElementById('lbEN').classList.toggle('active', l==='en');
+  applyLabels();
+  if(S.tour) loadSvcPreset(S.tour, true);
+}
+
+function applyLabels(){
+  const l = L();
+  // step 1
+  setText('s1-title', l.doctype); setText('s1-hint', l.doctypeHint);
+  setText('cl-flyer', l.flyer); setText('cd-flyer', l.flyerDesc);
+  setText('cl-offer', l.offer); setText('cd-offer', l.offerDesc);
+  // step 2
+  setText('s2-title', l.expTitle); setText('s2-hint', l.expHint);
+  setText('cl-custom', l.customLabel); setText('cd-custom', l.customDesc);
+  setText('cd-morning', l.morningDesc); setText('cd-sunset', l.sunsetDesc); setText('cd-essential', l.essentialDesc);
+  // step 3 (expanded)
+  setText('s3-title', l.clientTitle); setText('s3-hint', l.clientHint);
+  setText('s3-doclang-lbl', l.doclangLbl||'Idioma del documento');
+  setText('s3-tourname-lbl', l.tournameLabel||(lang==='es'?'Nombre del tour':'Tour name'));
+  setText('s3-toursub-lbl', l.toursubLabel||(lang==='es'?'Subtítulo (opcional)':'Subtitle (optional)'));
+  setText('s3-name-lbl', l.nameLbl); setText('s3-pax-lbl', l.paxLbl); setText('s3-date-lbl', l.dateLbl);
+  setText('s3-validity-lbl', l.validityLbl); setText('s3-offernote-lbl', l.offerNoteLbl);
+  setText('s3-dep-lbl', lang==='es'?'Hora de salida':'Departure time');
+  setText('s3-ret-lbl', lang==='es'?'Hora de regreso':'Return time');
+  setText('s3-dur-lbl', lang==='es'?'Duración':'Duration');
+  setText('s3-cap-lbl', lang==='es'?'Aforo máximo':'Max guests');
+  setText('s3-meet-lbl', lang==='es'?'Punto de encuentro':'Meeting point');
+  setText('s3-phone-lbl', lang==='es'?'WhatsApp / Teléfono':'WhatsApp / Phone');
+  setText('s3-email-lbl', 'Email');
+  setText('s3-web-lbl', 'Web');
+  // step 4
+  setText('s4-title', l.priceTitle); setText('s4-hint', l.priceHint);
+  setText('s4-amount-lbl', l.amountLbl); setText('s4-currency-lbl', l.currencyLbl); setText('s4-priceby-lbl', l.priceByLbl); setText('s4-note-lbl', l.noteLbl);
+  document.getElementById('pb-barco').textContent = l.perBarco;
+  document.getElementById('pb-persona').textContent = l.perPersona;
+  document.getElementById('pb-grupo').textContent = l.perGrupo;
+  // step 5
+  setText('s5-title', l.svcTitle); setText('s5-hint', l.svcHint);
+  // step 6
+  setText('s6-title', l.optTitle); setText('s6-hint', l.optHint);
+  setText('s6-notes-lbl', l.notesLbl); setText('s6-qr-lbl', l.qrLbl); setText('s6-qr-hint', l.qrHint);
+  document.getElementById('qr-si').textContent = l.qrYes;
+  document.getElementById('qr-no').textContent = l.qrNo;
+  const nb = l.nb;
+  document.getElementById('nb-c48').textContent = nb.cancel48;
+  document.getElementById('nb-c24').textContent = nb.cancel24;
+  document.getElementById('nb-tiempo').textContent = nb.tiempo;
+  document.getElementById('nb-sunset').textContent = nb.sunset;
+  // step 7
+  setText('s7-title', l.exportTitle); setText('s7-hint', l.exportHint);
+  setText('btnExportLbl', l.download); setText('btnWALbl', l.wa); setText('btnCalLbl', l.cal);
+  setText('s7-back', l.editBack);
+  // back/next
+  ['s2-back','s3-back','s4-back','s5-back','s6-back'].forEach(id => { const el = document.getElementById(id); if(el) el.textContent = l.back; });
+  ['s1-next-lbl','s2-next-lbl','s3-next-lbl','s4-next-lbl','s5-next-lbl'].forEach(id => { const el = document.getElementById(id); if(el) el.textContent = l.next; });
+  const s6n = document.getElementById('s6-next-lbl'); if(s6n) s6n.textContent = l.viewExport;
+  renderProgress();
+  if(S.step===7) renderSummary();
+}
+
+function setText(id, txt){ const el = document.getElementById(id); if(el) el.textContent = txt || ''; }
+
+// ════════════════════════════════════════
+// PROGRESS BAR
+// ════════════════════════════════════════
+const STEP_LABELS_ES = ['Tipo','Experiencia','Cliente','Precio','Servicios','Opciones','Exportar'];
+const STEP_LABELS_EN = ['Type','Experience','Client','Price','Services','Options','Export'];
+
+function renderProgress(){
+  const labels = lang==='es' ? STEP_LABELS_ES : STEP_LABELS_EN;
+  const prog = document.getElementById('wizProgress');
+  let html = '';
+  for(let i=1;i<=S.totalSteps;i++){
+    const isDone = i < S.step;
+    const isActive = i === S.step;
+    const cls = isDone?'done':isActive?'active':'';
+    html += `<div class="wiz-step">
+      <div class="wiz-dot ${cls}" onclick="${isDone?'goStep('+i+')':''}" title="${labels[i-1]}">${isDone?'':i}</div>
+      <span class="wiz-label">${labels[i-1]}</span>
+    </div>`;
+    if(i<S.totalSteps) html += `<div class="wiz-connector ${isDone?'done':''}"></div>`;
+  }
+  prog.innerHTML = html;
+}
+
+// ════════════════════════════════════════
+// STEP NAVIGATION
+// ════════════════════════════════════════
+function goStep(n){
+  if(n<1||n>S.totalSteps) return;
+  document.getElementById('step'+S.step).classList.remove('active');
+  S.step = n;
+  document.getElementById('step'+n).classList.add('active');
+  renderProgress();
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(n===5) renderSvcList();
+  if(n===7){ renderSummary(); buildPreviews(); }
+}
+
+function updateDirty(){ /* placeholder for future auto-preview */ }
+
+// ════════════════════════════════════════
+// STEP 1 — DOC TYPE
+// ════════════════════════════════════════
+function selectDocType(type){
+  S.docType = type;
+  document.getElementById('choice-flyer').classList.toggle('selected', type==='flyer');
+  document.getElementById('choice-offer').classList.toggle('selected', type==='offer');
+  document.getElementById('s1-next').disabled = false;
+  // Show/hide validity fields
+  document.getElementById('validity-block').style.display = type==='offer' ? 'block' : 'none';
+}
+
+// ════════════════════════════════════════
+// STEP 3 — DOC LANGUAGE
+// ════════════════════════════════════════
+function selectDocLang(l){
+  S.docLang = l;
+  document.getElementById('dl-es').classList.toggle('selected', l==='es');
+  document.getElementById('dl-en').classList.toggle('selected', l==='en');
+  // If a tour is already selected, re-fill sub/notes in the chosen doc language
+  if(S.tour && S.tour !== 'custom'){
+    const dl = LABELS[l];
+    // Only update sub if it matches the previous auto-fill (don't clobber manual edits)
+    setVal('tourSub', dl.tourSubs[S.tour]);
+    const curNotes = getVal('notes');
+    // Re-fill notes only if they still match one of our presets in either language
+    const allNotes = [...Object.values(LABELS.es.notes), ...Object.values(LABELS.en.notes)];
+    if(!curNotes || allNotes.includes(curNotes)){
+      setVal('notes', S.tour==='sunset' ? dl.notes.sunset : dl.notes.cancel48);
+    }
+    // Update capacity label text
+    setVal('capacity', l==='es'?'8 personas':'8 guests');
+    setVal('meetPoint', getVal('meetPoint') || 'Club de Mar, Amarre 1007, Palma');
+    setVal('priceNote', dl.priceNotes[S.tour]);
+  }
+}
+
+
+function selectTour(key){
+  S.tour = key;
+  ['morning','sunset','essential','custom'].forEach(k => {
+    document.getElementById('choice-'+k).classList.toggle('selected', k===key);
+  });
+  document.getElementById('s2-next').disabled = false;
+  // Pre-fill fields using the chosen DOCUMENT language
+  const dl = LABELS[S.docLang];
+  if(key !== 'custom'){
+    setVal('tourName', key==='morning'?'Morning Sail Experience':key==='sunset'?'Sunset Private Experience':'Essential Experience');
+    setVal('tourSub', dl.tourSubs[key]);
+    setVal('depTime', dl.depTimes[key]);
+    setVal('retTime', dl.retTimes[key]);
+    setVal('duration', dl.durations[key]);
+    setVal('capacity', S.docLang==='es'?'8 personas':'8 guests');
+    setVal('meetPoint', 'Club de Mar, Amarre 1007, Palma');
+    setVal('price', dl.prices[key]);
+    setVal('priceNote', dl.priceNotes[key]);
+    setVal('notes', key==='sunset' ? dl.notes.sunset : dl.notes.cancel48);
+  } else {
+    setVal('tourName',''); setVal('tourSub',''); setVal('depTime',''); setVal('retTime','');
+    setVal('duration',''); setVal('capacity',''); setVal('meetPoint','Club de Mar, Amarre 1007, Palma');
+    setVal('price',''); setVal('priceNote',''); setVal('notes','');
+  }
+  loadSvcPreset(key);
+}
+
+function setVal(id, v){ const el = document.getElementById(id); if(el) el.value = v || ''; }
+function getVal(id){ return document.getElementById(id)?.value?.trim() || ''; }
+
+// ════════════════════════════════════════
+// STEP 4 — PRICE BY
+// ════════════════════════════════════════
+function selectPriceBy(key){
+  S.priceBy = key;
+  ['barco','persona','grupo'].forEach(k => {
+    document.getElementById('pb-'+k).classList.toggle('selected', k===key);
+  });
+}
+
+// ════════════════════════════════════════
+// STEP 5 — SERVICES
+// ════════════════════════════════════════
+function loadSvcPreset(key, silent=false){
+  const preset = SVC_PRESETS[key] || SVC_PRESETS.custom;
+  const presetSet = new Set(preset);
+  S.svcItems = ALL_SVC.map(k => ({key:k, checked: presetSet.has(k)}));
+  if(!silent) renderSvcList();
+}
+
+function renderSvcList(){
+  const dl = DL(); // use doc language for service names
+  const wrap = document.getElementById('svcList');
+  wrap.innerHTML = S.svcItems.map((item, i) => `
+    <div class="svc-item ${item.checked?'checked':''}" onclick="toggleSvc(${i})">
+      <input type="checkbox" ${item.checked?'checked':''} onchange="toggleSvc(${i})" onclick="event.stopPropagation()">
+      <label>${dl.svc[item.key]||item.key}</label>
+    </div>
+  `).join('');
+}
+
+function toggleSvc(i){
+  S.svcItems[i].checked = !S.svcItems[i].checked;
+  renderSvcList();
+}
+
+// ════════════════════════════════════════
+// STEP 6 — QR & NOTES
+// ════════════════════════════════════════
+function selectQR(val){
+  S.showQR = val;
+  document.getElementById('qr-si').classList.toggle('selected', val);
+  document.getElementById('qr-no').classList.toggle('selected', !val);
+}
+
+function loadNotes(key){
+  const el = document.getElementById('notes');
+  if(el){ el.value = LABELS[S.docLang].notes[key] || ''; }
+  ['cancel48','cancel24','tiempo','sunset'].forEach(k => {
+    const map = {cancel48:'nb-c48',cancel24:'nb-c24',tiempo:'nb-tiempo',sunset:'nb-sunset'};
+    document.getElementById(map[k])?.classList.toggle('selected', k===key);
+  });
+}
+
+// ════════════════════════════════════════
+// DATE HELPERS
+// ════════════════════════════════════════
+function formatDate(dateStr){
+  if(!dateStr) return '';
+  const [y,m,d] = dateStr.split('-');
+  if(lang==='en'){
+    const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+    const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const dt=new Date(+y,+m-1,+d);
+    return `${days[dt.getDay()]}, ${months[+m-1]} ${+d}, ${y}`;
+  } else {
+    const months=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+    const days=['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+    const dt=new Date(+y,+m-1,+d);
+    return `${days[dt.getDay()]}, ${+d} de ${months[+m-1]} de ${y}`;
+  }
+}
+
+function formatDateShort(dateStr){
+  if(!dateStr) return '';
+  const [y,m,d] = dateStr.split('-');
+  return `${d}/${m}/${y}`;
+}
+
+// ════════════════════════════════════════
+// STEP 7 — SUMMARY
+// ════════════════════════════════════════
+function renderSummary(){
+  const l = L();
+  const tourNames = {morning:'Morning Sail Experience',sunset:'Sunset Private Experience',essential:'Essential Experience',custom:l.customLabel};
+  const docNames = {flyer:l.flyer,offer:l.offer};
+  const priceStr = getVal('price') ? (getVal('currency')||'€')+getVal('price')+' / '+({barco:l.perBarco,persona:l.perPersona,grupo:l.perGrupo}[S.priceBy]||S.priceBy) : '—';
+  const rows = [
+    [l.summaryDoc, docNames[S.docType]||'—'],
+    [l.summaryTour, tourNames[S.tour]||'—'],
+    [l.summaryClient, getVal('clientName')||'—'],
+    [l.summaryDate, formatDate(getVal('bookingDate'))||'—'],
+    [l.summaryPrice, priceStr],
+    [l.summaryQR, S.showQR ? l.si : l.no],
+  ];
+  document.getElementById('summaryBox').innerHTML = rows.map(([k,v]) =>
+    `<div class="summary-row"><strong>${k}</strong>${v}</div>`
+  ).join('');
+  // Cal button only if date set
+  const hasDate = !!getVal('bookingDate');
+  document.getElementById('btnCal').style.display = hasDate ? 'block' : 'none';
+}
+
+// ════════════════════════════════════════
+// BUILD PREVIEWS
+// ════════════════════════════════════════
+function buildPreviews(){
+  const dl = DL();  // Document language labels
+  const tourName = getVal('tourName') || '—';
+  const tourSub  = getVal('tourSub') || '';
+  const price    = getVal('price');
+  const currency = getVal('currency') || '€';
+  const priceNote = getVal('priceNote');
+  const priceByLabel = '/'+({barco:dl.perBarco,persona:dl.perPersona,grupo:dl.perGrupo}[S.priceBy]||S.priceBy);
+  const clientName  = getVal('clientName');
+  const clientPaxRaw = getVal('clientPax');
+  const bookingDate = getVal('bookingDate');
+  const depTime  = getVal('depTime');
+  const retTime  = getVal('retTime');
+  const duration = getVal('duration');
+  const meetPoint = getVal('meetPoint');
+  const notes    = getVal('notes');
+  const validityDate = getVal('validityDate');
+  const offerNote = getVal('offerNote');
+  const checkedSvc = S.svcItems.filter(x=>x.checked);
+  const isDocEs = S.docLang === 'es';
+
+  // Contact from editable fields
+  const phone   = getVal('phone');
+  const email   = getVal('email');
+  const website = getVal('website');
+  const contact = [phone, email, website].filter(Boolean).join('<br>');
+
+  // Pax display with correct language suffix
+  const paxDisplay = clientPaxRaw ? clientPaxRaw + (isDocEs ? ' personas' : ' guests') : '';
+
+  // Date formatter using doc language
+  function fmtDate(dateStr){
+    if(!dateStr) return '';
+    const [y,m,d] = dateStr.split('-');
+    if(!isDocEs){
+      const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+      const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+      const dt=new Date(+y,+m-1,+d);
+      return days[dt.getDay()]+', '+months[+m-1]+' '+(+d)+', '+y;
+    } else {
+      const months=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+      const days=['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+      const dt=new Date(+y,+m-1,+d);
+      return days[dt.getDay()]+', '+(+d)+' de '+months[+m-1]+' de '+y;
+    }
+  }
+
+  // ── A5 ──
+  setText('a5-name', tourName);
+  setText('a5-sub', tourSub);
+  if(price){
+    document.getElementById('a5-price-wrap').style.display='block';
+    setText('a5-price', currency+price);
+    setText('a5-price-by', priceByLabel);
+    setText('a5-price-note', priceNote);
+    document.getElementById('a5-price-note').style.display = priceNote?'block':'none';
+  } else document.getElementById('a5-price-wrap').style.display='none';
+
+  const hasBand = bookingDate||clientName;
+  document.getElementById('a5-band').style.display = hasBand?'flex':'none';
+  setText('a5-band-lbl', clientName ? dl.confirmacion : (S.docType==='offer'&&validityDate ? (isDocEs?'OFERTA VÁLIDA HASTA':'OFFER VALID UNTIL') : dl.confirmacion));
+  setText('a5-date', fmtDate(bookingDate)||(validityDate&&S.docType==='offer'?fmtDate(validityDate):''));
+  setText('a5-cname', clientName);
+  setText('a5-cpax', paxDisplay);
+  document.getElementById('a5-client-wrap').style.display = clientName ? 'block' : 'none';
+
+  const infoFields = [
+    {icon:'📅',label:dl.infoLabels.date,val:fmtDate(bookingDate),hi:true},
+    {icon:'🕐',label:dl.infoLabels.dep,val:depTime},
+    {icon:'🏁',label:dl.infoLabels.ret,val:retTime},
+    {icon:'⏱',label:dl.infoLabels.dur,val:duration},
+    {icon:'👥',label:dl.infoLabels.pax,val:paxDisplay},
+    {icon:'⚓',label:dl.infoLabels.meet,val:meetPoint},
+  ].filter(f=>f.val);
+  setText('a5-info-head', dl.detalles);
+  if(infoFields.length){
+    document.getElementById('a5-info-sec').style.display='block';
+    document.getElementById('a5-info-grid').innerHTML = infoFields.map(f=>`
+      <div class="a5-info-item${f.hi?' hi':''}">
+        <span class="a5-info-icon">${f.icon}</span>
+        <span class="a5-info-lbl">${f.label}</span>
+        <span class="a5-info-val">${f.val}</span>
+      </div>`).join('');
+  } else document.getElementById('a5-info-sec').style.display='none';
+
+  setText('a5-check-head', dl.servicios);
+  if(checkedSvc.length){
+    document.getElementById('a5-check-sec').style.display='block';
+    document.getElementById('a5-checks').innerHTML = checkedSvc.map(c=>`
+      <div class="a5-check-item">
+        <div class="a5-check-icon"><svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg></div>
+        <span class="a5-check-text">${dl.svc[c.key]||c.key}</span>
+      </div>`).join('');
+  } else document.getElementById('a5-check-sec').style.display='none';
+
+  setText('a5-notes-head', dl.condiciones);
+  if(notes){ document.getElementById('a5-notes-sec').style.display='block'; setText('a5-notes', notes); }
+  else document.getElementById('a5-notes-sec').style.display='none';
+
+  const a5ContactEl = document.getElementById('a5-contact');
+  if(a5ContactEl) a5ContactEl.innerHTML = contact;
+  const a5qr = document.getElementById('a5-qr-img');
+  if(a5qr) a5qr.style.display = S.showQR ? 'block' : 'none';
+
+  // ── MOBILE ──
+  setText('mob-name', tourName);
+  setText('mob-sub', tourSub);
+  if(price){
+    document.getElementById('mob-price-wrap').style.display='inline-flex';
+    setText('mob-price', currency+price);
+    setText('mob-price-by', priceByLabel);
+  } else document.getElementById('mob-price-wrap').style.display='none';
+
+  if(S.docType==='offer' && validityDate){
+    document.getElementById('mob-validity-pill').style.display='inline-flex';
+    setText('mob-validity-text', (isDocEs?'Válido hasta':'Valid until')+':');
+    setText('mob-validity-val', formatDateShort(validityDate));
+  } else document.getElementById('mob-validity-pill').style.display='none';
+  setText('mob-offer-note', offerNote);
+
+  const hasMobBand = bookingDate||clientName;
+  document.getElementById('mob-band').style.display = hasMobBand ? 'flex' : 'none';
+  setText('mob-date-lbl', isDocEs?'FECHA':'DATE');
+  setText('mob-date', fmtDate(bookingDate)||'');
+  if(clientName){
+    document.getElementById('mob-client-item').style.display='block';
+    setText('mob-client-lbl', isDocEs?'RESERVADO A':'BOOKED TO');
+    setText('mob-cname', clientName);
+  } else document.getElementById('mob-client-item').style.display='none';
+
+  setText('mob-check-head', dl.servicios);
+  if(checkedSvc.length){
+    document.getElementById('mob-checks-sec').style.display='block';
+    document.getElementById('mob-checks').innerHTML = checkedSvc.map(c=>`
+      <div class="mob-check">
+        <div class="mob-check-icon"><svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg></div>
+        <span class="mob-check-text">${dl.svc[c.key]||c.key}</span>
+      </div>`).join('');
+  } else document.getElementById('mob-checks-sec').style.display='none';
+
+  const infoChips = [{icon:'🕐',val:depTime},{icon:'⏱',val:duration},{icon:'👥',val:paxDisplay},{icon:'⚓',val:meetPoint}].filter(f=>f.val);
+  setText('mob-info-head', dl.detalles);
+  if(infoChips.length){
+    document.getElementById('mob-info-sec').style.display='block';
+    document.getElementById('mob-info-row').innerHTML = infoChips.map(f=>`
+      <div class="mob-info-chip"><span class="mob-info-chip-icon">${f.icon}</span><span class="mob-info-chip-text">${f.val}</span></div>`).join('');
+  } else document.getElementById('mob-info-sec').style.display='none';
+
+  if(notes){ document.getElementById('mob-notes-sec').style.display='block'; setText('mob-notes', notes); }
+  else document.getElementById('mob-notes-sec').style.display='none';
+
+  const mobContactEl = document.getElementById('mob-contact');
+  if(mobContactEl) mobContactEl.innerHTML = contact;
+  const mobqr = document.getElementById('mob-qr-img');
+  if(mobqr) mobqr.style.display = S.showQR ? 'block' : 'none';
+}
+
+// ════════════════════════════════════════
+// CAPTURE & EXPORT
+// ════════════════════════════════════════
+let _cachedBlob = null;
+
+function getFileName(){
+  const tour = (getVal('tourName')||'gaff').replace(/\s+/g,'_').replace(/[^a-zA-Z0-9_]/g,'').toLowerCase();
+  const date = getVal('bookingDate') || '';
+  const type = S.docType==='offer'?'oferta':'flyer';
+  return `gaff_${type}_${tour}${date?'_'+date:''}.jpg`;
+}
+
+async function captureEl(elId, w, h){
+  const el = document.getElementById(elId);
+  const prevLeft = el.style.left;
+  // Move into viewport temporarily
+  el.style.left = '0px';
+  el.style.top = '0px';
+  el.style.position = 'fixed';
+  el.style.zIndex = '999';
+  await new Promise(r=>setTimeout(r,180));
+  const canvas = await html2canvas(el, {
+    scale:2.5, useCORS:true, allowTaint:false,
+    backgroundColor: S.docType==='offer'?'#07111f':'#ffffff',
+    logging:false, imageTimeout:10000,
+    width:w, height:h,
+    onclone:(doc)=>{
+      const s=doc.createElement('style');
+      s.textContent='@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Cinzel:wght@400;500;600&family=Jost:wght@200;300;400;500&display=swap");';
+      doc.head.appendChild(s);
+    }
+  });
+  // Restore
+  el.style.left = '-9999px';
+  el.style.top = '0px';
+  el.style.position = 'fixed';
+  el.style.zIndex = '-1';
+  return new Promise(res=>canvas.toBlob(b=>res(b),'image/jpeg',0.95));
+}
+
+async function getBlob(){
+  if(_cachedBlob) return _cachedBlob;
+  buildPreviews();
+  await new Promise(r=>setTimeout(r,300)); // wait for QR image
+  if(S.docType==='offer'){
+    _cachedBlob = await captureEl('mob-preview', 405, 720);
+  } else {
+    _cachedBlob = await captureEl('a5-preview', 559, 794);
+  }
+  return _cachedBlob;
+}
+
+async function exportDoc(){
+  _cachedBlob = null;
+  const l = L();
+  showGen(l.generating, l.genSub);
+  try {
+    const blob = await getBlob();
+    hideGen();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href=url; a.download=getFileName();
+    document.body.appendChild(a); a.click();
+    document.body.removeChild(a);
+    setTimeout(()=>URL.revokeObjectURL(url),5000);
+    showToast(l.toastOk);
+  } catch(e){ hideGen(); showToast('Error al generar'); console.error(e); }
+}
+
+async function shareWA(){
+  const dl = DL();  // use doc language for WA message content
+  const isDocEs = S.docLang === 'es';
+  const tour = getVal('tourName');
+  const client = getVal('clientName');
+  const pax = getVal('clientPax');
+  const dep = getVal('depTime');
+  const ret = getVal('retTime');
+  const dur = getVal('duration');
+  const meet = getVal('meetPoint');
+  const price = getVal('price');
+  const currency = getVal('currency')||'€';
+  const priceByDisp = {barco:dl.perBarco,persona:dl.perPersona,grupo:dl.perGrupo}[S.priceBy]||S.priceBy;
+  const validity = getVal('validityDate');
+  const offerNote = getVal('offerNote');
+  const notes = getVal('notes');
+  const phone = getVal('phone') || '+34 680 19 30 06';
+  const website = getVal('website') || 'gaffmallorca.tours';
+
+  // Format date in doc language
+  function fmtD(ds){
+    if(!ds) return '';
+    const [y,m,d2]=ds.split('-');
+    if(!isDocEs){const months=['January','February','March','April','May','June','July','August','September','October','November','December'];const dt=new Date(+y,+m-1,+d2);return months[+m-1]+' '+(+d2)+', '+y;}
+    else{const months=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];const dt=new Date(+y,+m-1,+d2);return (+d2)+' de '+months[+m-1]+' de '+y;}
+  }
+
+  let msg = isDocEs
+    ? `*✨ ${S.docType==='offer'?'Oferta Especial':'Confirmación de Reserva'} — Gaff Classic Tours*\n\n`
+    : `*✨ ${S.docType==='offer'?'Special Offer':'Booking Confirmation'} — Gaff Classic Tours*\n\n`;
+
+  if(tour) msg += `🛥 *${tour}*\n`;
+  if(fmtD(getVal('bookingDate'))) msg += (isDocEs?'📅 Fecha: ':'📅 Date: ')+fmtD(getVal('bookingDate'))+'\n';
+  if(dep) msg += (isDocEs?'🕐 Salida: ':'🕐 Departure: ')+dep;
+  if(ret) msg += (isDocEs?' · Regreso: ':' · Return: ')+ret;
+  if(dep||ret) msg += '\n';
+  if(dur) msg += (isDocEs?'⏱ Duración: ':'⏱ Duration: ')+dur+'\n';
+  if(pax) msg += (isDocEs?'👥 Personas: ':'👥 Guests: ')+pax+'\n';
+  if(client) msg += (isDocEs?'👤 Cliente: ':'👤 Client: ')+client+'\n';
+  if(meet) msg += (isDocEs?'⚓ Punto de encuentro: ':'⚓ Meeting point: ')+meet+'\n';
+  if(price) msg += (isDocEs?'\n💰 Precio: ':'\n💰 Price: ')+currency+price+' / '+priceByDisp+'\n';
+  if(S.docType==='offer'&&validity) msg += (isDocEs?'\n📆 Válido hasta: ':'\n📆 Valid until: ')+formatDateShort(validity)+'\n';
+  if(S.docType==='offer'&&offerNote) msg += `ℹ ${offerNote}\n`;
+
+  const checked = S.svcItems.filter(x=>x.checked);
+  if(checked.length){
+    msg += isDocEs?'\n*Servicios incluidos:*\n':'\n*Included services:*\n';
+    checked.forEach(x=>msg+=`✅ ${dl.svc[x.key]||x.key}\n`);
+  }
+  if(notes) msg += `\n📋 ${notes}\n`;
+  msg += `\n${isDocEs?'Hasta pronto':'See you soon'} 🌊\n${phone}\n${website}`;
+
+  window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
+}
+
+function exportCal(){
+  const v = getVal;
+  const tourName = v('tourName')||'Gaff Classic Tours';
+  const dateStr = v('bookingDate');
+  if(!dateStr){ showToast(lang==='es'?'Pon una fecha primero':'Set a date first'); return; }
+  const dep = (v('depTime')||'10:00').replace(/[^0-9:]/g,'')||'1000';
+  const ret = (v('retTime')||'15:00').replace(/[^0-9:]/g,'')||'1500';
+  const meet = v('meetPoint')||'Club de Mar, Amarre 1007, Palma';
+  const client = v('clientName');
+  const pax = v('clientPax');
+  const notes = v('notes');
+  const [y,m,d] = dateStr.split('-');
+  const depH = dep.includes(':')?dep.replace(':',''):dep.padStart(4,'0');
+  const retH = ret.includes(':')?ret.replace(':',''):ret.padStart(4,'0');
+  const dtS = `${y}${m}${d}T${depH.padStart(4,'0')}00`;
+  const dtE = `${y}${m}${d}T${retH.padStart(4,'0')}00`;
+  let desc = tourName;
+  if(client) desc += `\nCliente: ${client}`;
+  if(pax) desc += ` · ${pax}`;
+  if(notes) desc += `\n${notes}`;
+  desc += '\n\nGaff Classic Tours · +34 680 19 30 06';
+  const ics = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//GaffClassicTours//EN','BEGIN:VEVENT',
+    `DTSTART:${dtS}`,`DTEND:${dtE}`,
+    `SUMMARY:${tourName}${client?' — '+client:''}`,
+    `LOCATION:${meet}`,`DESCRIPTION:${desc}`,'STATUS:CONFIRMED','END:VEVENT','END:VCALENDAR'].join('\r\n');
+  const blob = new Blob([ics],{type:'text/calendar;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href=url; a.download=`gaff_${dateStr}.ics`;
+  document.body.appendChild(a); a.click();
+  document.body.removeChild(a);
+  setTimeout(()=>URL.revokeObjectURL(url),3000);
+  showToast(lang==='es'?'📅 Calendario abierto':'📅 Calendar opened');
+}
+
+// ════════════════════════════════════════
+// UI HELPERS
+// ════════════════════════════════════════
+function showGen(msg, sub){
+  document.getElementById('genOverlay').classList.add('show');
+  document.getElementById('genText').textContent = msg||'';
+  document.getElementById('genSub').textContent = sub||'';
+}
+function hideGen(){ document.getElementById('genOverlay').classList.remove('show'); }
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+// ════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════
+(function init(){
+  const today=new Date(), pad=n=>String(n).padStart(2,'0');
+  const todayStr=`${today.getFullYear()}-${pad(today.getMonth()+1)}-${pad(today.getDate())}`;
+  setVal('bookingDate', todayStr);
+  // Pre-fill contact fields
+  setVal('phone', '+34 680 19 30 06');
+  setVal('email', 'stewartssecret@gmail.com');
+  setVal('website', 'gaffmallorca.tours');
+  // Sync docLang toggle to match UI lang by default
+  S.docLang = lang;
+  document.getElementById('dl-es').classList.toggle('selected', lang==='es');
+  document.getElementById('dl-en').classList.toggle('selected', lang==='en');
+  // Render initial progress and labels
+  renderProgress();
+  applyLabels();
+  // Pre-load QR images with crossOrigin
+  ['a5-qr-img','mob-qr-img'].forEach(id=>{
+    const img = document.getElementById(id);
+    if(img) img.crossOrigin='anonymous';
+  });
+})();
+</script>
+</body>
+</html>
