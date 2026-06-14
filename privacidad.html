@@ -21,6 +21,7 @@
   --navy2:#0c1b30;
   --gold:#c19a6b;
   --gold2:#d4aa7d;
+  --gold-dk:#8a6a42;
   --cream2:#faf7f2;
   --text-dark:#1c2533;
   --text-mid:#5a6474;
@@ -32,21 +33,21 @@
 [data-lang="es"] [data-en]{display:none!important}
 [data-lang="en"] [data-es]{display:none!important}
 html{scroll-behavior:smooth}
-body{background:var(--cream2);color:var(--text-mid);font-family:var(--sans);font-weight:300;line-height:1.85;font-size:.95rem}
-a{color:var(--gold);text-decoration:none}
-a:hover{text-decoration:underline}
+body{background:var(--cream2);color:var(--text-dark);font-family:var(--sans);font-weight:300;line-height:1.85;font-size:.95rem}
+a{color:var(--gold-dk);text-decoration:underline;text-decoration-color:rgba(138,106,66,.35);text-decoration-thickness:1px}
+a:hover{color:var(--navy);text-decoration-color:var(--navy)}
 
 /* TOP BAR */
 .topbar{background:var(--navy);padding:1.2rem 6%;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
 .topbar a.home{font-family:var(--display);font-size:.75rem;letter-spacing:.2em;color:#fff;text-decoration:none}
 .topbar a.home:hover{color:var(--gold)}
 .lang-wrap{display:flex;gap:.4rem}
-.lang-btn{padding:.22rem .65rem;border-radius:20px;border:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.4);font-size:.6rem;letter-spacing:.15em;cursor:pointer;background:transparent;transition:all .3s;font-family:var(--sans)}
+.lang-btn{padding:.22rem .65rem;border-radius:20px;border:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.6);font-size:.6rem;letter-spacing:.15em;cursor:pointer;background:transparent;transition:all .3s;font-family:var(--sans)}
 .lang-btn.active{border-color:var(--gold);color:var(--gold);background:rgba(193,154,107,.08)}
 
 /* LAYOUT */
 .wrap{max-width:860px;margin:0 auto;padding:5rem 6% 7rem}
-.eyebrow{font-size:.6rem;letter-spacing:.5em;text-transform:uppercase;color:var(--gold);font-family:var(--sans);margin-bottom:1.1rem;display:flex;align-items:center;gap:.8rem}
+.eyebrow{font-size:.6rem;letter-spacing:.5em;text-transform:uppercase;color:var(--gold-dk);font-family:var(--sans);margin-bottom:1.1rem;display:flex;align-items:center;gap:.8rem}
 .eyebrow::before{content:'';width:28px;height:1px;background:var(--gold);flex-shrink:0}
 h1{font-family:var(--display);font-size:clamp(1.8rem,4vw,2.8rem);color:var(--navy);letter-spacing:.04em;margin-bottom:1rem}
 .rule{width:48px;height:1px;background:var(--gold);margin:1.4rem 0 2.5rem}
@@ -59,7 +60,7 @@ ul{padding-left:1.4rem}
 li{margin-bottom:.6rem}
 strong{color:var(--navy);font-weight:500}
 .toc{background:#fff;border:1px solid rgba(193,154,107,.18);padding:1.6rem 1.8rem;margin-bottom:3rem}
-.toc-title{font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:.9rem}
+.toc-title{font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-dk);margin-bottom:.9rem}
 .toc ul{list-style:none;padding:0;margin:0}
 .toc li{margin-bottom:.5rem}
 
@@ -67,7 +68,7 @@ strong{color:var(--navy);font-weight:500}
 .legalfoot{background:var(--navy2);padding:2.5rem 6%;text-align:center}
 .legalfoot a{color:rgba(255,255,255,.5);font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;margin:0 .8rem;text-decoration:none}
 .legalfoot a:hover{color:var(--gold)}
-.legalfoot p{color:rgba(255,255,255,.25);font-size:.6rem;letter-spacing:.08em;margin-top:1.5rem}
+.legalfoot p{color:rgba(255,255,255,.45);font-size:.6rem;letter-spacing:.08em;margin-top:1.5rem}
 </style>
 </head>
 <body>
