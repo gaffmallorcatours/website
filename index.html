@@ -3,6 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Favicon -->
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
 <title>Gaff Classic Tours Mallorca — Velero Clásico Privado desde Club de Mar Palma</title>
 <meta name="description" content="Tours privados en velero clásico de 1920 en Mallorca. Salidas desde Club de Mar, Palma. Morning Sail, Sunset Experience y Essential Experience. Capitán Gonzalo Cornet · 27 años de experiencia · ★★★★★">
 <meta name="keywords" content="velero clásico Mallorca, tour privado barco Mallorca, alquiler velero Palma, charter velero clásico, gaff rig Mallorca, navegación clásica Mallorca, boat tour Mallorca, sailing Mallorca private, Club de Mar Palma tour, sunset sailing Mallorca">
@@ -18,7 +23,7 @@
 <meta property="og:url" content="https://gaffmallorca.tours/">
 <meta property="og:title" content="Gaff Classic Tours Mallorca — Velero Clásico Privado">
 <meta property="og:description" content="Tours privados exclusivos a bordo de un velero clásico de 1920 en Mallorca. Morning Sail, Sunset &amp; Essential Experience. Desde Club de Mar, Palma.">
-<meta property="og:image" content="https://raw.githubusercontent.com/gaffmallorcatours/website/refs/heads/main/img/2024-06-16.png">
+<meta property="og:image" content="https://gaffmallorca.tours/img/2024-06-16.png">
 <meta property="og:locale" content="es_ES">
 <meta property="og:locale:alternate" content="en_GB">
 <meta property="og:site_name" content="Gaff Classic Tours Mallorca">
@@ -26,7 +31,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Gaff Classic Tours Mallorca — Velero Clásico Privado">
 <meta name="twitter:description" content="Tours privados en velero clásico de 1920. Salidas desde Club de Mar Palma. ★★★★★">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/gaffmallorcatours/website/refs/heads/main/img/2024-06-16.png">
+<meta name="twitter:image" content="https://gaffmallorca.tours/img/2024-06-16.png">
 <!-- Structured Data: LocalBusiness -->
 <script type="application/ld+json">
 {
@@ -37,10 +42,10 @@
   "url": "https://gaffmallorca.tours/",
   "telephone": "+34680193006",
   "email": "stewartssecret@gmail.com",
-  "image": "https://raw.githubusercontent.com/gaffmallorcatours/website/refs/heads/main/img/2024-06-16.png",
+  "image": "https://gaffmallorca.tours/img/2024-06-16.png",
   "address": {
     "@type": "PostalAddress",
-    "streetAddress": "Muelle Pelaires, Amarre 1007",
+    "streetAddress": "Muelle Pelaires, Amarre 1009",
     "addressLocality": "Palma de Mallorca",
     "postalCode": "07015",
     "addressCountry": "ES"
@@ -53,7 +58,7 @@
   "aggregateRating": {
     "@type": "AggregateRating",
     "ratingValue": "5",
-    "reviewCount": "3",
+    "reviewCount": "27",
     "bestRating": "5"
   },
   "sameAs": [
@@ -62,10 +67,12 @@
   "priceRange": "€€",
   "currenciesAccepted": "EUR",
   "openingHours": "Mo-Su 09:00-21:00",
-  "hasMap": "https://www.google.com/maps/search/?api=1&query=Club+de+Mar+Mallorca+Muelle+Pelaires+Amarre+1007+07015+Palma"
+  "hasMap": "https://www.google.com/maps/search/?api=1&query=Club+de+Mar+Mallorca+Muelle+Pelaires+Amarre+1009+07015+Palma"
 }
 </script>
+<link rel="preload" as="image" href="img/2024-06-16.png" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Cinzel:wght@400;500;600&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -261,6 +268,33 @@ section{overflow:hidden}
 .exp-btn:hover{background:var(--gold);color:var(--navy);border-color:var(--gold)}
 @media(max-width:900px){.exp-grid{grid-template-columns:1fr}}
 
+/* DATE PICKER / SEASONAL PRICING */
+.exp-date{margin-top:1.1rem;display:flex;flex-direction:column;gap:.4rem}
+.exp-date label{font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.4)}
+.exp-date input[type=date]{background:rgba(255,255,255,.04);border:1px solid rgba(193,154,107,.25);color:var(--white);padding:.55rem .7rem;font-family:var(--sans);font-size:.78rem;border-radius:1px;color-scheme:dark;width:100%}
+.exp-date input[type=date]:focus{outline:none;border-color:var(--gold)}
+.exp-season-note{font-size:.62rem;color:var(--gold3);font-style:italic;margin:.5rem 0 0;line-height:1.5;display:none}
+.custom-offer .exp-date{max-width:280px;margin:0 auto 1.8rem}
+
+/* SPECIAL OCCASIONS */
+#special{background:var(--navy3);padding:9rem 5%}
+.special-wrap{max-width:1200px;margin:0 auto}
+.special-hdr{text-align:center;max-width:680px;margin:0 auto 4.5rem}
+.special-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(193,154,107,.1);margin-bottom:3.5rem}
+.special-item{background:var(--navy2);padding:2.4rem 2rem;text-align:center;transition:background .35s}
+.special-item:hover{background:rgba(11,21,38,.98)}
+.special-icon{font-size:1.7rem;display:block;margin-bottom:1rem}
+.special-name{font-family:var(--display);font-size:.85rem;letter-spacing:.08em;color:var(--white);margin-bottom:.6rem}
+.special-txt{font-size:.78rem;color:rgba(255,255,255,.45);line-height:1.7}
+.special-cta{text-align:center}
+@media(max-width:900px){.special-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.special-grid{grid-template-columns:1fr}}
+
+/* CUSTOM OFFER CTA */
+.custom-offer{margin-top:4rem;padding-top:4rem;border-top:1px solid rgba(193,154,107,.12);text-align:center}
+.custom-offer-txt{font-family:var(--serif);font-style:italic;font-size:1.05rem;color:rgba(255,255,255,.5);max-width:580px;margin:0 auto 1.8rem;line-height:1.85}
+.custom-offer .btn-gold{margin:0 auto}
+
 /* BOAT */
 #boat{background:var(--cream2);padding:9rem 5%}
 .boat-wrap{max-width:1200px;margin:0 auto}
@@ -270,10 +304,11 @@ section{overflow:hidden}
 .boat-txt .rule{background:var(--gold)}
 .boat-body{font-size:.89rem;line-height:1.95;color:var(--text-mid);margin-top:1.4rem}
 .boat-body p{margin-bottom:1rem}
-.boat-specs{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(193,154,107,.18);border:1px solid rgba(193,154,107,.18);margin-top:3rem}
+.boat-specs{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(193,154,107,.18);border:1px solid rgba(193,154,107,.18);margin-top:3rem}
 .boat-spec{background:var(--cream2);padding:1.6rem 1.4rem;text-align:center}
 .spec-val{font-family:var(--serif);font-size:2rem;color:var(--navy);font-weight:300;line-height:1}
 .spec-lbl{font-size:.55rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-top:.35rem;display:block}
+@media(max-width:560px){.boat-specs{grid-template-columns:repeat(2,1fr)}}
 .boat-side img{width:100%;object-fit:cover;max-height:590px;display:block;filter:contrast(1.04)}
 /* 5-photo mosaic: big left | 2 top-right + 2 bottom-right */
 .boat-gal{display:grid;grid-template-columns:1.35fr 1fr 1fr;grid-template-rows:300px 300px;gap:4px}
@@ -361,6 +396,7 @@ section{overflow:hidden}
 .c-lbl{font-size:.56rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.28);display:block;margin-bottom:.3rem}
 .c-val{font-size:.88rem;color:rgba(255,255,255,.72);text-decoration:none;display:block;line-height:1.55;transition:color .3s}
 .c-val:hover{color:var(--gold)}
+.c-note{font-size:.7rem;color:rgba(255,255,255,.32);font-style:italic;font-family:var(--serif);display:block;margin-top:.35rem}
 .c-socials{display:flex;gap:1.2rem;margin-top:.4rem}
 .c-socials a{font-size:.8rem;color:rgba(255,255,255,.5);text-decoration:none;transition:color .3s}
 .c-socials a:hover{color:var(--gold)}
@@ -374,7 +410,7 @@ section{overflow:hidden}
 /* FOOTER */
 footer{background:var(--navy2);border-top:1px solid rgba(193,154,107,.1);padding:3.5rem 5%}
 .footer-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:2rem}
-.f-links{display:flex;gap:2rem}
+.f-links{display:flex;gap:1.6rem;flex-wrap:wrap}
 .f-links a{font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.32);text-decoration:none;transition:color .3s}
 .f-links a:hover{color:var(--gold)}
 .f-logo{text-align:center}
@@ -411,9 +447,11 @@ footer{background:var(--navy2);border-top:1px solid rgba(193,154,107,.1);padding
 
 <!-- MOBILE MENU -->
 <div id="mob-menu">
-  <img src="https://raw.githubusercontent.com/gaffmallorcatours/website/refs/heads/main/img/logonuevov.png" alt="Gaff Classic Tours" style="height:70px;width:auto;opacity:.85;margin-bottom:1rem" onerror="this.style.display='none'">
+  <img src="img/logonuevov.png" alt="Gaff Classic Tours" style="height:70px;width:auto;opacity:.85;margin-bottom:1rem" onerror="this.style.display='none'">
   <a href="#experiences" onclick="closeMob()" data-es>Experiencias</a>
   <a href="#experiences" onclick="closeMob()" data-en>Experiences</a>
+  <a href="#special" onclick="closeMob()" data-es>Ocasiones Especiales</a>
+  <a href="#special" onclick="closeMob()" data-en>Special Occasions</a>
   <a href="#boat" onclick="closeMob()" data-es>El Velero</a>
   <a href="#boat" onclick="closeMob()" data-en>The Boat</a>
   <a href="#captain" onclick="closeMob()" data-es>El Capitán</a>
@@ -429,6 +467,8 @@ footer{background:var(--navy2);border-top:1px solid rgba(193,154,107,.1);padding
   <div class="nav-left">
     <a href="#experiences" class="nav-a" data-es>Experiencias</a>
     <a href="#experiences" class="nav-a" data-en>Experiences</a>
+    <a href="#special" class="nav-a" data-es>Ocasiones Especiales</a>
+    <a href="#special" class="nav-a" data-en>Special Occasions</a>
     <a href="#boat" class="nav-a" data-es>El Velero</a>
     <a href="#boat" class="nav-a" data-en>The Boat</a>
     <a href="#captain" class="nav-a" data-es>El Capitán</a>
@@ -437,7 +477,7 @@ footer{background:var(--navy2);border-top:1px solid rgba(193,154,107,.1);padding
     <a href="#contact" class="nav-a" data-en>Contact</a>
   </div>
   <a href="#" class="nav-logo">
-    <img src="https://raw.githubusercontent.com/gaffmallorcatours/website/refs/heads/main/img/logonuevov.png" alt="Gaff Classic Tours" class="nav-logo-img" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+    <img src="img/logonuevov.png" alt="Gaff Classic Tours" class="nav-logo-img" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
     <span class="nav-logo-fallback" style="display:none">
       <span class="nav-logo-main">GAFF CLASSIC TOURS</span>
       <span class="nav-logo-sub">Mallorca · Mediterráneo</span>
@@ -457,7 +497,7 @@ footer{background:var(--navy2);border-top:1px solid rgba(193,154,107,.1);padding
 <!-- HERO -->
 <section id="hero">
   <div class="hero-bg">
-    <img src="https://raw.githubusercontent.com/gaffmallorcatours/website/refs/heads/main/img/2024-06-16.png" alt="Velero clásico gaff en Mallorca">
+    <img src="img/2024-06-16.png" fetchpriority="high" decoding="async" alt="Velero clásico gaff en Mallorca">
   </div>
   <div class="hero-overlay"></div>
   <div class="hero-veil" id="heroVeil"></div>
@@ -496,7 +536,7 @@ footer{background:var(--navy2);border-top:1px solid rgba(193,154,107,.1);padding
   <div class="intro-grid">
     <div class="intro-img-wrap fl">
       <div class="intro-frame">
-        <img src="https://raw.githubusercontent.com/gaffmallorcatours/website/refs/heads/main/img/IMG-20260108-WA0021-scaled-1-400x533.jpg" alt="Velero Gaff Classic Tours">
+        <img src="img/IMG-20260108-WA0021-scaled-1-400x533.jpg" loading="lazy" decoding="async" alt="Velero Gaff Classic Tours">
         <div class="intro-badge">
           <span class="badge-num">1920</span>
           <span class="badge-lbl" data-es>Diseño original</span>
@@ -543,7 +583,7 @@ footer{background:var(--navy2);border-top:1px solid rgba(193,154,107,.1);padding
       <!-- MORNING SAIL -->
       <div class="exp-card fu">
         <div class="exp-img">
-          <img src="https://raw.githubusercontent.com/gaffmallorcatours/website/refs/heads/main/img/lunch-experience-gaff-charter-1-400x533.png" alt="Morning Sail Experience">
+          <img src="img/lunch-experience-gaff-charter-1-400x533.png" loading="lazy" decoding="async" alt="Morning Sail Experience">
           <div class="exp-img-overlay"></div>
         </div>
         <div class="exp-body">
@@ -561,9 +601,18 @@ footer{background:var(--navy2);border-top:1px solid rgba(193,154,107,.1);padding
             <li data-es>Posibilidad de comida a bordo</li><li data-en>Option to request on-board meal</li>
           </ul>
           <div class="exp-prices">
-            <div class="exp-price-row"><span data-es>2 personas</span><span data-en>2 people</span><span>400€</span></div>
-            <div class="exp-price-row"><span data-es>4 personas</span><span data-en>4 people</span><span>600€</span></div>
-            <div class="exp-price-row"><span data-es>Familias</span><span data-en>Families</span><span>500€</span></div>
+            <div class="exp-price-row"><span data-es>2 personas</span><span data-en>2 people</span><span class="price-val" data-base="400">400€</span></div>
+            <div class="exp-price-row"><span data-es>4 personas</span><span data-en>4 people</span><span class="price-val" data-base="600">600€</span></div>
+            <div class="exp-price-row"><span data-es>Familias</span><span data-en>Families</span><span class="price-val" data-base="500">500€</span></div>
+            <div class="exp-price-note" data-es>Familias: 2 adultos + hasta 3 niños · Capacidad máxima 5 personas a bordo</div>
+            <div class="exp-price-note" data-en>Families: 2 adults + up to 3 children · Maximum capacity 5 people on board</div>
+          </div>
+          <div class="exp-date">
+            <label data-es>📅 Fecha deseada (opcional)</label>
+            <label data-en>📅 Preferred date (optional)</label>
+            <input type="date" class="exp-date-input">
+            <p class="exp-season-note" data-es>Tarifa de temporada alta (julio-agosto) ya aplicada arriba</p>
+            <p class="exp-season-note" data-en>High-season rate (July-August) already applied above</p>
           </div>
         </div>
         <a href="https://wa.me/34680193006?text=Hola!%20Quiero%20reservar%20el%20*Morning%20Sail%20Experience*%20(10%3A00%E2%80%9315%3A00h%2C%205%20horas).%20%C2%BFTen%C3%A9is%20disponibilidad%3F%20%F0%9F%8C%8A%E2%9B%B5" class="exp-btn" data-es>Reservar este tour →</a>
@@ -575,7 +624,7 @@ footer{background:var(--navy2);border-top:1px solid rgba(193,154,107,.1);padding
         <div class="feat-pill" data-es>Más popular</div>
         <div class="feat-pill" data-en>Most popular</div>
         <div class="exp-img">
-          <img src="https://raw.githubusercontent.com/gaffmallorcatours/website/refs/heads/main/img/freepik__expand__82210-400x267.png" alt="Sunset Private Experience">
+          <img src="img/freepik__expand__82210-400x267.png" loading="lazy" decoding="async" alt="Sunset Private Experience">
           <div class="exp-img-overlay"></div>
         </div>
         <div class="exp-body">
@@ -592,11 +641,21 @@ footer{background:var(--navy2);border-top:1px solid rgba(193,154,107,.1);padding
             <li data-es>Paddle Surf y Snorkel</li><li data-en>Paddle Surf and Snorkel</li>
             <li data-es>Aperitivos, agua, refrescos, vino o cava</li><li data-en>Snacks, water, soft drinks, wine or cava</li>
             <li data-es>Posibilidad de comida a bordo</li><li data-en>Option to request on-board meal</li>
+            <li data-es>🌹 Ambiente íntimo, ideal para una velada romántica en pareja</li><li data-en>🌹 Intimate atmosphere, perfect for a romantic evening for two</li>
           </ul>
           <div class="exp-prices">
-            <div class="exp-price-row"><span data-es>2 personas</span><span data-en>2 people</span><span>400€</span></div>
-            <div class="exp-price-row"><span data-es>4 personas</span><span data-en>4 people</span><span>600€</span></div>
-            <div class="exp-price-row"><span data-es>Familias</span><span data-en>Families</span><span>500€</span></div>
+            <div class="exp-price-row"><span data-es>2 personas</span><span data-en>2 people</span><span class="price-val" data-base="450">450€</span></div>
+            <div class="exp-price-row"><span data-es>4 personas</span><span data-en>4 people</span><span class="price-val" data-base="650">650€</span></div>
+            <div class="exp-price-row"><span data-es>Familias</span><span data-en>Families</span><span class="price-val" data-base="550">550€</span></div>
+            <div class="exp-price-note" data-es>Familias: 2 adultos + hasta 3 niños · Capacidad máxima 5 personas a bordo</div>
+            <div class="exp-price-note" data-en>Families: 2 adults + up to 3 children · Maximum capacity 5 people on board</div>
+          </div>
+          <div class="exp-date">
+            <label data-es>📅 Fecha deseada (opcional)</label>
+            <label data-en>📅 Preferred date (optional)</label>
+            <input type="date" class="exp-date-input">
+            <p class="exp-season-note" data-es>Tarifa de temporada alta (julio-agosto) ya aplicada arriba</p>
+            <p class="exp-season-note" data-en>High-season rate (July-August) already applied above</p>
           </div>
         </div>
         <a href="https://wa.me/34680193006?text=Hola!%20Quiero%20reservar%20el%20*Sunset%20Private%20Experience*%20(16%3A00%E2%80%9321%3A00h%2C%205%20horas).%20%C2%BFTen%C3%A9is%20disponibilidad%3F%20%F0%9F%8C%8A%F0%9F%8C%85" class="exp-btn" data-es>Reservar este tour →</a>
@@ -606,7 +665,7 @@ footer{background:var(--navy2);border-top:1px solid rgba(193,154,107,.1);padding
       <!-- ESSENTIAL -->
       <div class="exp-card fu d4">
         <div class="exp-img">
-          <img src="https://raw.githubusercontent.com/gaffmallorcatours/website/refs/heads/main/img/IMG-20260108-WA0016-682x1024-1-400x601.jpg" alt="Essential Experience">
+          <img src="img/IMG-20260108-WA0016-682x1024-1-400x601.jpg" loading="lazy" decoding="async" alt="Essential Experience">
           <div class="exp-img-overlay"></div>
         </div>
         <div class="exp-body">
@@ -624,14 +683,99 @@ footer{background:var(--navy2);border-top:1px solid rgba(193,154,107,.1);padding
             <li data-es>Posibilidad de comida a bordo</li><li data-en>Option to request on-board meal</li>
           </ul>
           <div class="exp-prices">
-            <div class="exp-price-row"><span data-es>2 personas</span><span data-en>2 people</span><span>300€</span></div>
-            <div class="exp-price-row"><span data-es>4 personas</span><span data-en>4 people</span><span>400€</span></div>
-            <div class="exp-price-row"><span data-es>Familias</span><span data-en>Families</span><span>350€</span></div>
+            <div class="exp-price-row"><span data-es>2 personas</span><span data-en>2 people</span><span class="price-val" data-base="300">300€</span></div>
+            <div class="exp-price-row"><span data-es>4 personas</span><span data-en>4 people</span><span class="price-val" data-base="400">400€</span></div>
+            <div class="exp-price-row"><span data-es>Familias</span><span data-en>Families</span><span class="price-val" data-base="350">350€</span></div>
+            <div class="exp-price-note" data-es>Familias: 2 adultos + hasta 3 niños · Capacidad máxima 5 personas a bordo</div>
+            <div class="exp-price-note" data-en>Families: 2 adults + up to 3 children · Maximum capacity 5 people on board</div>
+          </div>
+          <div class="exp-date">
+            <label data-es>📅 Fecha deseada (opcional)</label>
+            <label data-en>📅 Preferred date (optional)</label>
+            <input type="date" class="exp-date-input">
+            <p class="exp-season-note" data-es>Tarifa de temporada alta (julio-agosto) ya aplicada arriba</p>
+            <p class="exp-season-note" data-en>High-season rate (July-August) already applied above</p>
           </div>
         </div>
         <a href="https://wa.me/34680193006?text=Hola!%20Quiero%20reservar%20el%20*Essential%20Experience*%20(3%20horas).%20%C2%BFTen%C3%A9is%20disponibilidad%3F%20%F0%9F%8C%8A%E2%9B%B5" class="exp-btn" data-es>Reservar este tour →</a>
         <a href="https://wa.me/34680193006?text=Hello!%20I%27d%20like%20to%20book%20the%20*Essential%20Experience*%20(3%20hours).%20Do%20you%20have%20availability%3F%20%F0%9F%8C%8A%E2%9B%B5" class="exp-btn" data-en>Book this tour →</a>
       </div>
+    </div>
+
+    <!-- CUSTOM OFFER -->
+    <div class="custom-offer fu">
+      <p class="custom-offer-txt" data-es>¿Ninguna de estas experiencias se ajusta del todo a lo que buscáis? Diseñamos rutas, horarios y servicios a medida para grupos, celebraciones o necesidades especiales.</p>
+      <p class="custom-offer-txt" data-en>None of these experiences quite match what you're looking for? We design custom routes, schedules and services for groups, celebrations or special requests.</p>
+      <div class="exp-date">
+        <label data-es>📅 Fecha deseada (opcional)</label>
+        <label data-en>📅 Preferred date (optional)</label>
+        <input type="date" class="exp-date-input">
+      </div>
+      <a href="https://wa.me/34680193006?text=Hola!%20Ninguno%20de%20los%203%20tours%20se%20ajusta%20del%20todo%20a%20lo%20que%20busco.%20%C2%BFPodr%C3%ADais%20prepararme%20una%20oferta%20personalizada%3F%20%F0%9F%8C%8A%E2%9B%B5" class="btn-gold" data-es><span>Quiero una oferta personalizada</span></a>
+      <a href="https://wa.me/34680193006?text=Hello!%20None%20of%20the%203%20tours%20quite%20match%20what%20I%27m%20looking%20for.%20Could%20you%20prepare%20a%20personalized%20offer%20for%20me%3F%20%F0%9F%8C%8A%E2%9B%B5" class="btn-gold" data-en><span>I'd like a personalized offer</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- SPECIAL OCCASIONS / GIFT VOUCHER -->
+<section id="special">
+  <div class="special-wrap">
+    <div class="special-hdr fu">
+      <p class="eyebrow" style="justify-content:center" data-es>Ocasiones Especiales</p>
+      <p class="eyebrow" style="justify-content:center" data-en>Special Occasions</p>
+      <h2 class="sec-h" data-es>Momentos para recordar toda la vida</h2>
+      <h2 class="sec-h" data-en>Moments to remember for a lifetime</h2>
+      <div class="rule c"></div>
+      <p class="serif-lede" data-es>¿Celebráis algo especial? Diseñamos la experiencia a vuestra medida — desde una pedida de mano hasta un bono regalo para sorprender a quien más queréis.</p>
+      <p class="serif-lede" data-en>Celebrating something special? We tailor the experience to you — from a marriage proposal to a gift voucher for someone you love.</p>
+    </div>
+    <div class="special-grid">
+      <div class="special-item fu">
+        <span class="special-icon">💍</span>
+        <div class="special-name" data-es>Pedidas de mano</div>
+        <div class="special-name" data-en>Proposals</div>
+        <div class="special-txt" data-es>Preparamos el momento perfecto para dar el "sí" en alta mar, con todo listo a bordo.</div>
+        <div class="special-txt" data-en>We set the scene for the perfect moment to pop the question at sea, all arranged on board.</div>
+      </div>
+      <div class="special-item fu d1">
+        <span class="special-icon">💕</span>
+        <div class="special-name" data-es>Salidas románticas</div>
+        <div class="special-name" data-en>Romantic outings</div>
+        <div class="special-txt" data-es>Aniversarios, lunas de miel o una cita diferente — solo vosotros, el mar y el atardecer.</div>
+        <div class="special-txt" data-en>Anniversaries, honeymoons or a date with a difference — just the two of you, the sea and the sunset.</div>
+      </div>
+      <div class="special-item fu d2">
+        <span class="special-icon">🎂</span>
+        <div class="special-name" data-es>Cumpleaños íntimos</div>
+        <div class="special-name" data-en>Intimate birthdays</div>
+        <div class="special-txt" data-es>Celebra tu día con tu gente más cercana (hasta 5 personas), música, snacks y una cala para vosotros.</div>
+        <div class="special-txt" data-en>Celebrate your day with your closest people (up to 5), music, snacks and a cove all to yourselves.</div>
+      </div>
+      <div class="special-item fu d3">
+        <span class="special-icon">📸</span>
+        <div class="special-name" data-es>Sesión fotográfica</div>
+        <div class="special-name" data-en>Photo session</div>
+        <div class="special-txt" data-es>El velero clásico como escenario perfecto para fotos de pareja, familia o un momento especial.</div>
+        <div class="special-txt" data-en>The classic sailboat as the perfect backdrop for couple, family or special-moment photography.</div>
+      </div>
+      <div class="special-item fu d4">
+        <span class="special-icon">🎁</span>
+        <div class="special-name" data-es>Bono regalo</div>
+        <div class="special-name" data-en>Gift voucher</div>
+        <div class="special-txt" data-es>Regala una experiencia inolvidable con un bono personalizado para la ocasión que quieras.</div>
+        <div class="special-txt" data-en>Gift an unforgettable experience with a personalised voucher for any occasion.</div>
+      </div>
+      <div class="special-item fu d5">
+        <span class="special-icon">⚓</span>
+        <div class="special-name" data-es>A vuestra medida</div>
+        <div class="special-name" data-en>Tailor-made</div>
+        <div class="special-txt" data-es>Cuéntanos tu idea y diseñamos juntos la experiencia perfecta para esa ocasión.</div>
+        <div class="special-txt" data-en>Tell us your idea and we'll design the perfect experience for that occasion together.</div>
+      </div>
+    </div>
+    <div class="special-cta fu">
+      <a href="https://wa.me/34680193006?text=Hola!%20Me%20gustar%C3%ADa%20m%C3%A1s%20informaci%C3%B3n%20sobre%20ocasiones%20especiales%20(bono%20regalo%2C%20pedida%20de%20mano%2C%20celebraci%C3%B3n...).%20%C2%BFPod%C3%A9is%20ayudarme%3F%20%F0%9F%8C%8A%E2%9B%B5" class="btn-gold" data-es><span>Solicitar información</span></a>
+      <a href="https://wa.me/34680193006?text=Hello!%20I%27d%20like%20more%20information%20about%20special%20occasions%20(gift%20voucher%2C%20proposal%2C%20celebration...).%20Could%20you%20help%20me%3F%20%F0%9F%8C%8A%E2%9B%B5" class="btn-gold" data-en><span>Request information</span></a>
     </div>
   </div>
 </section>
@@ -658,18 +802,19 @@ footer{background:var(--navy2);border-top:1px solid rgba(193,154,107,.1);padding
           <div class="boat-spec"><span class="spec-val">9m</span><span class="spec-lbl" data-es>Eslora</span><span class="spec-lbl" data-en>Length</span></div>
           <div class="boat-spec"><span class="spec-val">2.70m</span><span class="spec-lbl" data-es>Manga</span><span class="spec-lbl" data-en>Beam</span></div>
           <div class="boat-spec"><span class="spec-val">1.40m</span><span class="spec-lbl" data-es>Calado</span><span class="spec-lbl" data-en>Draft</span></div>
+          <div class="boat-spec"><span class="spec-val">5</span><span class="spec-lbl" data-es>Pasajeros máx.</span><span class="spec-lbl" data-en>Max. passengers</span></div>
         </div>
       </div>
       <div class="boat-side fr">
-        <img src="https://raw.githubusercontent.com/gaffmallorcatours/website/refs/heads/main/img/unnamed-400x533.png" alt="Velero Gaff Classic Tours">
+        <img src="img/unnamed-400x533.png" loading="lazy" decoding="async" alt="Velero Gaff Classic Tours">
       </div>
     </div>
     <div class="boat-gal fu">
-      <div class="gal-item"><img src="https://raw.githubusercontent.com/gaffmallorcatours/website/refs/heads/main/img/IMG-20260108-WA0001-768x745-1-600x582.jpg" alt="Velero en bahía" onclick="openLB(this.src)"><div class="gal-overlay"></div></div>
-      <div class="gal-item"><img src="https://raw.githubusercontent.com/gaffmallorcatours/website/refs/heads/main/img/6d027dff-b871-4a89-a8ad-51118d51147c-edited-768x768-1-400x400.jpg" alt="Cubierta velero" onclick="openLB(this.src)"><div class="gal-overlay"></div></div>
-      <div class="gal-item"><img src="https://raw.githubusercontent.com/gaffmallorcatours/website/refs/heads/main/img/2024-06-16.png" alt="Navegando en Mallorca" onclick="openLB(this.src)"><div class="gal-overlay"></div></div>
-      <div class="gal-item"><img src="https://raw.githubusercontent.com/gaffmallorcatours/website/refs/heads/main/img/IMG-20260108-WA0016-682x1024-1-400x601.jpg" alt="Cala Mallorca" onclick="openLB(this.src)"><div class="gal-overlay"></div></div>
-      <div class="gal-item"><img src="https://raw.githubusercontent.com/gaffmallorcatours/website/refs/heads/main/img/lunch-experience-gaff-charter-1-400x533.png" alt="A bordo" onclick="openLB(this.src)"><div class="gal-overlay"></div></div>
+      <div class="gal-item"><img src="img/IMG-20260108-WA0001-768x745-1-600x582.jpg" loading="lazy" decoding="async" alt="Velero en bahía" onclick="openLB(this.src)"><div class="gal-overlay"></div></div>
+      <div class="gal-item"><img src="img/6d027dff-b871-4a89-a8ad-51118d51147c-edited-768x768-1-400x400.jpg" loading="lazy" decoding="async" alt="Cubierta velero" onclick="openLB(this.src)"><div class="gal-overlay"></div></div>
+      <div class="gal-item"><img src="img/2024-06-16.png" loading="lazy" decoding="async" alt="Navegando en Mallorca" onclick="openLB(this.src)"><div class="gal-overlay"></div></div>
+      <div class="gal-item"><img src="img/IMG-20260108-WA0016-682x1024-1-400x601.jpg" loading="lazy" decoding="async" alt="Cala Mallorca" onclick="openLB(this.src)"><div class="gal-overlay"></div></div>
+      <div class="gal-item"><img src="img/lunch-experience-gaff-charter-1-400x533.png" loading="lazy" decoding="async" alt="A bordo" onclick="openLB(this.src)"><div class="gal-overlay"></div></div>
     </div>
   </div>
 </section>
@@ -678,7 +823,7 @@ footer{background:var(--navy2);border-top:1px solid rgba(193,154,107,.1);padding
 <section id="captain">
   <div class="cap-inner">
     <div class="cap-img fl">
-      <img src="https://raw.githubusercontent.com/gaffmallorcatours/website/refs/heads/main/img/freepik__improve-image-quality-remove-compression-artifacts__74559-400x533.png" alt="Capitán Gonzalo Cornet">
+      <img src="img/freepik__improve-image-quality-remove-compression-artifacts__74559-400x533.png" loading="lazy" decoding="async" alt="Capitán Gonzalo Cornet">
     </div>
     <div class="cap-txt fr">
       <p class="eyebrow" data-es>El Capitán</p>
@@ -747,11 +892,11 @@ footer{background:var(--navy2);border-top:1px solid rgba(193,154,107,.1);padding
 <!-- GALLERY STRIP -->
 <div id="gal-strip">
   <div class="gal-strip-inner">
-    <img src="https://raw.githubusercontent.com/gaffmallorcatours/website/refs/heads/main/img/freepik__enhance__69233-scaled.png" alt="Velero gaff mallorca" onclick="openLB(this.src)">
-    <img src="https://raw.githubusercontent.com/gaffmallorcatours/website/refs/heads/main/img/freepik__expand__82210-400x267.png" alt="Sunset experience" onclick="openLB(this.src)">
-    <img src="https://raw.githubusercontent.com/gaffmallorcatours/website/refs/heads/main/img/IMG-20260108-WA0021-scaled-1-400x533.jpg" alt="Velero clásico" onclick="openLB(this.src)">
-    <img src="https://raw.githubusercontent.com/gaffmallorcatours/website/refs/heads/main/img/lunch-experience-gaff-charter-1-400x533.png" alt="A bordo" onclick="openLB(this.src)">
-    <img src="https://raw.githubusercontent.com/gaffmallorcatours/website/refs/heads/main/img/2024-06-16.png" alt="Navegando" onclick="openLB(this.src)">
+    <img src="img/freepik__enhance__69233-scaled.png" loading="lazy" decoding="async" alt="Velero gaff mallorca" onclick="openLB(this.src)">
+    <img src="img/freepik__expand__82210-400x267.png" loading="lazy" decoding="async" alt="Sunset experience" onclick="openLB(this.src)">
+    <img src="img/IMG-20260108-WA0021-scaled-1-400x533.jpg" loading="lazy" decoding="async" alt="Velero clásico" onclick="openLB(this.src)">
+    <img src="img/lunch-experience-gaff-charter-1-400x533.png" loading="lazy" decoding="async" alt="A bordo" onclick="openLB(this.src)">
+    <img src="img/2024-06-16.png" loading="lazy" decoding="async" alt="Navegando" onclick="openLB(this.src)">
   </div>
 </div>
 
@@ -791,11 +936,13 @@ footer{background:var(--navy2);border-top:1px solid rgba(193,154,107,.1);padding
           <div>
             <span class="c-lbl" data-es>Ubicación</span>
             <span class="c-lbl" data-en>Location</span>
-            <a class="c-val" href="https://www.google.com/maps/search/?api=1&query=Club+de+Mar+Mallorca+Muelle+Pelaires+Amarre+1007+07015+Palma" target="_blank" rel="noopener">
+            <a class="c-val" href="https://www.google.com/maps/search/?api=1&query=Club+de+Mar+Mallorca+Muelle+Pelaires+Amarre+1009+07015+Palma" target="_blank" rel="noopener">
               Club de Mar — Mallorca<br>
-              <span data-es>Muelle Pelaires, Amarre 1007</span><span data-en>Muelle Pelaires, Berth 1007</span><br>
+              <span data-es>Muelle Pelaires, Amarre 1009</span><span data-en>Muelle Pelaires, Berth 1009</span><br>
               07015 Palma
             </a>
+            <span class="c-note" data-es>Justo delante de la Cantina Mar Grill</span>
+            <span class="c-note" data-en>Right in front of Cantina Mar Grill</span>
           </div>
         </div>
         <div class="c-item">
@@ -810,9 +957,9 @@ footer{background:var(--navy2);border-top:1px solid rgba(193,154,107,.1);padding
         </div>
         <div class="addr-img">
           <div class="cert-logos">
-            <img src="https://raw.githubusercontent.com/gaffmallorcatours/website/refs/heads/main/img/Logo_govern.png" alt="Govern Illes Balears">
+            <img src="img/Logo_govern.png" loading="lazy" decoding="async" alt="Govern Illes Balears">
             <div class="cert-divider"></div>
-            <img src="https://raw.githubusercontent.com/gaffmallorcatours/website/refs/heads/main/img/Logo_club.png" alt="Club de Mar Mallorca">
+            <img src="img/Logo_club.png" loading="lazy" decoding="async" alt="Club de Mar Mallorca">
           </div>
         </div>
       </div>
@@ -826,13 +973,17 @@ footer{background:var(--navy2);border-top:1px solid rgba(193,154,107,.1);padding
     <div class="f-links">
       <a href="#experiences" data-es>Experiencias</a>
       <a href="#experiences" data-en>Experiences</a>
+      <a href="#special" data-es>Ocasiones Especiales</a>
+      <a href="#special" data-en>Special Occasions</a>
       <a href="#boat" data-es>El Velero</a>
       <a href="#boat" data-en>The Boat</a>
       <a href="#captain" data-es>El Capitán</a>
       <a href="#captain" data-en>The Captain</a>
+      <a href="privacidad.html" data-es>Privacidad</a>
+      <a href="privacidad.html" data-en>Privacy</a>
     </div>
     <div class="f-logo">
-      <img src="https://raw.githubusercontent.com/gaffmallorcatours/website/refs/heads/main/img/logonuevov.png" alt="Gaff Classic Tours" style="height:48px;width:auto;object-fit:contain;opacity:.75;display:block;margin:0 auto" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <img src="img/logonuevov.png" loading="lazy" decoding="async" alt="Gaff Classic Tours" style="height:48px;width:auto;object-fit:contain;opacity:.75;display:block;margin:0 auto" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
       <div style="display:none">
         <span class="f-logo-main">GAFF CLASSIC TOURS</span>
         <span class="f-logo-sub">Mallorca · Mediterráneo</span>
@@ -844,8 +995,8 @@ footer{background:var(--navy2);border-top:1px solid rgba(193,154,107,.1);padding
       <a href="mailto:stewartssecret@gmail.com">Email</a>
     </div>
   </div>
-  <p class="f-copy" data-es>© 2026 Gaff Classic Tours Mallorca · Todos los derechos reservados · Club de Mar, Amarre 1007, Palma</p>
-  <p class="f-copy" data-en>© 2026 Gaff Classic Tours Mallorca · All rights reserved · Club de Mar, Berth 1007, Palma</p>
+  <p class="f-copy" data-es>© 2026 Gaff Classic Tours Mallorca · Todos los derechos reservados · Club de Mar, Amarre 1009, Palma</p>
+  <p class="f-copy" data-en>© 2026 Gaff Classic Tours Mallorca · All rights reserved · Club de Mar, Berth 1009, Palma</p>
 </footer>
 
 <script>
@@ -926,7 +1077,7 @@ if(!isMobile){
 }
 
 /* ACTIVE NAV LINK */
-const sections=['experiences','boat','captain','reviews','contact'];
+const sections=['experiences','special','boat','captain','reviews','contact'];
 const navAs=document.querySelectorAll('.nav-a');
 const sObs=new IntersectionObserver(entries=>{
   entries.forEach(e=>{
@@ -940,6 +1091,54 @@ const sObs=new IntersectionObserver(entries=>{
   });
 },{threshold:.4});
 sections.forEach(id=>{const el=document.getElementById(id);if(el)sObs.observe(el);});
+
+/* SEASONAL PRICING + DATE PICKER
+   - Ajusta aquí los meses de temporada alta y el suplemento.
+   - HIGH_SEASON_MONTHS usa 1=enero ... 12=diciembre. Por defecto: julio y agosto. */
+const HIGH_SEASON_MONTHS=[7,8];
+const HIGH_SEASON_SUPPLEMENT=200; // €
+
+function initDatePicker(container){
+  const dateInput=container.querySelector('.exp-date-input');
+  if(!dateInput) return;
+  const priceEls=container.querySelectorAll('.price-val');
+  const seasonNotes=container.querySelectorAll('.exp-season-note');
+  const links=container.querySelectorAll('a[href^="https://wa.me"]');
+  const baseHrefs=new Map();
+  links.forEach(a=>baseHrefs.set(a,a.getAttribute('href')));
+
+  // No permitir fechas pasadas
+  dateInput.min=new Date().toISOString().split('T')[0];
+
+  dateInput.addEventListener('change',()=>{
+    const val=dateInput.value;
+    let high=false;
+    if(val){
+      high=HIGH_SEASON_MONTHS.includes(parseInt(val.split('-')[1],10));
+    }
+    priceEls.forEach(el=>{
+      const base=parseInt(el.dataset.base,10);
+      el.textContent=(high?base+HIGH_SEASON_SUPPLEMENT:base)+'€';
+    });
+    seasonNotes.forEach(n=>n.style.display=high?'block':'none');
+    links.forEach(a=>{
+      let href=baseHrefs.get(a);
+      if(val){
+        const [y,m,d]=val.split('-');
+        const dateStr=`${d}/${m}/${y}`;
+        const isEs=a.hasAttribute('data-es');
+        let extra=isEs?`%0A%0AFecha%20deseada%3A%20${dateStr}`:`%0A%0APreferred%20date%3A%20${dateStr}`;
+        if(high){
+          extra+=isEs?`%20(temporada%20alta%2C%20suplemento%20incluido)`:`%20(high%20season%2C%20surcharge%20included)`;
+        }
+        href+=extra;
+      }
+      a.href=href;
+    });
+  });
+}
+document.querySelectorAll('.exp-card,.custom-offer').forEach(initDatePicker);
+
 </script>
 </body>
 </html>
