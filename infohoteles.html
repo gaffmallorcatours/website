@@ -13,18 +13,14 @@
 :root {
   --navy:    #07111f;
   --navy2:   #0c1b30;
-  --navy3:   #112240;
   --gold:    #c19a6b;
   --gold2:   #d4aa7d;
   --gold3:   #e8c99a;
-  --cream:   #f5f0e8;
-  --cream2:  #faf7f2;
   --serif:   'Cormorant Garamond', Georgia, serif;
   --display: 'Cinzel', serif;
   --sans:    'Jost', system-ui, sans-serif;
 }
 
-/* ─── SCREEN WRAPPER ─── */
 body {
   background: #1a2639;
   font-family: var(--sans);
@@ -35,8 +31,7 @@ body {
 /* ─── PRINT CONTROLS ─── */
 .print-controls {
   position: fixed;
-  top: 16px;
-  right: 20px;
+  top: 16px; right: 20px;
   z-index: 9999;
   display: flex;
   flex-direction: column;
@@ -54,19 +49,8 @@ body {
   text-transform: uppercase;
   border-radius: 1px;
   transition: background .3s;
-  white-space: nowrap;
 }
 .print-btn:hover { background: var(--gold2); }
-.page-label {
-  font-family: var(--sans);
-  font-size: 0.55rem;
-  letter-spacing: 0.18em;
-  color: rgba(255,255,255,0.35);
-  text-transform: uppercase;
-  text-align: center;
-  padding: 6px 0 2px;
-  margin-top: 10px;
-}
 
 @media print {
   .print-controls { display: none; }
@@ -89,26 +73,15 @@ body {
   page-break-after: always;
   page-break-inside: avoid;
 }
-
-/* ─── DECORATIVE CORNER MARKS ─── */
 .page::before, .page::after {
   content: '';
   position: absolute;
-  width: 18mm;
-  height: 18mm;
+  width: 18mm; height: 18mm;
   pointer-events: none;
   z-index: 10;
 }
-.page::before {
-  top: 7mm; left: 7mm;
-  border-top: 1px solid rgba(193,154,107,0.25);
-  border-left: 1px solid rgba(193,154,107,0.25);
-}
-.page::after {
-  bottom: 7mm; right: 7mm;
-  border-bottom: 1px solid rgba(193,154,107,0.25);
-  border-right: 1px solid rgba(193,154,107,0.25);
-}
+.page::before { top: 7mm; left: 7mm; border-top: 1px solid rgba(193,154,107,0.25); border-left: 1px solid rgba(193,154,107,0.25); }
+.page::after  { bottom: 7mm; right: 7mm; border-bottom: 1px solid rgba(193,154,107,0.25); border-right: 1px solid rgba(193,154,107,0.25); }
 
 /* ─── HEADER ─── */
 .pg-header {
@@ -119,526 +92,105 @@ body {
   border-bottom: 1px solid rgba(193,154,107,0.14);
   flex-shrink: 0;
 }
-.logo-center {
-  text-align: center;
-  flex: 1;
-}
-.logo-img {
-  height: 40px;
-  width: auto;
-  object-fit: contain;
-  display: block;
-  margin: 0 auto;
-}
-.logo-fallback {
-  font-family: var(--display);
-  font-size: 0.9rem;
-  letter-spacing: 0.2em;
-  color: white;
-  display: none;
-}
-.logo-sub-text {
-  font-family: var(--sans);
-  font-size: 0.44rem;
-  letter-spacing: 0.48em;
-  color: var(--gold);
-  margin-top: 3px;
-  text-transform: uppercase;
-  display: block;
-}
-.doc-badge {
-  font-family: var(--display);
-  font-size: 0.42rem;
-  letter-spacing: 0.22em;
-  color: var(--gold);
-  text-transform: uppercase;
-  border: 1px solid rgba(193,154,107,0.28);
-  padding: 0.28rem 0.7rem;
-  white-space: nowrap;
-}
+.logo-center { text-align: center; flex: 1; }
+.logo-img { height: 40px; width: auto; object-fit: contain; display: block; margin: 0 auto; }
+.logo-fallback { font-family: var(--display); font-size: 0.9rem; letter-spacing: 0.2em; color: white; display: none; }
+.logo-sub-text { font-family: var(--sans); font-size: 0.44rem; letter-spacing: 0.48em; color: var(--gold); margin-top: 3px; text-transform: uppercase; display: block; }
+.doc-badge { font-family: var(--display); font-size: 0.42rem; letter-spacing: 0.22em; color: var(--gold); text-transform: uppercase; border: 1px solid rgba(193,154,107,0.28); padding: 0.28rem 0.7rem; white-space: nowrap; }
 .header-left { flex: 1; }
 .header-right { flex: 1; display: flex; justify-content: flex-end; }
 
 /* ─── GOLD LINE ─── */
-.gold-line {
-  width: 100%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent 0%, rgba(193,154,107,0.4) 30%, rgba(193,154,107,0.8) 50%, rgba(193,154,107,0.4) 70%, transparent 100%);
-  flex-shrink: 0;
-}
+.gold-line { width: 100%; height: 1px; background: linear-gradient(90deg, transparent 0%, rgba(193,154,107,0.4) 30%, rgba(193,154,107,0.8) 50%, rgba(193,154,107,0.4) 70%, transparent 100%); flex-shrink: 0; }
 
-/* ─── SECTION INTRO ─── */
-.pg-intro {
-  padding: 5.5mm 14mm 4mm;
-  text-align: center;
-  flex-shrink: 0;
-}
-.pg-title {
-  font-family: var(--display);
-  font-size: 1.25rem;
-  letter-spacing: 0.05em;
-  color: white;
-  line-height: 1.15;
-}
-.pg-title em {
-  font-family: var(--serif);
-  font-style: italic;
-  font-weight: 300;
-  color: var(--gold3);
-  font-size: 0.85em;
-  display: block;
-  margin-top: 2px;
-  letter-spacing: 0.02em;
-}
-.pg-lead {
-  font-family: var(--serif);
-  font-style: italic;
-  font-size: 0.82rem;
-  color: rgba(255,255,255,0.48);
-  line-height: 1.72;
-  margin-top: 3.5mm;
-  max-width: 155mm;
-  margin-left: auto;
-  margin-right: auto;
-}
+/* ─── INTRO ─── */
+.pg-intro { padding: 5mm 14mm 3.5mm; text-align: center; flex-shrink: 0; }
+.pg-title { font-family: var(--display); font-size: 1.2rem; letter-spacing: 0.05em; color: white; line-height: 1.15; }
+.pg-title em { font-family: var(--serif); font-style: italic; font-weight: 300; color: var(--gold3); font-size: 0.82em; display: block; margin-top: 2px; }
+.pg-lead { font-family: var(--serif); font-style: italic; font-size: 0.8rem; color: rgba(255,255,255,0.48); line-height: 1.7; margin-top: 3mm; max-width: 155mm; margin-left: auto; margin-right: auto; }
 
-/* ─── TOUR CARDS GRID ─── */
-.tours-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 3mm;
-  padding: 0 11mm 3mm;
-  flex: 1;
-  min-height: 0;
-}
-.tour-card {
-  background: var(--navy2);
-  border: 1px solid rgba(193,154,107,0.15);
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  overflow: hidden;
-}
-.tour-card.featured {
-  border-color: rgba(193,154,107,0.38);
-}
-.tour-card.featured::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
-}
+/* ─── TOUR CARDS ─── */
+.tours-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3mm; padding: 0 11mm 3mm; flex: 1; min-height: 0; }
 
-/* Card photo */
-.tour-img {
-  height: 36mm;
-  overflow: hidden;
-  flex-shrink: 0;
-  position: relative;
-}
-.tour-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 35%;
-  display: block;
-}
-.tour-img-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, rgba(7,17,31,0.05) 30%, rgba(12,27,48,0.95) 100%);
-}
-.tour-tag-over {
-  position: absolute;
-  bottom: 5.5mm;
-  left: 5mm;
-  font-family: var(--display);
-  font-size: 0.7rem;
-  letter-spacing: 0.05em;
-  color: white;
-  line-height: 1.2;
-}
-.tour-tag-over small {
-  display: block;
-  font-family: var(--sans);
-  font-size: 0.42rem;
-  letter-spacing: 0.32em;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 2px;
-  font-weight: 300;
-}
-.feat-pill {
-  position: absolute;
-  top: 4mm; right: 4mm;
-  background: var(--gold);
-  color: var(--navy);
-  font-family: var(--display);
-  font-size: 0.4rem;
-  letter-spacing: 0.18em;
-  padding: 0.22rem 0.6rem;
-  text-transform: uppercase;
-  z-index: 2;
-}
+.tour-card { background: var(--navy2); border: 1px solid rgba(193,154,107,0.15); display: flex; flex-direction: column; position: relative; overflow: hidden; }
+.tour-card.featured { border-color: rgba(193,154,107,0.38); }
+.tour-card.featured::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
 
-/* Card body */
-.tour-body {
-  padding: 4mm 5mm;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-.tour-dur {
-  font-family: var(--serif);
-  font-style: italic;
-  color: rgba(255,255,255,0.36);
-  font-size: 0.72rem;
-  margin-bottom: 3.5mm;
-  line-height: 1.35;
-}
-.tour-divider {
-  width: 26px;
-  height: 1px;
-  background: rgba(193,154,107,0.32);
-  margin-bottom: 3.5mm;
-}
+.tour-img { height: 36mm; overflow: hidden; flex-shrink: 0; position: relative; }
+.tour-img img { width: 100%; height: 100%; object-fit: cover; object-position: center 35%; display: block; }
+.tour-img-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(7,17,31,0.05) 30%, rgba(12,27,48,0.95) 100%); }
+.tour-tag-over { position: absolute; bottom: 5mm; left: 5mm; font-family: var(--display); font-size: 0.7rem; letter-spacing: 0.05em; color: white; line-height: 1.2; }
+.tour-tag-over small { display: block; font-family: var(--sans); font-size: 0.4rem; letter-spacing: 0.32em; text-transform: uppercase; color: var(--gold); margin-bottom: 2px; font-weight: 300; }
+.feat-pill { position: absolute; top: 4mm; right: 4mm; background: var(--gold); color: var(--navy); font-family: var(--display); font-size: 0.38rem; letter-spacing: 0.18em; padding: 0.22rem 0.6rem; text-transform: uppercase; z-index: 2; }
 
-/* Includes list */
-.tour-list {
-  list-style: none;
-  flex: 1;
-  margin-bottom: 4mm;
-}
-.tour-list li {
-  font-size: 0.62rem;
-  color: rgba(255,255,255,0.52);
-  padding: 1.1mm 0;
-  border-bottom: 1px solid rgba(255,255,255,0.04);
-  display: flex;
-  align-items: flex-start;
-  gap: 1.5mm;
-  line-height: 1.4;
-}
-.tour-list li::before {
-  content: '';
-  width: 3px;
-  height: 3px;
-  background: var(--gold);
-  border-radius: 50%;
-  flex-shrink: 0;
-  margin-top: 3px;
-}
+.tour-body { padding: 4mm 5mm; flex: 1; display: flex; flex-direction: column; }
+.tour-dur { font-family: var(--serif); font-style: italic; color: rgba(255,255,255,0.36); font-size: 0.72rem; margin-bottom: 3mm; line-height: 1.35; }
+.tour-divider { width: 26px; height: 1px; background: rgba(193,154,107,0.32); margin-bottom: 3mm; }
 
-/* Prices box */
-.tour-prices {
-  background: rgba(193,154,107,0.04);
-  border: 1px solid rgba(193,154,107,0.1);
-  overflow: hidden;
-}
-/* Per-person table header bar */
-.price-table-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 2mm 4mm;
-  background: rgba(193,154,107,0.08);
-  border-bottom: 1px solid rgba(193,154,107,0.12);
-}
-.price-table-title {
-  font-family: var(--display);
-  font-size: 0.42rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--gold);
-}
-.price-max-badge {
-  font-family: var(--display);
-  font-size: 0.38rem;
-  letter-spacing: 0.14em;
-  color: var(--navy);
-  background: var(--gold);
-  padding: 0.18rem 0.5rem;
-  text-transform: uppercase;
-}
-/* Column labels row */
-.price-col-labels {
-  display: grid;
-  grid-template-columns: 1.1fr 0.9fr 1fr;
-  padding: 1.5mm 4mm 1mm;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-}
-.price-col-labels span {
-  font-size: 0.38rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.22);
-  font-family: var(--sans);
-}
-.price-col-labels span:nth-child(2),
-.price-col-labels span:nth-child(3) { text-align: right; }
-/* Data rows */
-.price-row {
-  display: grid;
-  grid-template-columns: 1.1fr 0.9fr 1fr;
-  align-items: center;
-  padding: 1.3mm 4mm;
-  font-size: 0.63rem;
-  color: rgba(255,255,255,0.48);
-  border-bottom: 1px solid rgba(255,255,255,0.04);
-}
+.tour-list { list-style: none; flex: 1; margin-bottom: 3.5mm; }
+.tour-list li { font-size: 0.62rem; color: rgba(255,255,255,0.52); padding: 1mm 0; border-bottom: 1px solid rgba(255,255,255,0.04); display: flex; align-items: flex-start; gap: 1.5mm; line-height: 1.4; }
+.tour-list li::before { content: ''; width: 3px; height: 3px; background: var(--gold); border-radius: 50%; flex-shrink: 0; margin-top: 3px; }
+
+/* ─── PRICE TABLE ─── */
+.tour-prices { background: rgba(193,154,107,0.04); border: 1px solid rgba(193,154,107,0.1); overflow: hidden; }
+.price-table-header { display: flex; align-items: center; gap: 0; padding: 2mm 4mm; background: rgba(193,154,107,0.08); border-bottom: 1px solid rgba(193,154,107,0.12); }
+.price-table-title { font-family: var(--display); font-size: 0.4rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); line-height: 1.4; }
+.price-max-badge { font-family: var(--display); font-size: 0.36rem; letter-spacing: 0.14em; color: var(--navy); background: var(--gold); padding: 0.18rem 0.5rem; text-transform: uppercase; white-space: nowrap; }
+
+.price-row { display: grid; grid-template-columns: 1fr 1fr; align-items: center; padding: 1.3mm 4mm; font-size: 0.63rem; color: rgba(255,255,255,0.48); border-bottom: 1px solid rgba(255,255,255,0.04); }
 .price-row:last-of-type { border-bottom: none; }
-.price-row.max-row {
-  background: rgba(193,154,107,0.06);
-  color: rgba(255,255,255,0.62);
-}
-.price-row .pax-label { display: flex; align-items: center; gap: 1.5mm; }
-.max-tag {
-  font-size: 0.35rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--gold);
-  border: 1px solid rgba(193,154,107,0.4);
-  padding: 0.1rem 0.35rem;
-  line-height: 1;
-}
-.price-row .per-pax {
-  text-align: right;
-  color: rgba(255,255,255,0.38);
-  font-size: 0.6rem;
-}
-.price-row .amount {
-  text-align: right;
-  color: var(--gold3);
-  font-family: var(--serif);
-  font-size: 0.82rem;
-  font-weight: 400;
-  letter-spacing: 0.02em;
-}
-/* Hotel prices box footer */
-.price-footer {
-  padding: 2mm 4mm;
-  background: rgba(0,0,0,0.15);
-  border-top: 1px solid rgba(193,154,107,0.08);
-}
-.price-note {
-  font-size: 0.48rem;
-  color: rgba(255,255,255,0.26);
-  font-style: italic;
-  line-height: 1.55;
-}
-/* Client sheet legacy price rows (kept for page 2) */
-.price-row-simple {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1.2mm 4mm;
-  font-size: 0.65rem;
-  color: rgba(255,255,255,0.48);
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-}
-.price-row-simple:last-of-type { border-bottom: none; }
-.price-row-simple .amount {
-  color: var(--gold3);
-  font-family: var(--serif);
-  font-size: 0.82rem;
-  font-weight: 400;
-}
-.price-note-simple {
-  font-size: 0.5rem;
-  color: rgba(255,255,255,0.26);
-  font-style: italic;
-  margin-top: 2mm;
-  line-height: 1.5;
-  padding: 0 4mm 2.5mm;
-}
+.price-row.max-row { background: rgba(193,154,107,0.06); color: rgba(255,255,255,0.62); }
+.pax-label { display: flex; align-items: center; gap: 1.5mm; }
+.max-tag { font-size: 0.33rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); border: 1px solid rgba(193,154,107,0.4); padding: 0.1rem 0.35rem; line-height: 1; }
+.price-row .amount { text-align: right; color: var(--gold3); font-family: var(--serif); font-size: 0.88rem; font-weight: 400; letter-spacing: 0.02em; }
 
-/* ─── COMMISSION BOX (hotel sheet only) ─── */
-.commission-box {
-  margin: 0 11mm 3mm;
-  border: 1px solid rgba(193,154,107,0.28);
-  background: rgba(193,154,107,0.04);
-  padding: 3.5mm 5mm;
-  display: flex;
-  align-items: flex-start;
-  gap: 3.5mm;
-  flex-shrink: 0;
-}
-.comm-icon {
-  color: var(--gold);
-  font-size: 0.9rem;
-  flex-shrink: 0;
-  margin-top: 1px;
-  line-height: 1;
-}
-.comm-body {
-  font-size: 0.62rem;
-  color: rgba(255,255,255,0.6);
-  line-height: 1.68;
-}
-.comm-body strong {
-  font-family: var(--display);
-  font-size: 0.48rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--gold3);
-  font-weight: 500;
-  display: block;
-  margin-bottom: 1.5mm;
-}
-.comm-body b { color: var(--gold3); font-weight: 400; }
+/* ─── HOTEL PRICE TABLE extra col ─── */
+.price-row-hotel { display: grid; grid-template-columns: 1.4fr 1fr 1fr; align-items: center; padding: 1.3mm 4mm; font-size: 0.63rem; color: rgba(255,255,255,0.48); border-bottom: 1px solid rgba(255,255,255,0.04); }
+.price-row-hotel:last-of-type { border-bottom: none; }
+.price-row-hotel.max-row { background: rgba(193,154,107,0.06); color: rgba(255,255,255,0.62); }
+.price-row-hotel .amount { text-align: right; color: var(--gold3); font-family: var(--serif); font-size: 0.88rem; font-weight: 400; }
+.price-row-hotel .deposit { text-align: right; color: var(--gold); font-family: var(--serif); font-size: 0.88rem; font-weight: 400; }
 
-/* ─── CONTACT ROW (hotel sheet only) ─── */
-.contact-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  margin: 0 11mm 3mm;
-  border: 1px solid rgba(193,154,107,0.1);
-  flex-shrink: 0;
-}
-.c-item {
-  padding: 3mm 4mm;
-  border-right: 1px solid rgba(193,154,107,0.1);
-}
+/* ─── CONTACT ROW ─── */
+.contact-row { display: grid; grid-template-columns: 1fr 1fr 1fr; margin: 0 11mm 3mm; border: 1px solid rgba(193,154,107,0.1); flex-shrink: 0; }
+.c-item { padding: 3mm 4mm; border-right: 1px solid rgba(193,154,107,0.1); }
 .c-item:last-child { border-right: none; }
-.c-label {
-  font-size: 0.42rem;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 1.5mm;
-  display: block;
-  font-family: var(--display);
-}
-.c-val {
-  font-size: 0.62rem;
-  color: rgba(255,255,255,0.65);
-  text-decoration: none;
-  display: block;
-  line-height: 1.55;
-}
+.c-label { font-size: 0.4rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.5mm; display: block; font-family: var(--display); }
+.c-val { font-size: 0.6rem; color: rgba(255,255,255,0.65); text-decoration: none; display: block; line-height: 1.55; }
 
-/* ─── HIGHLIGHTS STRIP (client sheet only) ─── */
-.highlights-strip {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  margin: 0 11mm 3mm;
-  border: 1px solid rgba(193,154,107,0.1);
-  flex-shrink: 0;
-}
-.hl-item {
-  text-align: center;
-  padding: 3mm 1.5mm;
-  border-right: 1px solid rgba(193,154,107,0.1);
-}
+/* ─── HIGHLIGHTS STRIP ─── */
+.highlights-strip { display: grid; grid-template-columns: repeat(4, 1fr); margin: 0 11mm 3mm; border: 1px solid rgba(193,154,107,0.1); flex-shrink: 0; }
+.hl-item { text-align: center; padding: 3mm 1.5mm; border-right: 1px solid rgba(193,154,107,0.1); }
 .hl-item:last-child { border-right: none; }
 .hl-icon { font-size: 1rem; display: block; margin-bottom: 1.5mm; }
-.hl-txt {
-  font-size: 0.5rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.4);
-  line-height: 1.5;
-}
-.hl-txt span { color: rgba(255,255,255,0.22); font-size: 0.46rem; }
+.hl-txt { font-size: 0.48rem; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.4); line-height: 1.55; }
+.hl-txt span { color: rgba(255,255,255,0.22); font-size: 0.44rem; display: block; }
 
-/* ─── CTA BOX (client sheet only) ─── */
-.cta-box {
-  margin: 0 11mm 3mm;
-  border: 1px solid rgba(193,154,107,0.3);
-  background: rgba(193,154,107,0.05);
-  padding: 5mm 7mm;
-  text-align: center;
-  position: relative;
-  flex-shrink: 0;
-}
-.cta-box::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
-}
-.cta-es {
-  font-family: var(--display);
-  font-size: 1rem;
-  letter-spacing: 0.08em;
-  color: var(--gold3);
-  line-height: 1.2;
-}
-.cta-en {
-  font-family: var(--serif);
-  font-style: italic;
-  font-size: 0.85rem;
-  color: rgba(255,255,255,0.42);
-  margin-top: 1.5mm;
-  line-height: 1.3;
-}
-.cta-sub {
-  font-size: 0.6rem;
-  color: rgba(255,255,255,0.55);
-  margin-top: 3.5mm;
-  line-height: 1.72;
-  max-width: 140mm;
-  margin-left: auto;
-  margin-right: auto;
-}
-.cta-deposit {
-  display: inline-block;
-  margin-top: 4mm;
-  border: 1px solid var(--gold);
-  padding: 1.8mm 9mm;
-  font-family: var(--display);
-  font-size: 0.5rem;
-  letter-spacing: 0.22em;
-  color: var(--gold);
-  text-transform: uppercase;
-}
+/* ─── CTA BOX ─── */
+.cta-box { margin: 0 11mm 3mm; border: 1px solid rgba(193,154,107,0.3); background: rgba(193,154,107,0.05); padding: 5mm 7mm; text-align: center; position: relative; flex-shrink: 0; }
+.cta-box::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+.cta-es { font-family: var(--display); font-size: 0.95rem; letter-spacing: 0.08em; color: var(--gold3); line-height: 1.2; }
+.cta-en { font-family: var(--serif); font-style: italic; font-size: 0.82rem; color: rgba(255,255,255,0.42); margin-top: 1.5mm; line-height: 1.3; }
+.cta-sub { font-size: 0.6rem; color: rgba(255,255,255,0.55); margin-top: 3.5mm; line-height: 1.72; max-width: 140mm; margin-left: auto; margin-right: auto; }
+.cta-deposit { display: inline-block; margin-top: 4mm; border: 1px solid var(--gold); padding: 1.8mm 9mm; font-family: var(--display); font-size: 0.48rem; letter-spacing: 0.22em; color: var(--gold); text-transform: uppercase; }
 
-/* ─── FOOTER (both sheets) ─── */
-.pg-footer {
-  padding: 3mm 14mm;
-  border-top: 1px solid rgba(193,154,107,0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 7mm;
-  flex-shrink: 0;
-  margin-top: auto;
-}
-.pg-footer img {
-  height: 22px;
-  width: auto;
-  object-fit: contain;
-  filter: brightness(0) invert(1);
-  opacity: 0.38;
-}
-.footer-divider {
-  width: 1px;
-  height: 18px;
-  background: rgba(193,154,107,0.22);
-}
-.pg-copy {
-  font-size: 0.41rem;
-  color: rgba(255,255,255,0.18);
-  text-align: center;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  padding: 0 14mm 4mm;
-  flex-shrink: 0;
-}
+/* ─── FOOTER ─── */
+.pg-footer { padding: 3mm 14mm; border-top: 1px solid rgba(193,154,107,0.1); display: flex; align-items: center; justify-content: center; gap: 7mm; flex-shrink: 0; margin-top: auto; }
+.pg-footer img { height: 22px; width: auto; object-fit: contain; filter: brightness(0) invert(1); opacity: 0.38; }
+.footer-divider { width: 1px; height: 18px; background: rgba(193,154,107,0.22); }
+.pg-copy { font-size: 0.41rem; color: rgba(255,255,255,0.18); text-align: center; letter-spacing: 0.14em; text-transform: uppercase; padding: 0 14mm 4mm; flex-shrink: 0; }
+
+/* Client sheet simple price rows */
+.price-row-simple { display: flex; justify-content: space-between; align-items: center; padding: 1.3mm 4mm; font-size: 0.63rem; color: rgba(255,255,255,0.48); border-bottom: 1px solid rgba(255,255,255,0.04); }
+.price-row-simple:last-of-type { border-bottom: none; }
+.price-row-simple .amount { color: var(--gold3); font-family: var(--serif); font-size: 0.88rem; font-weight: 400; }
 
 </style>
 </head>
 <body>
 
-<!-- ══════════════════════════════════════════ -->
-<!--  CONTROLES DE IMPRESIÓN                   -->
-<!-- ══════════════════════════════════════════ -->
 <div class="print-controls">
-  <button class="print-btn" onclick="window.print()">⊞ Imprimir ambas páginas</button>
-  <span class="page-label">↓ Hoja Hotel</span>
-  <span class="page-label" style="margin-top:60px">↓ Hoja Cliente</span>
+  <button class="print-btn" onclick="window.print()">⊞ Imprimir / Print</button>
 </div>
 
 
@@ -647,39 +199,33 @@ body {
 <!-- ══════════════════════════════════════════ -->
 <div class="page">
 
-  <!-- HEADER -->
   <div class="pg-header">
     <div class="header-left"></div>
     <div class="logo-center">
-      <img
-        class="logo-img"
-        src="https://gaffmallorca.tours/img/logonuevov.png"
-        alt="Gaff Classic Tours"
-        onerror="this.style.display='none';this.nextElementSibling.style.display='block'"
-      >
+      <img class="logo-img" src="https://gaffmallorca.tours/img/logonuevov.png" alt="Gaff Classic Tours"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
       <span class="logo-fallback">GAFF CLASSIC TOURS</span>
       <span class="logo-sub-text">Mallorca · Mediterráneo</span>
     </div>
     <div class="header-right">
-      <div class="doc-badge">Información Hotel · 2026</div>
+      <div class="doc-badge">Hoja Hotel · Hotel Sheet · 2026</div>
     </div>
   </div>
 
   <div class="gold-line"></div>
 
-  <!-- INTRO -->
   <div class="pg-intro">
     <h1 class="pg-title">
       Tours Privados en Velero Clásico
-      <em>Mallorca · Temporada 2026 · Comisión Hotel 20%</em>
+      <em>Classic Sailing Private Tours · Mallorca 2026</em>
     </h1>
     <p class="pg-lead">
-      Tour exclusivo privado a bordo de una réplica de velero clásico de 1920. Solo el grupo del cliente — sin extraños.
-      Partida desde Club de Mar, Amarre 1007, Palma. Consultar disponibilidad antes de confirmar la reserva.
+      Tour exclusivo privado a bordo de una réplica de velero clásico de 1920. Solo el grupo del cliente, sin extraños.
+      Partida desde Club de Mar, Amarre 1007, Palma. · Private exclusive tour aboard a 1920 classic sailing yacht replica.
+      Your group only, no strangers. Departure from Club de Mar, Berth 1007, Palma.
     </p>
   </div>
 
-  <!-- TOUR CARDS -->
   <div class="tours-grid">
 
     <!-- 3 HORAS -->
@@ -688,137 +234,70 @@ body {
         <img src="https://gaffmallorca.tours/img/IMG-20260108-WA0016-682x1024-1-400x601.jpg" alt="Essential Experience 3h">
         <div class="tour-img-overlay"></div>
         <div class="tour-tag-over">
-          <small>Tour Esencial</small>
+          <small>Esencial · Essential</small>
           Essential Experience
         </div>
       </div>
       <div class="tour-body">
-        <div class="tour-dur">Duración: 3 horas</div>
+        <div class="tour-dur">3 horas / 3 hours</div>
         <div class="tour-divider"></div>
         <ul class="tour-list">
-          <li>Parada en 1 cala</li>
-          <li>Capitán y gasoil incluidos</li>
-          <li>Snorkel incluido</li>
-          <li>Aperitivos, agua, refrescos, vino o cava</li>
-          <li>Niños hasta 10 años GRATIS · Mayores de 10 años: 60 €</li>
+          <li>Parada en 1 cala · Stop at 1 cove</li>
+          <li>Capitán y gasoil incluidos · Captain &amp; fuel included</li>
+          <li>Snorkel incluido · Snorkel included</li>
+          <li>Aperitivos, agua, refrescos, vino o cava · Snacks, water, soft drinks, wine or cava</li>
         </ul>
         <div class="tour-prices">
           <div class="price-table-header">
-            <span class="price-table-title">Precio por pasajero</span>
-            <span class="price-max-badge">Máx. 5 pax</span>
+            <span class="price-table-title" style="flex:1.4">Pasajeros / Passengers</span>
+            <span class="price-table-title" style="flex:1;text-align:right">Precio total</span>
+            <span class="price-table-title" style="flex:1;text-align:right">Señal a cobrar (20%)</span>
           </div>
-          <div class="price-col-labels">
-            <span>Pasajeros</span>
-            <span>€ / pax</span>
-            <span>Total reserva</span>
-          </div>
-          <div class="price-row">
-            <span class="pax-label">1 pasajero</span>
-            <span class="per-pax">210 €</span>
-            <span class="amount">210 €</span>
-          </div>
-          <div class="price-row">
-            <span class="pax-label">2 pasajeros</span>
-            <span class="per-pax">175 €</span>
-            <span class="amount">350 €</span>
-          </div>
-          <div class="price-row">
-            <span class="pax-label">3 pasajeros</span>
-            <span class="per-pax">145 €</span>
-            <span class="amount">435 €</span>
-          </div>
-          <div class="price-row">
-            <span class="pax-label">4 pasajeros</span>
-            <span class="per-pax">115 €</span>
-            <span class="amount">460 €</span>
-          </div>
-          <div class="price-row max-row">
-            <span class="pax-label">5 pasajeros <span class="max-tag">máximo</span></span>
-            <span class="per-pax">100 €</span>
-            <span class="amount">500 €</span>
-          </div>
-          <div class="price-footer">
-            <p class="price-note">Precio final por pasajero · Niños hasta 10 años GRATIS · Mayores de 10 años: 50 € · Confirmar disponibilidad antes de la reserva</p>
-          </div>
+          <div class="price-row-hotel"><span>1 pasajero / 1 passenger</span><span class="amount">300 €</span><span class="deposit">60 €</span></div>
+          <div class="price-row-hotel"><span>2 pasajeros / 2 passengers</span><span class="amount">350 €</span><span class="deposit">70 €</span></div>
+          <div class="price-row-hotel"><span>3 pasajeros / 3 passengers</span><span class="amount">400 €</span><span class="deposit">80 €</span></div>
+          <div class="price-row-hotel"><span>4 pasajeros / 4 passengers</span><span class="amount">450 €</span><span class="deposit">90 €</span></div>
+          <div class="price-row-hotel max-row"><span>5 pasajeros <span class="max-tag">máx</span></span><span class="amount">500 €</span><span class="deposit">100 €</span></div>
         </div>
       </div>
     </div>
 
     <!-- 5 HORAS -->
     <div class="tour-card featured">
-      <div class="feat-pill">Más popular</div>
+      <div class="feat-pill">Más popular · Most popular</div>
       <div class="tour-img">
-        <img src="https://gaffcharter-mallorca.com/wp-content/uploads/2026/03/freepik__expand__82210.png" alt="Full Sail Experience 5h">
+        <img src="https://gaffmallorca.tours/img/lunch-experience-gaff-charter-1-400x533.png" alt="Full Sail Experience 5h">
         <div class="tour-img-overlay"></div>
         <div class="tour-tag-over">
-          <small>Tour Completo · Mañana o Atardecer</small>
+          <small>Completo · Full · Mañana o Atardecer · Morning or Sunset</small>
           Full Sail Experience
         </div>
       </div>
       <div class="tour-body">
-        <div class="tour-dur">Duración: 5 horas · 10:00–15:00 h &nbsp;|&nbsp; 16:00–21:00 h</div>
+        <div class="tour-dur">5 horas / 5 hours · 10:00–15:00 &nbsp;|&nbsp; 16:00–21:00</div>
         <div class="tour-divider"></div>
         <ul class="tour-list">
-          <li>Parada en 1 o 2 calas</li>
-          <li>Capitán y gasoil incluidos</li>
-          <li>Snorkel incluido</li>
-          <li>Aperitivos, agua, refrescos, vino o cava</li>
-          <li>Posibilidad de comida a bordo (consultar)</li>
-          <li>Opcional: Sublue 150 €</li>
-          <li>Niños hasta 10 años GRATIS · Mayores de 10 años: 60 €</li>
+          <li>Parada en 1 o 2 calas · Stop at 1 or 2 coves</li>
+          <li>Capitán y gasoil incluidos · Captain &amp; fuel included</li>
+          <li>Snorkel incluido · Snorkel included</li>
+          <li>Aperitivos, agua, refrescos, vino o cava · Snacks, water, soft drinks, wine or cava</li>
+          <li>Posibilidad de comida a bordo (consultar) · On-board meal option (enquire)</li>
         </ul>
         <div class="tour-prices">
           <div class="price-table-header">
-            <span class="price-table-title">Precio por pasajero</span>
-            <span class="price-max-badge">Máx. 5 pax</span>
+            <span class="price-table-title" style="flex:1.4">Pasajeros / Passengers</span>
+            <span class="price-table-title" style="flex:1;text-align:right">Precio total</span>
+            <span class="price-table-title" style="flex:1;text-align:right">Señal a cobrar (20%)</span>
           </div>
-          <div class="price-col-labels">
-            <span>Pasajeros</span>
-            <span>€ / pax</span>
-            <span>Total reserva</span>
-          </div>
-          <div class="price-row">
-            <span class="pax-label">1 pasajero</span>
-            <span class="per-pax">270 €</span>
-            <span class="amount">270 €</span>
-          </div>
-          <div class="price-row">
-            <span class="pax-label">2 pasajeros</span>
-            <span class="per-pax">225 €</span>
-            <span class="amount">450 €</span>
-          </div>
-          <div class="price-row">
-            <span class="pax-label">3 pasajeros</span>
-            <span class="per-pax">195 €</span>
-            <span class="amount">585 €</span>
-          </div>
-          <div class="price-row">
-            <span class="pax-label">4 pasajeros</span>
-            <span class="per-pax">165 €</span>
-            <span class="amount">660 €</span>
-          </div>
-          <div class="price-row max-row">
-            <span class="pax-label">5 pasajeros <span class="max-tag">máximo</span></span>
-            <span class="per-pax">145 €</span>
-            <span class="amount">725 €</span>
-          </div>
-          <div class="price-footer">
-            <p class="price-note">Precio final por pasajero · Niños hasta 10 años GRATIS · Mayores de 10 años: 50 € · Confirmar disponibilidad antes de la reserva</p>
-          </div>
+          <div class="price-row-hotel"><span>1 pasajero / 1 passenger</span><span class="amount">350 €</span><span class="deposit">70 €</span></div>
+          <div class="price-row-hotel"><span>2 pasajeros / 2 passengers</span><span class="amount">450 €</span><span class="deposit">90 €</span></div>
+          <div class="price-row-hotel"><span>3 pasajeros / 3 passengers</span><span class="amount">550 €</span><span class="deposit">110 €</span></div>
+          <div class="price-row-hotel"><span>4 pasajeros / 4 passengers</span><span class="amount">650 €</span><span class="deposit">130 €</span></div>
+          <div class="price-row-hotel max-row"><span>5 pasajeros <span class="max-tag">máx</span></span><span class="amount">700 €</span><span class="deposit">140 €</span></div>
         </div>
       </div>
     </div>
 
-  </div>
-
-  <!-- COMMISSION INFO -->
-  <div class="commission-box">
-    <div class="comm-icon">◆</div>
-    <div class="comm-body">
-      <strong>Instrucciones para el hotel intermediario</strong>
-      Los precios de la tabla son los <b>precios finales que el cliente abona</b>. El hotel gestionará la reserva, cobrará el importe total al cliente y transferirá el <b>80% del total cobrado a Gaff Classic Tours</b> — el <b>20% restante queda como comisión del hotel</b>.
-      Imprescindible confirmar disponibilidad con nosotros antes de formalizar cualquier reserva al cliente.
-    </div>
   </div>
 
   <!-- CONTACT -->
@@ -828,25 +307,23 @@ body {
       <a class="c-val" href="tel:+34680193006">+34 680 19 30 06</a>
     </div>
     <div class="c-item">
-      <span class="c-label">Email Reservas</span>
+      <span class="c-label">Email Reservas · Bookings</span>
       <a class="c-val" href="mailto:bookings@gaffchartermallorca.com">bookings@gaffchartermallorca.com</a>
     </div>
     <div class="c-item">
-      <span class="c-label">Ubicación</span>
+      <span class="c-label">Ubicación · Location</span>
       <span class="c-val">Club de Mar, Amarre 1007<br>07015 Palma de Mallorca</span>
     </div>
   </div>
 
-  <!-- FOOTER LOGOS -->
   <div class="pg-footer">
     <img src="https://gaffmallorca.tours/img/Logo_club.png" alt="Club de Mar Mallorca">
     <div class="footer-divider"></div>
     <img src="https://gaffmallorca.tours/img/Logo_govern.png" alt="Govern Illes Balears">
   </div>
-  <p class="pg-copy">© 2026 Gaff Classic Tours Mallorca · gaffcharter-mallorca.com · Documento para uso exclusivo de hoteles colaboradores</p>
+  <p class="pg-copy">© 2026 Gaff Classic Tours Mallorca · gaffmallorca.tours · Documento para uso exclusivo de hoteles colaboradores · For hotel use only</p>
 
 </div>
-<!-- FIN PÁGINA 1 -->
 
 
 <!-- ══════════════════════════════════════════ -->
@@ -854,16 +331,11 @@ body {
 <!-- ══════════════════════════════════════════ -->
 <div class="page">
 
-  <!-- HEADER -->
   <div class="pg-header">
     <div class="header-left"></div>
     <div class="logo-center">
-      <img
-        class="logo-img"
-        src="https://gaffmallorca.tours/img/logonuevov.png"
-        alt="Gaff Classic Tours"
-        onerror="this.style.display='none';this.nextElementSibling.style.display='block'"
-      >
+      <img class="logo-img" src="https://gaffmallorca.tours/img/logonuevov.png" alt="Gaff Classic Tours"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
       <span class="logo-fallback">GAFF CLASSIC TOURS</span>
       <span class="logo-sub-text">Mallorca · Mediterráneo</span>
     </div>
@@ -874,39 +346,37 @@ body {
 
   <div class="gold-line"></div>
 
-  <!-- INTRO -->
   <div class="pg-intro" style="padding-bottom:3mm">
-    <h1 class="pg-title" style="font-size:1.2rem">
+    <h1 class="pg-title" style="font-size:1.15rem">
       Experiencia en Velero Privado
       <em>Exclusive Private Sailing Experience · Mallorca</em>
     </h1>
     <p class="pg-lead">
-      Solo vuestro grupo a bordo. Sin extraños. Una experiencia de navegación auténtica a bordo de un velero clásico de 1920.&ensp;·&ensp;
+      Solo vuestro grupo a bordo. Sin extraños. Una experiencia de navegación auténtica a bordo de un velero clásico de 1920.
+      &ensp;·&ensp;
       Just your group on board. No strangers. An authentic sailing experience aboard a 1920 classic yacht.
     </p>
   </div>
 
-  <!-- HIGHLIGHTS STRIP -->
   <div class="highlights-strip">
     <div class="hl-item">
       <span class="hl-icon">⚓</span>
-      <span class="hl-txt">Tour privado<br><span>Private tour</span></span>
+      <span class="hl-txt">Tour privado<span>Private tour</span></span>
     </div>
     <div class="hl-item">
       <span class="hl-icon">🤿</span>
-      <span class="hl-txt">Snorkel<br><span>Included</span></span>
+      <span class="hl-txt">Snorkel<span>Included</span></span>
     </div>
     <div class="hl-item">
       <span class="hl-icon">🥂</span>
-      <span class="hl-txt">Aperitivos<br><span>Snacks &amp; drinks</span></span>
+      <span class="hl-txt">Aperitivos &amp; bebidas<span>Snacks &amp; drinks</span></span>
     </div>
     <div class="hl-item">
       <span class="hl-icon">🗺️</span>
-      <span class="hl-txt">Calas secretas<br><span>Secret coves</span></span>
+      <span class="hl-txt">Calas secretas<span>Secret coves</span></span>
     </div>
   </div>
 
-  <!-- TOUR CARDS (CLIENT PRICES = base + 20%) -->
   <div class="tours-grid" style="padding-top:3mm;padding-bottom:3mm">
 
     <!-- 3 HORAS -->
@@ -927,13 +397,17 @@ body {
           <li>Capitán y gasoil · Captain &amp; fuel</li>
           <li>Snorkel incluido · included</li>
           <li>Aperitivos, vino o cava · Snacks, wine or cava</li>
-          <li>Niños hasta 10 años GRATIS · Under 10 FREE</li>
         </ul>
         <div class="tour-prices">
-          <div class="price-row-simple"><span>2 personas / people</span><span class="amount">360 €</span></div>
-          <div class="price-row-simple"><span>4 personas / people</span><span class="amount">480 €</span></div>
-          <div class="price-row-simple"><span>Familias / Families</span><span class="amount">420 €</span></div>
-          <p class="price-note-simple">Mayores de 10 años: 60 € · Over 10 years: €60 · Precio final / Final price</p>
+          <div class="price-table-header">
+            <span class="price-table-title">Precio total · Total price</span>
+            <span class="price-max-badge">Máx. 5 pax</span>
+          </div>
+          <div class="price-row-simple"><span>1 pasajero / passenger</span><span class="amount">300 €</span></div>
+          <div class="price-row-simple"><span>2 pasajeros / passengers</span><span class="amount">350 €</span></div>
+          <div class="price-row-simple"><span>3 pasajeros / passengers</span><span class="amount">400 €</span></div>
+          <div class="price-row-simple"><span>4 pasajeros / passengers</span><span class="amount">450 €</span></div>
+          <div class="price-row-simple"><span>5 pasajeros / passengers</span><span class="amount">500 €</span></div>
         </div>
       </div>
     </div>
@@ -942,10 +416,10 @@ body {
     <div class="tour-card featured">
       <div class="feat-pill">Most popular</div>
       <div class="tour-img">
-        <img src="https://gaffcharter-mallorca.com/wp-content/uploads/2026/03/freepik__expand__82210.png" alt="Full Sail Experience 5h">
+        <img src="https://gaffmallorca.tours/img/lunch-experience-gaff-charter-1-400x533.png" alt="Full Sail Experience 5h">
         <div class="tour-img-overlay"></div>
         <div class="tour-tag-over">
-          <small>Completo · Mañana o Atardecer · Morning or Sunset</small>
+          <small>Completo · Full · Mañana o Atardecer · Morning or Sunset</small>
           Full Sail Experience
         </div>
       </div>
@@ -958,33 +432,34 @@ body {
           <li>Snorkel incluido · included</li>
           <li>Aperitivos, vino o cava · Snacks, wine or cava</li>
           <li>Opción comida a bordo · On-board meal option</li>
-          <li>Niños hasta 10 años GRATIS · Under 10 FREE</li>
         </ul>
         <div class="tour-prices">
-          <div class="price-row-simple"><span>2 personas / people</span><span class="amount">480 €</span></div>
-          <div class="price-row-simple"><span>4 personas / people</span><span class="amount">720 €</span></div>
-          <div class="price-row-simple"><span>Familias / Families</span><span class="amount">600 €</span></div>
-          <p class="price-note-simple">Mayores de 10 años: 60 € · Over 10 years: €60 · Precio final / Final price</p>
+          <div class="price-table-header">
+            <span class="price-table-title">Precio total · Total price</span>
+            <span class="price-max-badge">Máx. 5 pax</span>
+          </div>
+          <div class="price-row-simple"><span>1 pasajero / passenger</span><span class="amount">350 €</span></div>
+          <div class="price-row-simple"><span>2 pasajeros / passengers</span><span class="amount">450 €</span></div>
+          <div class="price-row-simple"><span>3 pasajeros / passengers</span><span class="amount">550 €</span></div>
+          <div class="price-row-simple"><span>4 pasajeros / passengers</span><span class="amount">650 €</span></div>
+          <div class="price-row-simple"><span>5 pasajeros / passengers</span><span class="amount">700 €</span></div>
         </div>
       </div>
     </div>
 
   </div>
 
-  <!-- CTA HOTEL -->
   <div class="cta-box">
-    <div class="cta-es">¡Reserva tu aventura aquí mismo en la recepción!</div>
-    <div class="cta-en">Book your adventure right here at the hotel reception!</div>
+    <div class="cta-es">¡Reserva tu experiencia aquí mismo en recepción!</div>
+    <div class="cta-en">Book your experience right here at the hotel reception!</div>
     <p class="cta-sub">
-      Nuestro equipo gestionará la reserva por ti. Para confirmar tu plaza, se abona el 20% del importe total como señal en el momento de la reserva.
-      El resto se paga directamente a bordo el día del tour.
+      Nuestro equipo en recepción gestionará tu reserva. Se abona el 20% del importe total como señal de confirmación en el momento de la reserva. El resto se paga directamente a bordo el día del tour.
       <br>
-      Our team will handle the booking for you. A 20% deposit is required to confirm your spot. The remaining balance is paid on board on the day of your tour.
+      Our reception team will handle your booking. A 20% deposit is required at the time of booking to confirm your spot. The remaining balance is paid on board on the day of the tour.
     </p>
     <div class="cta-deposit">Señal de confirmación · Confirmation deposit · 20%</div>
   </div>
 
-  <!-- FOOTER LOGOS -->
   <div class="pg-footer" style="margin-top:auto">
     <img src="https://gaffmallorca.tours/img/Logo_club.png" alt="Club de Mar Mallorca">
     <div class="footer-divider"></div>
@@ -993,7 +468,6 @@ body {
   <p class="pg-copy">© 2026 Gaff Classic Tours Mallorca · Mallorca, España · ★★★★★ Google Reviews</p>
 
 </div>
-<!-- FIN PÁGINA 2 -->
 
 </body>
 </html>
